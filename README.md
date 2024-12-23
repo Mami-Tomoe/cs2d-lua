@@ -3,7 +3,11 @@
 Enhance your CS2D Lua scripting experience with this extension that provides stubs, documentation, and function definitions to improve code completion and understanding.
 Easily access function signatures, detailed comments, and more to streamline your development process in CS2D.
 
-## Features
+## Credits
+
+-    Extension's icon was sourced from: [Lua icons created by IconMarketPK - Flaticon](https://www.flaticon.com/free-icons/lua)
+
+## Features -- THIS AND BELOW IS NOT DONE
 
 Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
@@ -27,28 +31,6 @@ This extension contributes the following settings:
 
 -    `myExtension.enable`: Enable/disable this extension.
 -    `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
 
 ## Following extension guidelines
 
