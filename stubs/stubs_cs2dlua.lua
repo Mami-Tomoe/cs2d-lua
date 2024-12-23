@@ -1,0 +1,1933 @@
+--- @meta stubs_cs2dlua
+
+--- Adds a Lua key bind for the specified key.
+--- This bind will be active for all players and will trigger the key-hook when a player presses or releases the related key.
+---
+--- **Notes:**
+--- * Please read the key-hook reference for further information.
+--- * Consider removing the key bind with [removebind](lua://removebind) or [removeallbinds](lua://removeallbinds) as soon as you don't need it anymore.
+---   This can save a lot of traffic if you use binds with keys that are pressed often.
+--- * Adding key binds causes additional network traffic whenever a client presses/releases the bound key.
+---
+--- @param key string The name of the key to bind.
+--- > Valid key names:
+--- > * Numeric keys: `'0'`, `'1'`, ... `'9'`
+--- > * Alphabetic keys: `'A'`, `'B'`, ... `'Z'`
+--- > * Function keys: `"F1"`, `"F2"`, ... `"F12"`
+--- > * Mouse: `"mouse1"` (left click), `"mouse2"` (right click), `"mouse3"` (middle click), `"mwheelup"`, `"mwheeldown"` (scrolling)
+--- > * Special/Modifier keys: `"leftshift"`, `"rightshift"`, `"leftctrl"`, `"rightctrl"`, `"leftalt"`, `"rightalt"`, `"leftsys"`, `"rightsys"`
+--- > * Arrow keys: `"leftarrow"`, `"rightarrow"`, `"uparrow"`, `"downarrow"`
+--- > * Others: `"backspace"`, `"tab"`, `"clear"`, `"enter"`, `"escape"`, `"space"`, `"pgup"`, `"pgdn"`, `"end"`, `"home"`, `"select"`, `"print"`, `"execute"`, `"screen"`, `"ins"`, `"del"`
+--- > * Numpad/keypad: Same as above with `kp_` prefix, e.g., `"kp_leftarrow"`, `"kp_home"`, `"kp_ins"`, `"kp_5"` for the centre button.
+--- @return number `1` if the key bind was successfully added, `0` otherwise (invalid key name or already bound).
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=addbind#cmd
+---
+--- @see removebind to remove the bind.
+--- @see removeallbinds to remove all binds.
+function addbind(key) end
+
+--- Attaches the Lua function `func` to the specified hook. CS2D will call the Lua function whenever the event related to that hook occurs.
+---
+--- **Notes:**
+--- * You can add multiple functions to the same hook, but too many can negatively impact performance, especially for frequently called hooks.
+--- * Refer to the [list of available hooks](https://cs2d.com/help.php?luacat=all) for more details.
+---
+--- Hook Parameters:
+--- * CS2D passes parameters to hooked Lua functions. The parameters depend on the hook and contain information about the event. Ensure you define the parameters in the function in the correct order if you want to use them.
+---
+--- Hook Return Value:
+--- * Some hooks allow a return value to influence CS2D's behaviour. Returning nothing is equivalent to returning `0`, `""`, or `nil`.
+--- * Returning `1` can skip the default action in CS2D. Refer to the hook's description for specific behaviour.
+---
+--- Hook Priority (Optional):
+--- * Priority affects the execution order when multiple functions are attached to the same hook. Default is `0`.
+--- * Higher priority functions (higher numbers) execute later. CS2D uses the return value of the last executed function with the highest priority.
+---
+--- Example:
+--- ```lua
+--- addhook("say", "mySayFunc")
+--- function mySayFunc(playerId, chatMessage)
+---   msg(player(playerId, "name") .. " just said " .. chatMessage)
+---   return 1 -- Suppress normal chat output
+--- end
+--- ```
+---
+--- **Attention:**
+--- * Both `hook` and `func` must be strings.
+--- * Avoid passing parameters to the function name in the `addhook` call.
+---
+--- RIGHT:
+--- ```lua
+--- addhook("leave", "my_leave_hook")
+--- ```
+---
+--- WRONG:
+--- ```lua
+--- addhook("leave(id,reason)", "my_leave_hook(id, reason)")
+--- addhook(leave, my_leave_hook)
+--- ```
+---
+--- @param hook string The name of the hook to attach the function to.
+--- @param func string The name of the Lua function to execute when the hook event occurs.
+--- @param prio? number Optional priority of the hook. Defaults to `0`.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=addhook#cmd
+---
+--- @see freehook to free the hook.
+function addhook(hook, func, prio) end
+
+--- Bot with given identifier aims at the given position (`X`|`Y`) on the map (in pixels).
+---
+--- @param p number The bot's identifier.
+--- @param x number The x-coordinate (in pixels) of the target position.
+--- @param y number The y-coordinate (in pixels) of the target position.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_aim#cmd
+---
+--- @see ai_rotate to rotate the bot instead.
+function ai_aim(p, x, y) end
+
+--- Bot with given ID performs an attack.
+---
+--- **Note:** Attacking won't work if the current weapon has limited ammo and is empty.
+--- Neither reloading nor weapon switching will be triggered automatically.
+--- If you want these things to happen automatically you can use [ai_iattack](lua://ai_iattack) instead.
+--- Of course you can also manually trigger reloading ([ai_reload](lua://ai_reload)) or manually switch to another weapon ([ai_selectweapon](lua://ai_selectweapon)).
+---
+--- @param p number The bot's identifier.
+--- @param secondary? number Set secondary to `1` to use the secondary weapon function (=`attack2`) instead of the primary function.
+---
+--- @see playerammo to check how much ammo a player/bot has.
+--- @see ai_iattack for intelligent attacks.
+--- @see ai_reload to make the bot reload the current weapon.
+--- @see ai_selectweapon to make the bot select a different weapon.
+function ai_attack(p, secondary) end
+
+--- Bot with given identifier tries to build a building at tile position (`X`|`Y`). Building has to be a building number id, not a string. The position has to be a free tile next to the current position of the bot.
+---
+--- Buildings (Class `1` only!):
+--- ![Buildings List](https://cs2d.com/img/ref_dynamicobjects.png)
+---
+--- @param p number The bot's identifier.
+--- @param building number The building identifier (must be a number, not a string).
+--- @param tx number The x-coordinate (tile position) of the building's location.
+--- @param ty number The y-coordinate (tile position) of the building's location.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_build#cmd
+function ai_build(p, building, tx, ty) end
+
+--- Bot with given identifier tries to purchase a certain item (`itemType`=number id, not a string).
+---
+--- **Note:** The bot has to be in a buy area to make this work. It does NOT walk into a buy area automatically when this command is called!
+---
+--- @param p number The bot's identifier.
+--- @param itemType number The item type identifier (must be a number, not a string).
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_buy#cmd
+function ai_buy(p, itemType) end
+
+--- Set debug-text for bot (only displayed if "`debugai`" is enabled).
+---
+--- @param p number The bot's identifier.
+--- @param text string The debug text to display.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_debug#cmd
+function ai_debug(p, text) end
+
+--- Bot with given identifier drops the current weapon.
+---
+--- @param p number The bot's identifier.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_drop#cmd
+function ai_drop(p) end
+
+--- Returns the identifier of the closest enemy to the player with the specified identifier or `0` when no enemy was found. Only players who are close enough (inside the virtual screen of the player) will be returned. When fog of war is enabled, players behind walls won't be returned.
+---
+--- @param p number The player's identifier.
+--- @return number playerId The identifier of the closest enemy or `0` if no enemy is found.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_findtarget#cmd
+function ai_findtarget(p) end
+
+--- Checks if there is a free line between the bot with the given identifier and the given position (`X`|`Y`) (in pixels).
+---
+--- @param p number The bot's identifier.
+--- @param x number The x-coordinate (in pixels) of the target position.
+--- @param y number The y-coordinate (in pixels) of the target position.
+--- @return boolean: `true` if there is a free line, `false` otherwise.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_freeline#cmd
+function ai_freeline(p, x, y) end
+
+--- Bot with the given identifier goes to tile (`X`|`Y`). Set walk to `1` to let it walk (silent).
+---
+--- @param p number The bot's identifier.
+--- @param tx number The x-coordinate (in tiles) of the target position.
+--- @param ty number The y-coordinate (in tiles) of the target position.
+--- @param walk number Set to 1 to make the bot walk silently.
+--- @return number `0` if failed to find path, `1` if the target is reached, or `2` if the bot is still moving.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_goto#cmd
+function ai_goto(p, tx, ty, walk) end
+
+--- Bot with given identifier performs an intelligent attack.
+--- This includes additional logic:
+--- * If the current weapon has limited ammo, is empty, and has spare ammo, a reload will be triggered and attacking will continue after reloading.
+--- * If the current weapon is entirely empty (no spare ammo), the bot will switch to the next best weapon that can be used for attacking (usually a pistol or melee).
+---
+--- @param p number The bot's identifier.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_iattack#cmd
+---
+--- @see playerammo to check how much ammo a player/bot has.
+--- @see ai_attack for a simple attack (without checks).
+function ai_iattack(p) end
+
+--- Bot with given identifier moves into a certain direction (defined with the given angle from `0°` to `360°`).
+---
+--- @param p number The bot's identifier.
+--- @param angle number The angle (in degrees) to move towards (`0°` to `360°`).
+--- @param walk number Set to `1` to make the bot walk.
+--- @return number `1` if successful, `0` if the way is blocked.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_move#cmd
+function ai_move(p, angle, walk) end
+
+--- Bot with given identifier sends a radio message.
+---
+--- @param p number The bot's identifier.
+--- @param radio_id number The identifier of the radio message to send.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_radio#cmd
+function ai_radio(p, radio_id) end
+
+--- Bot with given identifier reloads the current weapon.
+---
+--- @param p number The bot's identifier.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_reload#cmd
+function ai_reload(p) end
+
+--- Bot with given identifier respawns (only if dead and only if the game mode allows it).
+---
+--- @param p number The bot's identifier.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_respawn#cmd
+function ai_respawn(p) end
+
+--- Bot with given identifier instantly turns to a certain direction/angle (from `0°` to `360°`).
+---
+--- @param p number The bot's identifier.
+--- @param angle number The angle (in degrees) the bot should rotate to (`0°` to `360°`).
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_rotate#cmd
+---
+--- @see ai_aim if you want to let a bot aim at a specified point.
+function ai_rotate(p, angle) end
+
+--- Bot with given identifier says the given text using the chat system.
+---
+--- @param p number The bot's identifier.
+--- @param text string The text the bot should say.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_say#cmd
+---
+--- @see ai_sayteam for team chat.
+function ai_say(p, text) end
+
+--- Bot with given identifier says the given text to the own team only (using team chat).
+---
+--- @param p number The bot's identifier.
+--- @param text string The text the bot should say to its team.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_sayteam#cmd
+---
+--- @see ai_say for regular chat.
+function ai_sayteam(p, text) end
+
+--- Bot with given identifier selects the weapon specified with `itemtype` (must be a number identifier, not the name of the weapon!).
+---
+--- @param p number The bot's identifier.
+--- @param itemtype number The identifier of the weapon the bot should select.
+--- > **Note:** The weapon has to be in the inventory of the bot already. Otherwise, nothing will happen.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_selectweapon#cmd
+function ai_selectweapon(p, itemtype) end
+
+--- Bot with given identifier sprays a spray logo at its current position.
+---
+--- @param p number The bot's identifier.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_spray#cmd
+function ai_spray(p) end
+
+--- Bot with given identifier uses the environment (like pressing the `use` key).
+---
+--- @param p number The bot's identifier.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_use#cmd
+function ai_use(p) end
+
+--- Returns the SHA256 checksum of the file at this path.
+---
+--- Sample 1: Get the checksum of a connecting player's file and check it against the server-side file.
+--- ```lua
+--- addhook("clientdata", "check_file")
+--- function check_file(id, mode, data1, data2)
+---    if (mode == 4) then
+---       if (checksumfile("gfx/player/t1.bmp") ~= data2) then
+---          parse('kick '..id..' "You are using a modified file!"')
+---       end
+---    end
+--- end
+--- ```
+---
+--- Sample 2: Check the file checksum on player join.
+--- ```lua
+--- addhook("join", "req_check")
+--- function req_check(id)
+---    reqcld(id, 4, "gfx/player/t1.bmp")
+--- end
+--- ```
+---
+--- @param path string The file path to check the checksum of.
+--- @return string checksum The SHA256 checksum of the file as a string.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=checksumfile#cmd
+function checksumfile(path) end
+
+--- Returns the SHA256 checksum of the given string.
+---
+--- Sample 1: Get the checksum of a player's name.
+--- ```lua
+--- addhook("join", "name_sum")
+--- function name_sum(id)
+---    msg2(id, "Welcome! Your name's checksum is: " .. checksumstring(player(id, "name")))
+--- end
+--- ```
+---
+--- @param string string The input string to check the checksum of.
+--- @return string checksum The SHA256 checksum of the string.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=checksumstring#cmd
+function checksumstring(string) return string end
+
+--- Returns the tile x and y position (2 values!) of the closest living and unused hostage to a given player.
+--- Returns `-100, -100` if no hostage has been found.
+---
+--- **Note:** The returned position is in tiles, NOT in pixels!
+---
+--- Sample 1: Getting the position of a hostage which is close to player 1
+--- ```lua
+--- x, y = closehostage(1)
+--- ```
+---
+--- @param p number The player identifier.
+--- @return number tx, number ty The x and y-coordinates of the closest hostage in tiles.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=closehostage#cmd
+function closehostage(p) end
+
+--- Returns a Lua table with all identifiers of items which are close to the player specified with the id parameter.
+--- Only dropped items within the range will be returned. The unit for the range is tiles (range `1` equals `32` pixels).
+---
+--- Sample 1: List the names of all items which are close (within range of `5` tiles) to player `1`
+--- ```lua
+--- local item_list = closeitems(1, 5)
+--- for _, id in pairs(item_list) do
+---    print(item(id, "name"))
+--- end
+--- ```
+---
+--- @param p number The player identifier.
+--- @param range number The range in tiles.
+--- @return table item_list A table containing item identifiers.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeitems#cmd
+function closeitems(p, range) end
+
+--- Returns a list of objects within the specified radius (in pixels) around the specified position (`X`|`Y`) in pixels.
+--- Use `type` to limit the search to objects with a certain type only.
+---
+--- Object types: ![Objects list](https://cs2d.com/img/ref_dynamicobjects.png)
+---
+--- Sample 1: Get the identifiers of objects within a `300` pixel radius around the top left corner (`0`|`0`) of the map:
+--- ```lua
+--- local object_list = closeobjects(0, 0, 300)
+--- for _, id in pairs(object_list) do
+---    print(id)
+--- end
+--- ```
+---
+--- @param x number The x-coordinate in pixels.
+--- @param y number The y-coordinate in pixels.
+--- @param radius number The radius in pixels.
+--- @param type? number Optional. The type of object to search for.
+--- @return table object_list A table containing object identifiers within the specified radius.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeobjects#cmd
+function closeobjects(x, y, radius, type) end
+
+--- Returns a list of all alive players (identifiers) within the specified radius (in pixels) around the specified position (`X`|`Y`) in pixels.
+---
+--- You can optionally specify a team to limit the search to players of that team:
+--- * `0` - all teams (default)
+--- * `1` - Ts only
+--- * `2` - CTs only (including VIPs)
+---
+--- The players in the resulting list have no specific order.
+--- The list may be empty if no matching player is found.
+---
+--- **Note:** The position (`X`|`Y`) and the radius are specified in PIXELS!
+---
+--- @param x number The x-coordinate in pixels.
+--- @param y number The y-coordinate in pixels.
+--- @param radius number The radius in pixels.
+--- @param team? number The team identifier (`0` for all teams, `1` for Ts, `2` for CTs).
+--- @return table players A table containing player identifiers within the specified radius.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeplayers#cmd
+---
+--- @see hascloseplayers if you only want to check if ANY player is within a radius (faster).
+function closeplayers(x, y, radius, team) end
+
+--- Returns a value of an entity at the tile position (`X`|`Y`):
+---
+--- **Attention:** `Env_Decal` entities are NOT accessible with this command.
+---
+--- @param tx number The x-coordinate of the entity in tiles.
+--- @param ty number The y-coordinate of the entity in tiles.
+--- @param value string The specific value to fetch (e.g., `"exists"`, `"typename"`, `"state"`).
+--- > * `"exists"`: boolean, `true` if there is an entity at this position, `false` otherwise
+--- > * `"typename"`: name of that entity type
+--- > * `"type"`: internal type identifier for that entity
+--- > * `"name"`: name entered in the name field of that entity
+--- > * `"trigger"`: value(s) entered in the trigger field of that entity
+--- > * `"state"`: boolean, `false` if visible/on (default), `true` otherwise
+--- > * `"int0"` - `int9:` internal number for settings/states
+--- > * `"str0"` - `str9`: internal string for settings/states
+--- > * `"aistate"`: AI state for AI scripting, can be set with `setentityaistate`
+---
+--- > **Note:** `"int0"`-`"int-9"` and `"str0"`-`"str9"` are used for entity settings/states and vary for each entity type.
+--- @return string data The requested value for the entity.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=entity#cmd
+---
+--- @see entitylist for list of entities as there is no entity(0, "table").
+function entity(tx, ty, value) end
+
+--- Returns a list (Lua table) of positions (as X and Y tile coordinates) of all entities (except for `Env_Decal`).
+--- You can limit the output to a specific entity type by using the optional `type` parameter.
+---
+--- Use a "`for`"-loop with "`in pairs`" to process the resulting list properly.
+---
+--- Sample 1: Iterating over list using in pairs:
+--- ```lua
+--- local list = entitylist()
+--- for _, e in pairs(list) do
+---    print("entity @ ("..e.x..","..e.y..") - "..entity(e.x, e.y, "typename"))
+--- end
+--- ```
+---
+--- **Note:** The resulting "list" is a Lua table with one sub-table per entity, containing the fields `x` and `y`.
+---
+--- **Attention:** `Env_Decal` entities are NOT included in this list.
+---
+--- @param type? number Optional. The type of entity to filter by.
+--- @return table list A table of entities with their positions.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=entitylist#cmd
+---
+--- @see entity to get information on an entity.
+function entitylist(type) end
+
+--- Returns if the coordinate defined in pixels at x|y is currently hidden by the fog of war (`1`) or not (`0`).
+--- The visibility is calculated for the player with the given identifier, considering its current position and rotation.
+---
+--- **Attention:** This check is slow and recalculates the fog of war each time it is called. Frequent calls may cause performance issues.
+---
+--- @param p number The player identifier.
+--- @param x number The x-coordinate in pixels.
+--- @param y number The y-coordinate in pixels.
+--- @return number visibility `1` if hidden by fog of war, `0` if not.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=fow_in#cmd
+function fow_in(p, x, y) end
+
+--- Removes a function from a hook.
+--- Nothing happens if the function has not been attached to the hook with [addhook](lua://addhook) before.
+---
+--- @param hook string The hook name to remove the function from.
+--- @param func string The name of the function to remove from the hook.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=freehook#cmd
+---
+--- @see addhook to add a hook.
+function freehook(hook, func) end
+
+--- Removes an image completely.
+---
+--- **Attention:** The variable(s) you used to save the image identifier will NOT be changed by CS2D! Please set them to `nil` manually.
+--- CS2D recycles image identifiers! A new image might receive the same identifier after removal, so ensure the variable is set to `nil`.
+---
+--- @param img_id number The identifier of the image to remove.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=freeimage#cmd
+---
+--- @see image to create an image.
+---
+--- @see imagealpha to hide the image (with alpha = `0`) as opposed to freeing the image.
+function freeimage(img_id) end
+
+--- Removes timers which call the specified `"function"` with the specified `"parameter"`.
+---
+--- If `"parameter"` is not set (or `""`), all timers with the matching `"function"` will be removed.
+---
+--- If neither `"function"` nor `"parameter"` is set (or if both are `""`), this will remove **ALL** existing timers.
+---
+--- Once a timer has been removed, it won't be executed anymore.
+--- You can create the same timer again if needed.
+---
+--- **Note:** Timers with a limited call count will automatically remove themselves when they expire.
+---
+--- **Attention:** Be careful with the parameters. If both are empty strings (""), all timers will be removed!
+---
+--- @param func? string The function name to remove timers for.
+--- @param param? string Optional. The parameter associated with the function to remove timers for.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=freetimer#cmd
+---
+--- @see timer to create a timer.
+function freetimer(func, param) end
+
+--- Shows Lua functions in the Lua main table in the console of CS2D for debugging purposes only.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=funcs#cmd
+---
+--- @see vars to print all variables.
+function funcs() end
+
+--- Returns a game state/setting.
+--- You can use most settings like `"sv_name"` to get their current value as a string.
+--- Some settings have multiple commands to set them, in which case the long version should work (e.g., '"sv_gamemode"' instead of '"sv_gm"').
+---
+--- @param value string The game setting to retrieve.
+--- > The following values can be retrieved:
+--- > * `"version"`: string, the current game version
+--- > * `"dedicated"`: boolean, `true` if server is dedicated, `false` otherwise
+--- > * `"phase"`: number, game phase (`0` for freezetime, `1` for actual game)
+--- > * `"round"`: number, current round
+--- > * `"timeleft"`: number, remaining round time in seconds
+--- > * `"maptimeleft"`: number, remaining time on map in seconds (float precision), `1000000` if unlimited
+--- > * `"score_t"`: number, score of terrorists (rounds won)
+--- > * `"score_ct"`: number, score of counter-terrorists (rounds won)
+--- > * `"winrow_t"`: number, rounds won in a row by terrorists
+--- > * `"winrow_ct"`: number, rounds won in a row by counter-terrorists
+--- > * `"nextmap"`: string, the next map in the map cycle
+--- > * `"ticks"`: number, server ticks (refresh rate / main-loop iterations per second)
+--- > * `"port"`: string, UDP port used by the server (`"no socket"` if failed to open port)
+--- > * `"bombplanted"`: boolean, `true` if bomb is currently planted and blinking, `false` otherwise
+--- > * `"sysfolder"`: string, the system folder/path (`"sys"` by default, custom value if specified via commandline)
+---
+--- > **Note:** Game will only return values for simple settings which are set with functions with one parameter.
+--- @return any value The value of the game setting, cast to the appropriate type.
+--- > **Note:** This command always returns a string for game settings. Be mindful of casting when performing operations on the returned values.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=game#cmd
+function game(value) end
+
+--- Checks if any alive player is within the specified radius (in pixels) around the specified position (`X`|`Y`) in pixels.
+--- Returns `true` if at least one player matching the criteria was found, otherwise returns `false`.
+---
+--- This method is faster than [closeplayers](lua://closeplayers) because it returns a simple boolean and cancels the search once a matching player is found within the radius.
+---
+--- **Note:** The position (`X`|`Y`) and the radius are specified in pixels!
+---
+--- @param x number The x position to check around (in pixels).
+--- @param y number The y position to check around (in pixels).
+--- @param radius number The radius around the position to search in pixels.
+--- @param team? number Optional. The team to limit the search to (default: `0` for all teams).
+--- > You can optionally specify a team to limit the search to players of that team:
+--- > * `0` - all teams (default)
+--- > * `1` - Ts only
+--- > * `2` - CTs only (including VIPs)
+--- @return boolean: Returns `true` if a player is within the radius, `false` otherwise.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=hascloseplayers#cmd
+---
+--- @see closeplayers if you also want to know which player(s) are within the radius (slower).
+function hascloseplayers(x, y, radius, team) end
+
+--- Returns a value of a hostage.
+---
+--- Additionally, `hostage(0, "table")` returns a Lua table with all hostage identifiers.
+---
+--- Sample usage: Using the hostage table to list the identifiers of all hostages:
+--- ```lua
+--- local hostage_list = hostage(0, "table")
+--- for _, id in pairs(hostage_list) do
+---     print(id)
+--- end
+--- ```
+---
+--- @param hostageID number The identifier of the hostage to query.
+--- @param value string The specific value to retrieve (e.g., "exists", "health", etc.).
+--- > * "exists": boolean, `true` if hostage with this identifier exists, `false` otherwise
+--- > * "health": number, hostage health (`0`-`100`)
+--- > * "follow": number, player identifier if the hostage is following a player, `0` otherwise
+--- > * "used": boolean, `true` if the hostage has been used by a counter-terrorist this round, `false` otherwise
+--- > * "look": number, hostage look (skin frame)
+--- > * 'x': number, current `x` position on map (in pixels)
+--- > * 'y': number, current `y` position on map (in pixels)
+--- > * "rot": number, current rotation angle
+--- > * "tilex": number, current `x` position on map (in tiles)
+--- > * "tiley": number, current `y` position on map (in tiles)
+--- @return boolean|number: Depending on the query, returns a boolean or a number.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=hostage#cmd
+function hostage(hostageID, value) end
+
+--- Creates an image (dynamic object) on the map and returns the identifier for that image.
+--- The path is relative to the CS2D folder. The position is defined via `x` and `y` in pixels. Mode defines how the image is displayed (see list below).
+--- Use the optional player parameter if you want the image to be visible to a certain player only (it's visible to all players by default).
+---
+--- Possible modes:
+--- > * Mode `0` - floor image (covered by players, etc.)
+--- > * Mode `1` - top image (covering players)
+--- > * Mode `2` - HUD image (covering everything, part of the interface, affected by mp_hudscale)
+--- > * Mode `3` - super top image (covering everything on the map)
+--- > * Mode `4` - background image (covering only the background)
+--- > * Mode `101`-`132` - draw at player, covered by player (player id + `100`)
+--- > * Mode `201`-`232` - draw at player, covering player (player id + `200`)
+--- > * Mode `133`-`164` - draw at player, covering player and entity images (player id + `132`)
+---
+--- Meaning of `x` and `y` when drawing at player:
+--- When drawing an image at a player (mode `101`-`232`), `x` and `y` are not used for the position (because it's defined by the player).
+--- Instead, `x` affects rotation and movement behaviour related to the player. `y` affects fog of war visibility.
+--- > * `x <= 0` - do not rotate image with player
+--- > * `x == 1` - rotate image with player
+--- > * `x == 2` - rotate and wiggle image with player
+--- > * `x == 3` - rotate and wiggle image with player and move correctly with recoil
+--- > * `y <= 0` - only draw if not covered by fog of war (always if fog of war is disabled)
+--- > * `y > 0` - draw always
+---
+--- Masking tags:
+--- You can append a masking tag to the end of the path to change how the image is masked:
+--- > * PATH`<b>` - black pixels (rgb `0,0,0` or HEX `#000000`) will become invisible in the specified image (default mode)
+--- > * PATH`<m>` - magenta pixels (rgb `255,0,255` or HEX `#FF00FF`) will become invisible in the specified image
+--- > * PATH`<a>` - alpha values (opacity) will be set depending on the brightness of pixels (bright = opaque, dark = transparent)
+--- > * PATH`<n>` - no masking. The image will be loaded and displayed as it is.
+---
+--- Built-in images/effects:
+--- You can use some built-in images by using one of the following values for the path parameter:
+--- > * `<tile:X>` - a tile from the tile-set that is used in the current map (X is the tile identifier, starting at `0`)
+--- > * `<flag:iso>` - a small flag image (`16`x`11` pixels) for the given country ISO-3166 ALPHA-2 code (e.g., AE for UAE, DE for Germany, US for the USA)
+--- > * `<avatar:id>` - the avatar for the player with this player identifier (only displays if the player has an avatar via Steam or U.S.G.N.)
+--- > * `<light>` - a light with a radius of 128 pixels (visible with the light engine enabled, colour and alpha from the image)
+---
+--- Sprite-sheets:
+--- You can use the path `<spritesheet:PATH:FRAMEW:FRAMEH[:MODE]>` to load a spritesheet (a set of images/frames stored in one file).
+--- `FRAMEW` and `FRAMEH` specify the width and height of one frame, `MODE` is an optional masking mode to be applied to the image.
+--- Only one frame of the sheet will be displayed by default (the first frame). You can change the frame using [imageframe](lua://imageframe).
+---
+--- **Notes:**
+--- * Always save the returned identifier in a variable. Otherwise, you won't be able to remove or change the image!
+--- * The game will automatically remove ALL images when a new round begins!
+--- * Images created with this function are a special type of dynamic object (object type `40`).
+--- * Using too many images can lead to performance issues.
+---
+--- Sample 1: An image visible to all players and part of the HUD (mode 2), covering the radar
+--- ```lua
+--- image("gfx/hud_buildhelper.png", 0, 0, 2)
+--- ```
+---
+--- Sample 2: Creating an image and changing its look and position/rotation
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imagecolor(id, 255, 255, 0)
+--- imageblend(id, 1)
+--- imagealpha(id, 0.5)
+--- imagescale(id, 2, 3)
+--- imagepos(id, 30, 30, 45)
+--- ```
+---
+--- ```lua
+--- Sample 3: Creating a spritesheet and changing its frame
+--- local id = image("<spritesheet:gfx/buildings.png:32:32:n>", 1, 0, 201)
+--- imageframe(id, 3)
+--- ```
+---
+--- @param path string The path to the image file (relative to the CS2D folder).
+--- @param x number The x position (in pixels).
+--- @param y number The y position (in pixels).
+--- @param mode number The display mode for the image.
+--- @param player? number Optional. The player identifier to restrict visibility to a certain player (default: visible to all).
+--- @return number img_id The identifier of the created image.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=image#cmd
+function image(path, x, y, mode, player) end
+
+--- Changes the opacity (alpha) of an image, where `0.0` is fully transparent and `1.0` is fully opaque.
+--- This can be used to make an image semi-transparent, fully opaque, or hide it completely (alpha = `0`).
+---
+--- @param img_id number: The identifier of the image to modify.
+--- @param alpha number: The desired opacity value between `0.0` (fully transparent) and `1.0` (fully opaque).
+---
+--- Sample usage:
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imagealpha(id, 0.5)  -- Set opacity to 50% (semi-transparent)
+--- ```
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imagealpha#cmd
+---
+--- @see freeimage to free the image as opposed to hiding (with alpha = `0`) the image.
+function imagealpha(img_id, alpha) end
+
+--- Changes the blend mode of an image, affecting how it blends with other images drawn later.
+--- Blend modes control how the current image interacts with the underlying pixels.
+--- Commonly used for effects like transparency, glow, and other visual effects.
+---
+--- @param img_id number: The identifier of the image to modify.
+--- @param mode number: The blend mode to apply. Possible values:
+--- > * `0` - Normal (default)
+--- > * `1` - Additive (brightens underlying colours)
+--- > * `2` - Subtractive (darkens underlying colours)
+--- > * `3` - Multiply (darkens colours)
+--- > * `4` - Screen (brightens colours)
+--- > * `5` - Invert (inverts the colour)
+--- > * `6` - Overlay (combines multiply and screen effects)
+---
+--- Sample usage:
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imageblend(id, 1)  -- Set the blend mode to additive
+--- ```
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imageblend#cmd
+function imageblend(img_id, mode) end
+
+--- @deprecated
+--- **Deprecated**: This function is now replaced by `imagecolour`.
+--- Use `imagecolour` instead to change the colour of an image.
+function imagecolor(img_id, red, green, blue) end
+
+--- Changes the colour of an image by applying specified RGB values.
+--- The colour is defined using red, green, and blue components, each ranging from `0` (black) to `255` (full colour brightness).
+--- You can use a colour picker to get the RGB values.
+--- Example: https://www.google.com/search?q=colourpicker
+---
+--- @param img_id number: The identifier of the image to modify.
+--- @param red number: The red component of the colour (`0` to `255`).
+--- @param green number: The green component of the colour (`0` to `255`).
+--- @param blue number: The blue component of the colour (`0` to `255`).
+---
+--- Sample usage:
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imagecolour(id, 0, 255, 0)  -- Change the image colour to green
+--- ```
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imagecolor#cmd
+function imagecolour(img_id, red, green, blue) end
+
+--- Changes the frame of the spritesheet image with the specified identifier.
+--- This has no effect if the image is not a spritesheet.
+---
+--- The frame numbering starts at `1` for the first frame. If you attempt to set the frame to a value lower than `1` or greater than the maximum number of frames,
+--- it will automatically adjust to the first or last frame respectively.
+---
+--- Frames are numbered from left to right and from top to bottom. For example, in a spritesheet with `4` frames, the top left frame is frame `1`,
+--- and the bottom right frame is the last frame.
+---
+--- Refer to the example spritesheet image for better understanding:
+---
+--- ![Spritesheet Example](https://cs2d.com/img/spritesheet.png)
+---
+--- @param img_id number: The identifier of the image (spritesheet) to modify.
+--- @param frame number: The frame number to display. It should be between `1` and the total number of frames.
+---
+--- Sample usage:
+--- ```lua
+--- local id = image("<spritesheet:gfx/buildings.png:32:32:n>", 1, 0, 201)
+--- imageframe(id, 3)  -- Change the frame to the 3rd frame of the spritesheet
+--- ```
+---
+--- **Note**: The image must be loaded as a spritesheet using the [image](lua://image) function so that it contains multiple frames.
+--- **Attention**: The frame numbering is `1`-based for this command. The first frame is `1`, and the last frame corresponds to the total number of frames.
+--- **Note**: For animating a spritesheet, consider using [tween_animate](lua://tween_animate) or [tween_frame](lua://tween_frame),
+--- as they are more efficient and cause less network traffic than changing frames manually.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imageframe#cmd
+function imageframe(img_id, frame) end
+
+--- Adds, removes, or modifies a hit zone for an image, allowing it to react to shots or attacks.
+--- Each hit zone triggers the `hitzone` hook when it is hit by a shot or attack.
+---
+--- Available modes:
+---
+--- **Non-Blocking Modes (<= `100`, shots will pass through):**
+--- > * `0` - Removes any existing hit zones (other parameters don't matter).
+--- > * `1` - Hit zone without effects (just registers the zone).
+--- > * `2` - Wall effect (hit zone causes a wall effect).
+--- > * `3` - Blood effect (hit zone triggers blood effect).
+--- > * `4` - Green blood effect (hit zone triggers green blood effect).
+---
+--- **Blocking Modes (> `100`, shots will be stopped):**
+--- > * `101` - Hit zone without effects + stop shot.
+--- > * `102` - Wall effect + stop shot.
+--- > * `103` - Blood effect + stop shot.
+--- > * `104` - Green blood effect + stop shot.
+---
+--- All hit zones with modes above `100` will block shots, preventing objects behind them from being damaged.
+--- These behave like walls but have no effect on player movement or vision.
+---
+--- **Notes**:
+--- > * Images are usually centred. For a `100`x`100` pixel image, the hit zone should have the following values:
+--- >   * `x-offset`: `-50`
+--- >   * `y-offset`: `-50`
+--- >   * `width`: `100`
+--- >   * `height`: `100`
+--- >   * So, `x-offset` is typically `-width`/`2` and `y-offset` is `-height`/`2`.
+--- > * Each image can only have one hit zone. Calling `imagehitzone` multiple times will modify the existing hit zone.
+--- > * To remove an existing hit zone, call [imagehitzone](lua://imagehitzone) with mode `0`.
+--- > * The hit zone is always rectangular and unaffected by image rotation.
+--- > * Defining many hit zones may negatively impact game performance (particularly when shooting).
+--- > * Hit zones do not work with images drawn as HUD (mode `2`).
+--- > * Thin hit zones may not react correctly to all shots; it is recommended to have a minimum width and height of `10` pixels.
+---
+--- @param img_id number: The identifier of the image to which the hit zone will be applied.
+--- @param mode number: The mode of the hit zone (defines its effect and whether it blocks shots).
+--- @param xOffset number: The x-axis offset of the hit zone (relative to the image centre).
+--- @param yOffset number: The y-axis offset of the hit zone (relative to the image centre).
+--- @param width number: The width of the hit zone.
+--- @param height number: The height of the hit zone.
+---
+--- Sample usage:
+--- ```lua
+--- local id = image("gfx/sprites/target.png", 0, 0, 2)
+--- imagehitzone(id, 102, -50, -50, 100, 100)  -- Apply a wall effect and block shots
+--- ```
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imagehitzone#cmd
+function imagehitzone(img_id, mode, xOffset, yOffset, width, height) end
+
+--- Returns various properties of an image based on the specified value.
+--- The exact meaning of the returned values may vary depending on the image mode.
+---
+--- Available values to retrieve:
+---   * **x**: The x-position of the image on the map (in pixels). The meaning can change depending on the image mode.
+---   * **y**: The y-position of the image on the map (in pixels). The meaning can change depending on the image mode.
+---   * **rot**: The current rotation angle of the image (in degrees). Returns `0` if the image is not rotated.
+---   * **alpha**: The alpha transparency value of the image, ranging from `0.0` (completely transparent) to `1.0` (completely opaque).
+---   * **path**: The string path to the image (e.g., "gfx/sprites/flare.png").
+---   * **frame**: The current animation frame of the image (for images with multiple frames).
+---   * **width**: The width of the image in pixels.
+---   * **height**: The height of the image in pixels.
+---   * **framecount**: The total number of animation frames for the image.
+---
+--- **Notes**:
+--- * If the image with the specified identifier does not exist, the function will return a boolean `false`.
+--- * Images are treated as objects internally. You can use object methods to retrieve additional values if needed.
+---
+--- @param img_id number: The identifier of the image to retrieve parameters from.
+--- @param value string: The specific value to retrieve. Can be one of the options listed above (e.g., "x", "y", "rot").
+---
+--- @return string|number: Returns the requested property value (string for path, otherwise number for others).
+--- @nodiscard
+---
+--- Sample usage:
+--- ```lua
+--- local id = image("gfx/sprites/flare.png", 0, 0, 2)
+--- local xPos = imageparam(id, "x")  -- Get the x-position of the image
+--- local alpha = imageparam(id, "alpha")  -- Get the alpha transparency of the image
+--- ```
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imageparam#cmd
+function imageparam(img_id, value) end
+
+--- Changes the position (`x` & `y`, in pixels) and rotation (`rot`, `0°`-`360°`) of an image.
+---
+--- **Notes**:
+--- * `x` and `y` specify the position on the map in pixels, with (`0`, `0`) being the top-left corner.
+--- * `rot` is the rotation in degrees, ranging from `0` to `360`. A `0` degree rotation means no rotation, which is the default for new images.
+--- * Depending on the image mode, the meaning of `x`, `y`, and `rot` may vary. Refer to the image documentation for details.
+---
+--- **Sample usage**:
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imagecolour(id, 255, 255, 0)
+--- imageblend(id, 1)
+--- imagealpha(id, 0.5)
+--- imagescale(id, 2, 3)
+--- imagepos(id, 30, 30, 45)  -- Set position to (30, 30) and rotate by 45 degrees
+--- ```
+---
+--- @param img_id number: The identifier of the image to modify.
+--- @param x number: The `x`-position (in pixels) on the map.
+--- @param y number: The `y`-position (in pixels) on the map.
+--- @param rot number: The rotation angle of the image in degrees (`0`-`360`).
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imagepos#cmd
+function imagepos(img_id, x, y, rot) end
+
+--- Enables or disables the shadow effect for an image.
+--- This does not add a shadow, this will turn the image into a shadow.
+---
+--- **Note:** It is recommended to use [imagecolor](lua://imagecolor) to turn the image into pitch black for a convincing shadow.
+---
+--- **Example usage**:
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imageshadow(id, 1)  -- Enable shadowing for the image
+--- ```
+---
+--- @param img_id number: The identifier of the image to modify.
+--- @param value number: `0` to disable the shadow, `1` to enable the shadow.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imageshadow#cmd
+function imageshadow(img_id, value) end
+
+--- Changes the image scale factors (in other words: the image size).
+---
+--- **Notes**:
+--- * `x` and `y` are factors and default to `1` (original image size).
+--- * A value of `2` would double the size, `0.5` would half the size, etc.
+--- * If the image is a light, `x` will be used as a factor for the light radius, and `y` will be ignored.
+---
+--- **Sample usage**:
+--- ```lua
+--- local id = image("gfx/sprites/flare2.bmp", 0, 0, 2)
+--- imagecolour(id, 255, 255, 0)
+--- imageblend(id, 1)
+--- imagealpha(id, 0.5)
+--- imagescale(id, 2, 3)  -- Set scale to 2x width and 3x height
+--- imagepos(id, 30, 30, 45)
+--- ```
+---
+--- @param img_id number: The identifier of the image to modify.
+--- @param width number: The horizontal scale factor (width).
+--- @param height number: The vertical scale factor (height).
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=imagescale#cmd
+function imagescale(img_id, width, height) end
+
+--- Checks if the tile position (`X`|`Y`) is inside the area of a certain entity type and returns `true` if this is the case, and `false` otherwise.
+--- The "area" of an entity depends on the entity type and, in some cases, on its properties.
+---
+--- **Special entity area sizes**:
+--- * `Info_T` / `Info_CT`: `5x5` tiles (entity in the centre)
+--- * `Info_RescuePoint`: `3x3` tiles (entity in the centre)
+--- * `Info_BombSpot`: `5x5` tiles (entity in the centre)
+--- * `Info_NoBuildings`: Depending on entity settings
+--- * `Info_TeamGate`: Depending on entity settings
+--- * `Info_NoWeather`: Depending on entity settings
+--- * `Env_Hurt`: Depending on entity settings
+--- * `Env_Room`: Depending on entity settings
+---
+--- All other entities have an area of `1x1` tiles at the entity position.
+--- For these entities, [inentityzone](lua://inentityzone) only returns `true` if an entity of the specified type is at the exact same tile position.
+---
+--- **Notes**:
+--- * This command has been implemented for performance reasons. It's much faster to use [inentityzone](lua://inentityzone) than checking all entities manually in a Lua script.
+--- * CS2D internally uses a 2D cache array (built at map load time) for very fast checks if there is any entity area on a tile position.
+---
+--- **Sample usage**:
+--- ```lua
+--- local tx, ty = 10, 5
+--- if inentityzone(tx, ty, "Info_T") then
+---     print("Tile is inside the area of a T entity")
+--- else
+---     print("Tile is not inside the area of a T entity")
+--- end
+--- ```
+---
+--- @param tx number: The x-coordinate of the tile to check.
+--- @param ty number: The y-coordinate of the tile to check.
+--- @param type string: The type of the entity to check for.
+---
+--- @return boolean: Returns `true` if the tile is inside the area of the specified entity type, `false` otherwise.
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=inentityzone#cmd
+function inentityzone(tx, ty, type) end
+
+--- Returns a value of an item instance on the map.
+---
+--- **Available values**:
+---   - `exists`: `boolean`, `true` if an item with that identifier exists, `false` otherwise.
+---   - `name`: The name of the item.
+---   - `type`: Internal item type identifier.
+---   - `player`: identifier of the player that carries this item, or `0` if it is dropped.
+---   - `ammo`: The ammo supply for that weapon (not loaded into it).
+---   - `ammoin`: Ammo currently loaded into the weapon.
+---   - `mode`: Weapon mode (e.g., colour of laser, silenced or not).
+---   - `x`: X position of the dropped weapon on the map (in tiles).
+---   - `y`: Y position of the dropped weapon on the map (in tiles).
+---   - `dropped`: `boolean`, `true` if the weapon has been dropped by a player, `false` otherwise.
+---   - `droptimer`: How long ago the weapon was dropped (in seconds).
+---
+--- **Additional functionality**:
+---   - `item(0, "table")`: Returns a Lua table with all identifiers of items currently on the map (the unique instance identifiers, not the type identifiers).
+---
+--- **Item names and type identifiers**:
+---   - For a reference of item names and type identifiers, refer to [CS2D items reference](https://cs2d.com/img/ref_items.png).
+---
+--- **Sample usage**:
+--- ```lua
+--- local item_list = item(0, "table")
+--- for _, id in pairs(item_list) do
+---     print(item(id, "name"))
+--- end
+--- ```
+---
+--- **Note**:
+---   - Items carried by players cannot be accessed with this command. Use [playerweapons](lua://playerweapons) to get a list of item types a player currently carries.
+---
+--- @param itemID number: The unique identifier of the item instance on the map.
+--- @param value string: The value you want to retrieve (e.g., `"name"`, `"ammo"`, etc.).
+---
+--- @return string|number|boolean: Returns the requested value for the item (e.g., string for name, number for ammo, or boolean for existence).
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=item#cmd
+---
+--- @see playerweapons for a list of item types a player currently carries.
+function item(itemID, value) end
+
+--- Returns a value of an item type.
+---
+--- **Available values**:
+---   - `"name"`: The name of the item, returns an empty string (`""`) if no item with this type exists.
+---   - `"dmg"`: The damage caused by this item.
+---   - `"dmg_z1"`: The damage caused with zoom level 1 (secondary attack mode).
+---   - `"dmg_z2"`: The damage caused with zoom level 2.
+---   - `"rate"`: The fire rate of the weapon.
+---   - `"reload"`: The reload duration for the weapon.
+---   - `"ammo"`: The amount of ammo that can be carried with the weapon.
+---   - `"ammoin"`: The amount of ammo that can be loaded into the weapon.
+---   - `"price"`: The price of the item.
+---   - `"range"`: The weapon range.
+---   - `"dispersion"`: The weapon dispersion.
+---   - `"slot"`: The item HUD slot.
+---   - `"recoil"`: The weapon recoil.
+---
+--- **Note**: Do not confuse the identifier of an item instance on the map (retrieved via the `item` command) with the type identifier.
+--- Each item has a unique instance identifier, but multiple items can share the same type identifier.
+---
+--- @param type number: The type identifier of the item.
+--- @param value string: The value you want to retrieve (e.g., `"name"`, `"dmg"`, etc.).
+---
+--- @return string|number: Returns the requested value for the item type (e.g., string for name, number for damage, etc.).
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=itemtype#cmd
+function itemtype(type, value) end
+
+--- Returns info about the current map.
+---
+--- **Available values**:
+--- * `"name"`: The name of the map.
+--- * `"xsize"`: The x size of the map in tiles.
+--- * `"ysize"`: The y size of the map in tiles.
+--- * `"tileset"`: The tile-set file used in the map.
+--- * `"tilesize"`: The size of each tile in the tile-set (either 32 or 64 pixels).
+--- * `"tilecount"`: The number of tiles in the tile-set.
+--- * `"back_img"`: The background image for the map (empty if there is none).
+--- * `"back_scrollx"`: The x scrolling speed of the background.
+--- * `"back_scrolly"`: The y scrolling speed of the background.
+--- * `"back_scrolltile"`: Whether the background scrolls like tiles (0 or 1).
+--- * `"back_r"`: The red value for the background colour.
+--- * `"back_g"`: The green value for the background colour.
+--- * `"back_b"`: The blue value for the background colour.
+--- * `"storm_x"`: The x speed of the storm.
+--- * `"storm_y"`: The y speed of the storm.
+--- * `"mission_vips"`: The number of VIP spawns.
+--- * `"mission_hostages"`: The number of hostages.
+--- * `"mission_bombspots"`: The number of bomb spots.
+--- * `"mission_ctfflags"`: The number of CTF flags.
+--- * `"mission_dompoints"`: The number of domination points.
+--- * `"nobuying"`: Whether buying is allowed (0 or 1).
+--- * `"noweapons"`: Whether weapons are allowed (0 or 1).
+--- * `"teleporters"`: Whether there are teleporters (0 or 1).
+--- * `"botnodes"`: The number of bot nodes.
+---
+--- **Note**: The function returns information specific to the current map.
+---
+--- @param value string: The value you want to retrieve (e.g., `"name"`, `"xsize"`, etc.).
+---
+--- @return string|number: Returns the requested value for the map (e.g., string for name, number for size, etc.).
+--- @nodiscard
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=map#cmd
+function map(value) end
+
+--- Opens a menu on the screen of a certain player (`id`=player id) or for every player (`id`=`0`).
+---
+--- **Menu Content Scheme**: `"title,b1,b2,...,b9"`
+--- * `"title"`: The title of the menu. Attach `"@b"` at the end of the title for a bigger menu, or `"@i"` for an invisible menu.
+--- * `"b1-b9"`: Up to `9` button captions. Use empty strings for buttons you don't need. Captions can be split into two parts with `'|'` (scheme: `"left caption|right caption"`). You can also put `"()"` around a caption to disable a button.
+---
+--- **Menu Hook**:
+--- * The `menu-hook` is executed when a player clicks a menu button with the mouse or presses the corresponding numeric key.
+---
+--- **Examples**:
+--- * `menu(1,"Sample Menu With 3 Buttons,Button 1,Button 2,Button 3")`
+--- * `menu(2,"Big Menu With 3 Buttons@b,Button 1,Button 2,Button 3")`
+--- * `menu(1,"Space,Button 1,,Button 2")` (Creates space between Button 1 and Button 2)
+--- * `menu(1,"Custom Buy Menu,Item 1|$5,Item 2|$50,(Item 3|$999999),Item 4|$0")` (Shows a disabled button)
+--- * `menu(1,"Hidden@i,b1,b2,b3")` (Invisible menu for numeric key capture)
+---
+--- **Menu Hook Usage**:
+---   ```lua
+---   addhook("menu", "myMenu")
+---   function myMenu(id, title, button)
+---       msg("Player " .. player(id, "name") .. " has pressed button #" .. button .. " in the menu '" .. title .. "'!")
+---   end
+---   ```
+---
+--- @param p number: The player id (`0` for all players).
+--- @param content string: A string defining the content and structure of the menu.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=menu#cmd
+function menu(p, content) end
+
+--- Sends a message to all players as a server message displayed in the chat area (bottom left).
+---
+--- **Colouring the Message**:
+--- * Prepend the `text` with an RGB colour code: `"\169RRRGGGBBB"`. Use a colour picker to get the RGB values.
+---   - Example: `\169000255000` for green. Ensure no space exists between the colour code and the text.
+---
+--- **Displaying Text at the Centre**:
+--- * Append `@C` to display the message at the centre of the screen.
+---   - Example: `"This text is displayed at the centre@C"`.
+---
+--- **UTF-8 Encoding**:
+--- * Prefix the text with `"UTF-8:"` to send encoded UTF-8 strings. Use [this tool](https://mothereff.in/utf-8) to encode strings.
+---
+--- **Examples**:
+--- * `msg("hello, world")` (Displays a normal message).
+--- * `msg("\169000255000This message is green!")` (Displays a green message).
+--- * `msg("This text is displayed at the centre@C")` (Displays the message at the centre).
+---
+--- @param text string The message text to display. Supports RGB colour codes and alignment options.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=msg#cmd
+---
+--- @see msg2 to send a message to a specified player.
+function msg(text) end
+
+--- Sends a message to a specific player (`id`). The message appears in the chat area (bottom left) for that player only.
+---
+--- **Colouring the Message**:
+--- * Prepend the `text` with an RGB colour code: `"\169RRRGGGBBB"`. Use a colour picker to get the RGB values.
+---   - Example: `\169000255000` for green. Ensure no space exists between the colour code and the text.
+---
+--- **Displaying Text at the Centre**:
+--- * Append `@C` to display the message at the centre of the screen.
+---   - Example: `"This text is displayed at the centre@C"`.
+---
+--- **UTF-8 Encoding**:
+--- * Prefix the text with `"UTF-8:"` to send encoded UTF-8 strings. Use [this tool](https://mothereff.in/utf-8) to encode strings.
+---
+--- **Examples**:
+--- * `msg2(1, "hello, world")` (Displays a normal message to player `1`).
+--- * `msg2(3, "\169000255000This message is green!")` (Displays a green message to player `3`).
+--- * `msg2(5, "This text is displayed at the centre@C")` (Displays the message at the centre for player `5`).
+---
+--- @param p number The player identifier who receives the message.
+--- @param text string The message text to display. Supports RGB colour codes and alignment options.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=msg2#cmd
+---
+--- @see msg to send a message to everyone.
+function msg2(p, text) end
+
+--- Returns information about a dynamic object based on its identifier.
+---
+--- **Object Properties**:
+--- * "`exists`": Returns `true` if the object exists, `false` otherwise.
+--- * "`typename`": The name of the object's type.
+--- * "`type`": Internal type identifier of the object (reference image [here](https://cs2d.com/img/ref_dynamicobjects.png)).
+--- * "`health`": The current health value of the object.
+--- * "`mode`": The current mode of the object, which can vary depending on the object type.
+--- * "`team`": The team the object belongs to (reference image [here](https://cs2d.com/img/ref_team.png)).
+--- * "`player`": The player who created or owns the object, or for NPCs, the NPC type (reference [here](https://cs2d.com/img/ref_npcs.png)).
+--- * "`x`": The current x-position of the object in pixels.
+--- * "`y`": The current y-position of the object in pixels.
+--- * "`rot`": The current rotation angle of the object.
+--- * "`alpha`": The alpha transparency value (`0.0` to `1.0`).
+--- * "`tilex` and `tiley`": Tile position (`tx` and `ty`) on the map.
+--- * "`countdown`": The countdown value associated with the object.
+--- * "`rootrot`": The original rotation of the object.
+--- * "`idle`": The idle state for the object.
+--- * "`rotvar`": The rotation variation.
+--- * "`target`": Identifier of the object's current target.
+--- * "`upgrade`": Upgrade value of the object.
+--- * "`entity`": `true` if the object is spawned by an entity, `false` otherwise.
+--- * "`entityx` and `entityy`": Tile coordinates of the entity that spawned the object.
+---
+--- **Special Notes**:
+--- * Dynamic objects are used for various things like NPCs, buildings, and Lua images. Depending on the object type, some values may be used differently or not be used at all.
+--- * For image objects, the `imageparam` function can be used to retrieve specific image values.
+---
+--- **Examples**:
+--- * List all dynamic object identifiers:
+---   ```lua
+---   local object_list = object(0, "table")
+---   for _, id in pairs(object_list) do
+---       print(id)
+---   end
+---   ```
+---
+--- @param obj number The dynamic object identifier or `0` for retrieving all dynamic object identifiers.
+--- @param value string The property or value you want to retrieve (e.g., "`exists`", "`health`", etc.).
+---
+--- @return any: The requested property value or a `table` if `obj` is `0`.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=object#cmd
+function object(obj, value) end
+
+--- Returns the identifier of the first object found at the specified tile position (`X`|`Y`) with the given type.
+--- If no type is specified, it returns the first object of any type at the given position.
+--- Returns `0` if no object is found.
+---
+--- **Object Types**:
+--- * Refer to the [dynamic objects reference image](https://cs2d.com/img/ref_dynamicobjects.png) for a list of types.
+---
+--- **Special Notes**:
+--- * This function searches for objects at tile positions, not pixel positions.
+---
+--- **Examples**:
+--- * Find the first object at tile position (5, 10):
+---   ```lua
+---   local obj_id = objectat(5, 10)
+---   ```
+--- * Find the first object of type `3` at tile position (5, 10):
+---   ```lua
+---   local obj_id = objectat(5, 10, 3)
+---   ```
+---
+--- @param tx number The x-coordinate of the tile position.
+--- @param ty number The y-coordinate of the tile position.
+--- @param type? number The specific object type to search for (optional).
+---
+--- @return number: The identifier of the found object, or `0` if no object is found.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=objectat#cmd
+---
+--- @see object to view objects' properties.
+function objectat(tx, ty, type) end
+
+--- Returns a value for a specific object type, not an object instance on the map.
+--- The values returned are the same for all objects of the given type.
+---
+--- **Object Types**:
+--- * Refer to the [dynamic objects reference image](https://cs2d.com/img/ref_dynamicobjects.png) for a list of types.
+---
+--- **Parameters**:
+--- * `type` (number): The type identifier of the object. Each object type has a unique identifier, but multiple objects may share the same type.
+--- * `value` (string): The specific value you want to retrieve for the given object type.
+---
+--- **Available Values**:
+--- * `name`: The localized name of the object (may change depending on server's language setting).
+--- * `internalname`: The internal name of the object. This will be an empty string (`""`) if no object exists with this type.
+--- * `type`: The subtype/class of the object:
+---   - `1`: building
+---   - `2`: stuff (mines, portals, etc.)
+---   - `3`: NPC unit
+---   - `4`: image
+--- * `price`: The price of the object (used for buildings).
+--- * `health`: The maximum or initial health of the object.
+--- * `killmoney`: The amount of money a player receives for killing or destroying the object.
+--- * `limit`: The maximum number of buildings of this type a player can build.
+--- * `upgradepoints`: The number of hits required to upgrade this building (0 if there is no upgrade).
+--- * `upgradeprice`: The price for upgrading the building (calculated as `upgrade_points * 50`; `0` if no upgrade is available).
+--- * `upgradeto`: The object type identifier to which this building can be upgraded (`0` if no upgrade is available).
+---
+--- **Examples**:
+--- * To get the localized name of the object with type identifier `1`:
+---   ```lua
+---   local obj_name = objecttype(1, "name")
+---   ```
+--- * To get the price of a building with type identifier `1`:
+---   ```lua
+---   local obj_price = objecttype(1, "price")
+---   ```
+---
+--- **Note**: Do not confuse the identifier of an object instance on the map (which can be retrieved using the [object](lua://object) command) with the object type identifier.
+--- These are different: each object instance has a unique identifier, but multiple objects may share the same type identifier.
+---
+--- @param type number The object type identifier.
+---
+--- @param value string The specific value to retrieve for the object type.
+---
+--- @return any The requested property value.
+---
+--- @docs https://cs2d.com/help.php?luacat=all&luacmd=objecttype#cmd
+---
+--- @see object to get properties on a map instanced object.
+function objecttype(type, value) end
+
+--- Executes ordinary non-Lua CS2D commands.
+--- Everything behind the first semicolon (`;`) will be ignored. This is a security measure in case you're using user input (like chat messages) with this command.
+--- You can change this behaviour by setting `Stop-At-Semicolon` to 0, but be cautious when doing so.
+---
+--- **Important Notes**:
+--- * A list of non-Lua CS2D commands is available [here](https://cs2d.com/help.php?cat=all).
+--- * In many cases, you can simply include a wrapper to use non-Lua CS2D commands just like Lua functions. Refer to [sys/lua/wrapper.lua](wrapper.lua) `sys/lua/wrapper.lua` for more information.
+--- * Be cautious when using this command with user input. Users could manipulate the string to execute their own commands. Always validate user input carefully!
+--- * The `parse` function requires a string as its parameter. Concatenating Lua variables with strings can be tricky, especially with commands that have string parameters. Review the examples below for details.
+---
+--- **Parameters**:
+--- * `commands` (string): The CS2D command to execute (formatted as a string).
+--- * `stop_at_semicolon` (number): Optional. If set to 1, everything after the semicolon (`;`) will be ignored.
+---
+--- **Examples**:
+--- * Change the server name using Lua (note the usage of single quotes and double quotes for different strings):
+---   ```lua
+---   parse('sv_name "Test Server"')
+---   ```
+--- * Using a number variable with `parse`:
+---   ```lua
+---   local banid = 1
+---   parse('banusgn '..banid)
+---   ```
+--- * Using a string variable with `parse` (additional quotes are required because the player name is a string):
+---   ```lua
+---   local player_name = "Player"
+---   parse('banname "'..player_name..'"')
+---   ```
+--- * Using multiple variables with `parse`:
+---   ```lua
+---   local player = 1
+---   local xpos = 5
+---   local ypos = 3
+---   parse('setpos '..player..' '..xpos..' '..ypos)
+---   ```
+---
+--- The resulting string in the last example will be `'setpos 1 5 3'`, which works as a CS2D command.
+---
+--- **Additional Tips**:
+--- * If you're having trouble with concatenation, use `print()` to check the resulting string before passing it to `parse`.
+--- * You can prefix the text with `"UTF-8:"` to pass encoded UTF-8 strings to this function. Use [this tool](https://mothereff.in/utf-8) to encode strings.
+---
+--- **Security Warning**:
+--- * Do not set `Stop-At-Semicolon` to 0 when parsing user input, as this may allow users to execute unauthorized commands or manipulate parameters.
+---
+--- @param commands string The CS2D command to execute (as a string).
+---
+--- @param stop_at_semicolon? number Optional. Set to 1 to stop at semicolons, preventing malicious input manipulation.
+function parse(commands, stop_at_semicolon) end
+
+--- Returns a value of a player or a table of players. Returns `false` if the specified player, value, or table does not exist.
+---
+--- **Values and Tables Which Can Be Requested**:
+---
+--- * **Identity & Logins & Language**
+---   * `exists`: `boolean`, `true` if player with this identifier exists, `false` otherwise.
+---   * `name`: Name of the player.
+---   * `ip`: IP address of the player or "`0.0.0.0`" for bots/server.
+---   * `port`: Port of the player.
+---   * `usgn`: Unreal Software Gaming Network / UnrealSoftware.de user identifier (`0` if not logged in).
+---   * `usgnname`: Unreal Software Gaming Network / UnrealSoftware.de username (`""` if not logged in).
+---   * `steamid`: Steam identifier as a string (`"0"` if not logged in).
+---   * `steamname`: Steam username (`""` if not logged in or if name retrieval failed).
+---   * `bot`: `boolean`, `true` if player is a bot, `false` otherwise.
+---   * `rcon`: `boolean`, `true` if logged in with correct RCon password, `false` otherwise.
+---   * `language`: Current language of the player as a string.
+---   * `language_iso`: Current language of the player as an ISO code string.
+---
+--- * **Team & Appearance**
+---   * `team`: `0` for spectators, `1` for terrorists, `2` for counter-terrorists, `3` for VIP (CT).
+---   * `favteam`: Favourite team if preferred team joining fails (e.g., in Zombies! mode).
+---   * `look`: Player look (`0`-`3`) / selected faction skin.
+---   * `sprayname`: Name of spray logo file.
+---   * `spraycolor`: Colour of spray logo (0-based index, reference in options menu).
+---
+--- * **Mouse Position & Screen/Setup**
+---   * `mousex`, `mousey`: Player mouse x and y screen positions (alive players only, `-1` if not available).
+---   * `mousemapx`, `mousemapy`: Mouse positions on the map (alive players only, `-1` if not available).
+---   * `mousedist`: Distance between player and mouse (alive players only, `-1` if not available).
+---   * `screenw`, `screenh`: Game screen dimensions in pixels (excluding borders).
+---   * `widescreen`, `windowed`: Game running mode: widescreen or windowed (`0`/`1`).
+---   * `micsupport`: `0`/`1`, indicates microphone support.
+---
+--- * **Position**
+---   * `x`, `y`: Current `X` and `X` positions on the map (in pixels).
+---   * `tilex`, `tiley`: Current `X` and `Y` positions on the map (in tiles).
+---   * `rot`: Current rotation angle.
+---
+--- * **Stats**
+---   * `health`, `maxhealth`: Current and maximum health values.
+---   * `armour`: Armour value (see extended details for specific armour types).
+---     - `0`-`200`: Regular Kevlar(+Helm) points (damage reduction, decreases on hit).
+---     - `201`-`206`: Specialized armours with unique damage reductions and effects.
+---   * `money`: Money value.
+---   * `score`, `deaths`, `teamkills`: Player stats such as score, deaths, and team kills.
+---   * `hostagekills`, `teambuildingkills`: Hostages and teammate buildings killed.
+---   * `mvp`: Rounds as MVP.
+---   * `assists`: Number of kill assists.
+---   * `ping`: Current ping in milliseconds.
+---   * `idle`: Idle time in seconds (int).
+---   * `speedmod`: Speed modifier value (`0` = normal, `<0` = slower, `>0` = faster).
+---   * `spectating`: Identifier of the player currently spectated.
+---   * `ai_flash`: Flashbang duration for bots (seconds, float, `0` if not flashed).
+---
+--- * **Equipment**
+---   * `weapontype`, `weaponmode`: Type and mode of the current weapon.
+---   * `nightvision`, `defusekit`, `gasmask`: Equipment possession as `boolean` values.
+---   * `bomb`, `flag`: Possession of bomb or flag as `boolean` values.
+---
+---   **Notes**: Use `playerweapons` and `playerammo` commands to retrieve owned weapons and ammo details.
+---
+--- * **Actions & Voting**
+---   * `reloading`: `boolean`, `true` if reloading.
+---   * `process`: Current process state (internal ID for reloading/planting/defusing).
+---     - Values from `1`-`6` represent specific states (e.g., `1` = Start bomb planting).
+---   * `votekick`, `votemap`: Voted kick player ID or map name (`0` or empty string if no vote).
+---
+--- * **Tables**
+---   * `player(0, "table")`: All player identifiers.
+---   * `player(0, "tableliving")`: All living player identifiers.
+---   * `player(0, "team1")`, `player(0, "team2")`: Terrorist and counter-terrorist identifiers.
+---   * `player(0, "team1living")`, `player(0, "team2living")`: Living terrorist and counter-terrorist identifiers.
+---
+--- **Examples**:
+--- * List player names using a table:
+---   ```lua
+---   local playerlist = player(0, "table")
+---   for _, id in pairs(playerlist) do
+---       print(player(id, "name"))
+---   end
+---   ```
+---
+--- @param p number Player identifier or `0` to retrieve a table of players.
+--- @param value string The requested property or table type.
+---
+--- @return any: Requested property value, `false` if invalid.
+--- @nodiscard
+function player(p, value) end
+
+--- Returns how much ammo the specified player has left in the specified weapon.
+---
+--- This function returns two values:
+---   - The ammo currently loaded into the weapon.
+---   - The spare ammo for reloading.
+---
+--- **Important Notes**:
+---   * If the player does not exist or the player does not carry the weapon of the specified type, CS2D will return a boolean `false` (single value).
+---   * The ammo values the server has for other network players are just an approximation. Players might actually have LESS ammo than returned by this command - but never more. This can be caused by bad network conditions like lag and packet loss.
+---   * The values returned are guaranteed to be accurate for the local player (when hosting a game) and for bots.
+---
+--- **Parameters**:
+---   * `p` (number): The player identifier of the player whose ammo is being queried.
+---   * `itemType` (number): The item type identifier of the weapon being checked. A list of item type identifiers is available [here](https://cs2d.com/img/ref_items.png).
+---
+--- **Sample**: Get the ammo count of a player's weapon:
+---   ```lua
+---   local weaponType = player(pID, "weapontype")
+---   local ammoIn, ammo = playerammo(pID, weaponType)
+---   msg(player(pID, "name") .. " ammo: " .. ammoIn .. "|" .. ammo)
+---   ```
+---   This example will send a message displaying the player's name and their current ammo in the weapon, as well as spare ammo.
+---
+--- **Security Warning**:
+---   * Be careful when using this function with user input or in an environment with unreliable network conditions, as the values may be inaccurate.
+---
+--- @param p number The player identifier.
+--- @param itemType number The item type identifier of the weapon.
+---
+--- @return number, number: The ammo currently loaded into the weapon and the spare ammo for reloading.
+--- @nodiscard
+function playerammo(p, itemType) end
+
+--- Returns a Lua table with all equippable weapon/item TYPES a player carries.
+---
+--- **Important Notes**:
+--- * Items like money, health, and ammo are automatically used when collected. They only modify related values (e.g., player money) and never appear in the list of carried items.
+--- * This function returns item TYPES, not item instance identifiers. Use `playerammo` to retrieve ammo values for specific carried weapons.
+--- * The returned table includes only items equippable in hands and visible in weapon selection. Special items like flags, gas masks, or armours are excluded. Use the `player` command for these items with the relevant parameter.
+---
+--- **Item Names and Type Identifiers**:
+--- Refer to the [item reference image](https://cs2d.com/img/ref_items.png) for a complete list.
+---
+--- **Examples**:
+--- * List items carried by player 1:
+---   ```lua
+---   local itemlist = playerweapons(1)
+---   for _, id in pairs(itemlist) do
+---       print(itemtype(id, "name"))
+---   end
+---   ```
+---
+--- @param p number The player identifier whose items are being queried.
+---
+--- @return table: A table of all equippable item types the player carries.
+function playerweapons(p) end
+
+-- Shows "text" in console.
+-- You can start "text" with an RGB colour code "\169RRRGGGBBB" to change its colour. (use a colourpicker to get the values)
+-- https://www.google.com/search?q=colourpicker
+--
+-- Sample 1: Showing a text in console
+-- print("hello, world")
+--
+--
+-- Sample 2: Showing a red text (note that there is no space behind the colour tag)
+-- print("\169255000000This message is red!")
+--
+--
+-- Note: You can prefix the text with "UTF-8:" to pass encoded UTF-8 strings to this function. Use this tool to encode strings!
+-- https://mothereff.in/utf-8
+function print(text) end
+
+-- Returns a value of a projectile (projectiles are grenades and most stuff launched by weapons which is visible for multiple frames. Regular bullets are NO projectiles though):
+--
+-- > exists: boolean, true if projectile with this identifier exists, false otherwise
+--
+-- > type: internal type identifier (equal to the identifiers of the corresponding weapons)
+-- > x: current x position on map (in pixels)
+--
+-- > y: current y position on map (in pixels)
+--
+-- > dir: current flight direction
+--
+-- > rot: current rotation angle (just for the visual effect)
+--
+-- > flydist: distance in pixel this projectile will fly (relevant for flying projectiles)
+--
+-- > time: countdown in seconds until object will be removed (relevant for ground projectiles)
+--
+--
+-- Note: Projectiles are managed in two lists: "flying" and "ground"! "flying" holds all projectiles which are currently flying. "ground" holds the projectiles which are idle on the ground.
+-- Note: Projectiles in the ground list never move even if their values (like "flydist") might indicate something else!
+-- Note: Server projectile values and actual client values can be different due to internet lag and latency!
+-- Note: There is no projectile(0,"table") as it is common for comparable commands! Use the command "projectilelist" instead!
+-- Attention: There can be multiple projectiles with the same identifier (each player has its own projectile identifier-space)! That's why you have to specify the identifier and the player because only the combination of those two values is unique and therefore suited to address a certain unique projectile
+function projectile(projectileID, p, value) end
+
+-- Returns a list (Lua table) containing projectile key data (identifiers and parent player) of all flying or ground projectiles. You can also limit the output to the projectiles of a certain player (player=0 is default and will list projectiles of all players).
+-- The list parameter can either be 0 (default) for all flying projectiles or 1 for all ground projectiles.
+--
+-- Use a "for"-loop and "in pairs" of Lua to process the resulting list properly!
+--
+-- Sample 1: Iterating over list (flying projectiles of all players) using in pairs
+-- local list=projectilelist(0,0)
+-- for _,p in pairs(list) do
+--    print("projectile with identifier "..p.id.." of player "..p.player..") - "..projectile(p.id,p.player,"type"))
+-- end
+--
+--
+-- Note: The resulting "list" is actually a Lua table with one sub Lua table per projectile in it. The sub tables have the fields/indices "id" and "player" which contain the identifier and the player who launched the projectile
+-- Attention: There can be multiple projectiles with the same identifier (each player has its own projectile identifier-space)! That's why you have to specify the identifier and the player because only the combination of those two values is unique and therefore suited to address a certain unique projectile
+function projectilelist(list, p) end
+
+-- Returns the tile x and y position (2 values!) of a random entity of a certain type or -100,-100 if no entity has been found.
+-- Use AI-State to only find entities with this AI state (-1 or omit to ignore the AI-state).
+-- Use int0 to only find entities with this int0 value (-1 or omit to ignore the int0 value).
+--
+-- Sample 1: Find a random terrorist spawnpoint (entity type 0)
+-- x,y=randomentity(0)
+-- print("T spawn @ "..x..","..y)
+--
+--
+-- Note: This command is very useful for AI Lua scripts (bots).
+-- Note: The AI-state of an entity can be changed with setentityaistate.
+-- Note: The int0 value is useful to find Info_CTF_Flag entities belonging to a certain team or Info_Dom_Point entities with a certain state.
+-- Attention: Does NOT work with Env_Decal entities!
+function randomentity(type, ai_state, int0) end
+
+-- Returns the tile x and y position (2 values!) of a random living and unused (not following anyone) hostage. Returns -100,-100 if no hostage has been found. Set unused to 0 if you want to get used hostages as well!
+--
+-- Note: The returned position is in tiles, NOT in pixels!
+--
+-- Note: Returns 2 values, see example!
+--
+-- Sample 1: Getting the position of a random hostage
+-- x,y=randomhostage()
+function randomhostage(unused) end
+
+--- Removes all Lua key binds (see addbind). This will entirely disable all additional network traffic caused by key binds and the key-hook won't be called anymore.
+---
+--- **Note:** If you only want to remove a specific bind use removebind instead.
+--- **Note:** Since key binds cause additional network traffic, it's highly recommended to remove all binds that you don't need/use actively!
+---
+---@see addbind to add a bind.
+function removeallbinds() end
+
+-- Removes a specific Lua key bind. They key must have been added beforehand with addbind.
+-- Returns 1 if the bind was removed, 0 if the bind did not exist.
+--
+-- Valid key names:
+-- > Numeric keys: "0", "1" ... "9"
+--
+-- > Alphabetic keys: "A", "B", ... "Z"
+--
+-- > Function keys: "F1", "F2", ... "F12"
+--
+-- > Mouse: "mouse1" (left click), "mouse2" (right click), "mouse3" (middle click), "mwheelup", "mwheeldown" (scrolling)
+--
+-- > Special/Modifier keys: "leftshift", "rightshift", "leftctrl", "rightctrl", "leftalt", "rightalt", "leftsys", "rightsys"
+--
+-- > Arrow keys: "leftarrow", "rightarrow", "uparrow", "downarrow"
+--
+-- > Others: "backspace", "tab", "clear", "enter", "escape", "space", "pgup", "pgdn", "end", "home", "select", "print", "execute", "screen", "ins", "del"
+--
+-- > Numpad/keypad: Same as above with "kp_" prefix. e.g. "kp_leftarrow", "kp_home", "kp_ins" etc., "kp_5" for centre button
+--
+--
+-- Note: Since key binds cause additional network traffic, it's highly recommended to remove all binds that you don't need/use actively!
+-- Note: You can also remove all existing binds at once use removeallbinds
+-- Attention: Adding/removing key binds also causes network traffic. So if the same key bind will be required again later it might make sense to keep it instead of removing it and adding it again later.
+---@see addbind to add a bind.
+function removebind(key) end
+
+-- reqcld is short for "request client data". This command requests data from a single player client (id=player id) or from all clients (id=0).
+--
+-- Mode specifies which data the server will receive:
+--
+-- > Mode 0: Cursor position (cursor position on screen in pixels, scaled based on mp_hudscale)
+-- > Deprecated: It is recommended to use player with parameters "mousex"/"mousey" instead!
+--
+-- > Mode 1: Map scrolling (scrolling offset in pixels)
+--
+-- > Mode 2: Absolute cursor position (cursor position on map in pixels, NOT influenced by mp_hudscale)
+-- > Deprecated: It is recommended to use player with parameters "mousemapx"/"mousemapy" instead!
+--
+-- > Mode 3: 1 if the client has the advanced light engine enabled, 0 otherwise (second value always 0)
+--
+-- > Mode 4: 1 if the file specified with parameter (file path relative to the CS2D folder) has been loaded, 0 otherwise; checksum of the file (only if the file is under gfx/ or sfx/) as provided by checksumfile
+--
+-- > Mode 5: Mod info
+--
+-- > Mode 6: 1 if the client has 3D rendering (render3d) enabled, 0 otherwise (second value always 0)
+--
+--
+-- The last parameter is not required for all modes. For some modes (mode 4) it is crucial though. Please read the descriptions of the modes to learn when and how it is used.
+--
+-- The requested data will be received with a delay. This is because it is sent over the network. You have to use the clientdata-hook to handle the incoming data!
+--
+-- Note: reqcld-data is guaranteed to arrive (unless the client is unreachable).
+-- Note: The last parameter is optional and only required/used by some of the modes.
+-- Note: mode 0 / mode 2: Please check if you can use the player Lua command instead. It allows you to get "mousex"/"mousey" or "mousemapx"/"mousemapy" as well without causing additional network traffic!
+-- Attention: This command uses reliable UDP packets. Using it too frequently might lead to lags or ping spikes!
+-- Attention: Keep in mind that all values sent by the client might be manipulated by hacks or other software. You can't trust them 100%!
+function reqcld(p, mode, param) end
+
+-- reqhttp is short for "request HTTP". HTTP is used to request data from web pages / web services.
+--
+-- "url" = The domain name or IP e.g. "cs2d.com"
+--
+-- "path" = The relative path of the thing you want to request, normally starting with a backslash. E.g. "/index.php"
+--
+-- mode = Controls how you want to receive the result. 0 for a plain string, 1 for a byte array (Lua table with numbers).
+--
+-- The requested data will be received with a delay. This is because it is sent over the network. You have to use the httpdata-hook to handle the incoming data!
+--
+-- The command will return a unique identifier for the request. The same identifier will be passed to the httpdata-hook so you can match request and response.
+--
+-- Attention: Many/big HTTP requests can influence the performance of the server in a negative way and can lead to ping spikes for connected players. Use with care!
+function reqhttp(url, path, mode) end
+
+-- Sets the AI state value of the entity at tile position (`X`|`Y`). The AI state of each entity is automatically set to 0 on each round start.
+-- CS2D does not actively use the AI state and you can set it to any number value you want.
+-- It's commonly used in AI scripts (bots) only.
+-- e.g.: when a bomb has been planted, bots can mark a bomb spot as checked ("bomb is not here") using the AI state. This can be used to prevent that the same spot is checked again.
+--
+-- Note: The AI state of an entity is especially useful in AI scripts in conjunction with randomentity!
+-- Attention: You shouldn't use this command in server or map scripts. It's meant to be used in AI scripts only. Using it somewhere else might lead to problems with bots! Of course you can ignore this warning if you don't use bots or if you use custom bot scripts which do not rely on the AI state.
+function setentityaistate(tx, ty, ai) end
+
+-- Enables(1)/Disables(0) a hook completely. A disabled hook does not execute the attached Lua functions anymore.
+function sethookstate(hook, state) end
+
+-- Returns stats for a U.S.G.N. account identifier:
+--
+-- > exists: boolean, true if stats for that U.S.G.N. identifier are available, false otherwise
+--
+-- > rank: gets the current rank of the player on the server 1 for the best (0 if unranked)
+--
+-- > killsperdeath: returns the kills per death ratio (equation: kills/deaths)
+--
+-- > score: score value (sum of map mission goal score and frags)
+--
+-- > frags: number of kills
+--
+-- > deaths: number of deaths
+--
+-- > secs: time spent on server in seconds (only time while being in a team is counted, time as spectator is ignored)
+--
+-- > mvp: number of rounds this player was the most valuable player
+--
+-- > assists: number of kill assists
+--
+--
+--
+-- The command returns the boolean value false if stats are not available for the specified U.S.G.N. identifier or if wrong parameters are specified.
+--
+-- Note: There's also steamstats which is the same but works with the Steam identifier instead of the U.S.G.N. identifier as identifier.
+-- Note: Different stats or no stats might be available via the stats or steamstats commands. This depends on the login behaviour of the player.
+function stats(usgnid, value) end
+
+-- Returns stats for a Steam account identifier (provided as string):
+--
+-- > exists: boolean, true if stats for that Steam identifier are available, false otherwise
+--
+-- > rank: gets the current rank of the player on the server 1 for the best (0 if unranked)
+--
+-- > killsperdeath: returns the kills per death ratio (equation: kills/deaths)
+--
+-- > score: score value (sum of map mission goal score and frags)
+--
+-- > frags: number of kills
+--
+-- > deaths: number of deaths
+--
+-- > secs: time spent on server in seconds (only time while being in a team is counted, time as spectator is ignored)
+--
+-- > mvp: number of rounds this player was the most valuable player
+--
+-- > assists: number of kill assists
+--
+--
+--
+-- The command returns the boolean value false if stats are not available for the specified Steam identifier or if wrong parameters are specified.
+--
+-- Note: There's also stats which is the same but works with the U.S.G.N. identifier instead of the Steam identifier as identifier.
+-- Note: Different stats or no stats might be available via the stats or steamstats commands. This depends on the login behaviour of the player.
+function steamstats(steamid, value) end
+
+-- Returns a value of the tile at the tile position (`X`|`Y`):
+--
+-- > frame: tile frame number in the tileset (which is CURRENTLY applied to this tile)
+--
+-- > property: tile type, internal identifier for the material/behaviour of that tile:
+-- >> 0-tile w/o sound
+--
+-- >> 1-wall
+--
+-- >> 2-obstacle
+--
+-- >> 3-wall w/o shadow
+--
+-- >> 4-obstacle w/o shadow
+--
+-- >> 5-floor wall
+--
+-- >> 10-dirt floor
+--
+-- >> 11-snow floor
+--
+-- >> 12-step floor
+--
+-- >> 13-tile floor
+--
+-- >> 14-wade floor
+--
+-- >> 15-metal floor
+--
+-- >> 16-wood floor
+--
+-- >> 50-deadly
+--
+-- >> 51-toxic deadly
+--
+-- >> 52-explosion deadly
+--
+-- >> 53-abyss deadly
+--
+--
+-- > walkable: boolean, true if walkable, false otherwise
+--
+-- > deadly: boolean, true if deadly, false otherwise
+--
+-- > wall: boolean, true if wall, false otherwise
+--
+-- > obstacle: boolean, true if obstacle, false otherwise
+--
+-- > entity: is there an entity at this position? 0 if none, entity type (>0) otherwise
+--
+-- > hascustomframe: boolean, true if the frame of this tile has been changed with "settile", false otherwise
+--
+-- > originalframe: tile frame number which this tile originally had (in the unaltered map) or which it currently has (if it has not been altered with "settile")
+--
+-- > rot: tile rotation in degrees (0 if not rotated, 90, 180 or 270)
+--
+-- > blend: tile blending frame, or false if not blended
+--
+-- > color: Lua table with r,g,b colour values of the tile, or false if no custom colour is set (equal to r=255, g=255, b=255)
+--
+-- > brightness: The custom brightness (dark 0,10,20, ... 100 bright/normal), or false if no custom brightness is set (equal to 100)
+--
+--
+-- Note: This command will return false if the specified tile position is outside the map boundaries. You can use the Lua map command to get the size of the map.
+function tile(tx, ty, value) end
+
+-- Gets the property value for the specified tileFrame in the tileset of the current map.
+-- The returned property value describes the behaviour of the tile.
+--
+-- Possible property values are:
+-- > 0-tile w/o sound
+--
+-- > 1-wall
+--
+-- > 2-obstacle
+--
+-- > 3-wall w/o shadow
+--
+-- > 4-obstacle w/o shadow
+--
+-- > 5-floor wall
+--
+-- > 10-dirt floor
+--
+-- > 11-snow floor
+--
+-- > 12-step floor
+--
+-- > 13-tile floor
+--
+-- > 14-wade floor
+--
+-- > 15-metal floor
+--
+-- > 16-wood floor
+--
+-- > 50-deadly
+--
+-- > 51-toxic deadly
+--
+-- > 52-explosion deadly
+--
+-- > 53-abyss deadly
+--
+--
+-- Note: Will return 0 if you specify a tileFrame which is not part of the tileset!
+-- Note: Use map("tilecount") to get the number of tiles in the tileset.
+function tileproperty(tileFrame) end
+
+-- Creates a timer which will call the Lua function "function" after a certain time in milliseconds (time). Moreover it can pass an optional string parameter ("parameter") to this function. The timer calls the function once by default. However you can call it several times by entering the optional count parameter (count). Using 0 or negative count values will make the timer call the function infinite times or until it is removed via freetimer.
+--
+-- Note: Time is specified in ms (milliseconds, 1000 ms = 1 sec)
+-- Note: This will throw an "attempt to call a nil value" Lua error in the console when the specified function ("function") does not exist. "function" must be a string which equals the name of an existing Lua function.
+-- Note: CS2D is single threaded and runs with a locked maximum frame rate. This means that the FPS lock also limits the precision of timers. Be aware that - depending on the FPS - timers might be executed a few milliseconds later than specified: capped @ 60 FPS, 1000 ms / 60 FPS = 16.6 ms timer precision (in best case). This imprecision may also sum up when executing a timer more often (count<=0 or count>1).
+-- Attention: Creating many timers with a high frequency (low time value) and a high/infinite count can slow down the game if the executed functions are complex. Use freetimer to remove unused timers!
+-- Attention: CS2D does not check if equal timers already exist. It will just create a new timer whenever you call the timer command. This can lead to multiple exactly equal timers.
+--
+-- Sample 1: Executing a function once with 5 secs delay and without parameter
+-- timer(5000,"dothislater")
+-- function dothislater()
+--    msg("This text is displayed 5 seconds after using timer")
+-- end
+--
+--
+-- Sample 2: Executing a function 10 times with a 1 second delay
+-- timer(1000,"tick","",10)
+-- function tick()
+--    msg("*tick*")
+-- end
+--
+--
+-- Sample 3: Delayed execution with parameter
+-- timer(3000,"delayedtext","Hi, this is displayed delayed using a timer")
+-- function delayedtext(text)
+--    msg(text)
+-- end
+--
+--
+-- Sample 4: Using the parse Lua function to execute CS2D commands with delay (note how ' and " are used for string encapsulation!)
+-- timer(1000,"parse",'sv_msg "Server shutdown in 5 secs"')
+-- timer(2000,"parse",'sv_msg "... 4 secs"')
+-- timer(3000,"parse",'sv_msg "... 3 secs"')
+-- timer(4000,"parse",'sv_msg "... 1 sec"')
+-- timer(5000,"parse",'disconnect')
+---@see freetimer to free the timer.
+function timer(interval, callback, param, count) end
+
+-- Creates an alpha fade tween which changes the transparency of an image (with the specified identifier). The image will have the given alpha transparency value after the given time!
+--
+-- Note: Alpha ranges from 0.0 (totally invisible) to 1.0 (completely opaque)
+-- Note: Time in ms (milliseconds, 1000 ms = 1 sec)
+function tween_alpha(img_id, milliseconds, alpha) end
+
+-- Creates an animation tween which changes the frame of the spritesheet image with the specified id constantly.
+-- The speed defines how many milliseconds each frame should be displayed.
+--
+-- You can also specify an animation mode:
+-- > 0 - Loop Forward (play from current frame to last frame and then continue at first frame)
+--
+-- > 1 - Loop Backward (play from current frame to first frame and then continue at last frame)
+--
+-- > 2 - Ping Pong Forward (play forward to last frame and then backward to first frame etc.)
+--
+-- > 3 - Ping Pong Backward (play backward to first frame and then forward to last frame etc.)
+--
+-- > 4 - Random (an entirely random frame is displayed every speed milliseconds)
+--
+--
+-- The tween stays active until another tween_animate or tween_frame is applied to the same image.
+--
+-- Note: The used image must be a loaded as spritesheet image with the image-command so it has multiple frames!
+-- Note: Speed in ms (milliseconds, 1000 ms = 1 sec)
+function tween_animate(img_id, milliseconds, mode) end
+
+---@deprecated
+--- **Deprecated**: This function is now replaced by `tween_colour`.
+--- Use `tween_colour` instead to tween change the colour of an image.
+function tween_color(img_id, milliseconds, r, g, b) end
+
+-- Creates a colour fade tween which changes the colour of an image (with the specified identifier). The image will have the given colour after the given time (use a colourpicker to get the values)!
+-- https://www.google.com/search?q=colourpicker
+--
+-- Note: r, g and b (red, green and blue) range from 0 (dark) to 255 (bright)
+-- Note: Time in ms (milliseconds, 1000 ms = 1 sec)
+function tween_colour(img_id, milliseconds, r, g, b) end
+
+-- Creates a frame animation tween which changes the frame of a spritesheet image (with the specified identifier). The image will have the given frame after the given time.
+--
+-- Note: The used image must be a loaded as spritesheet image with the image-command so it has multiple frames!
+-- Note: Time in ms (milliseconds, 1000 ms = 1 sec)
+-- Attention: The image frame is 0-based for this command. Meaning that the first frame is frame 0 and the last possible frame of an image with N frames is frame number N-1.
+function tween_frame(img_id, milliseconds, frame) end
+
+-- Creates a movement tween which moves the image (with the specified identifier) to x,y in the given time (+rotates it if rot is specified).
+--
+-- Note: Time in ms (milliseconds, 1000 ms = 1 sec)
+function tween_move(img_id, milliseconds, x, y, rot) end
+
+-- Creates a rotation tween which rotates the image (with the specified identifier) to the angle rot in the given time.
+--
+-- Note: Time in ms (milliseconds, 1000 ms = 1 sec)
+function tween_rotate(img_id, milliseconds, rot) end
+
+-- Creates a constant rotation animation which rotates an image (with the specified identifier) permanently (negative speed for counter clockwise rotation)
+--
+-- Note: The rotation doesn't end until another tween with rotation is applied!
+function tween_rotateconstantly(img_id, speed) end
+
+-- Creates a scale tween which changes the size of an image (with the specified identifier). x will be the new width factor and y the new height factor after the given time.
+--
+-- Note: x and y are just factors for the width/height and no absolute values! 1.0 for x and y will display the image in its original size, 0.5 in half the size, 2.0 in double the size and so on. Negative values will mirror the image.
+-- Note: Time in ms (milliseconds, 1000 ms = 1 sec)
+function tween_scale(img_id, milliseconds, x, y) end
+
+-- Shows Lua variables in the Lua main table in the console of CS2D. For debugging purposes only.
+---@see funcs to print all functions.
+function vars() end
