@@ -6,7 +6,7 @@ This project is licensed under the **Creative Commons Attribution-NonCommercial 
 
 -    You are free to:
 
-     -    Share: Copy and redistribute the material in any medium, format, or medium.
+     -    Share: Copy and redistribute the material in any format, or medium.
      -    Adapt: Remix, transform, and build upon the material.
 
 -    You must, however, give appropriate credit (attribution), provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
