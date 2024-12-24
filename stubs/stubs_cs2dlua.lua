@@ -1462,17 +1462,18 @@ function playerammo(p, itemType) end
 ---
 --- **Important Notes**:
 --- * Items like money, health, and ammo are automatically used when collected. They only modify related values (e.g., player money) and never appear in the list of carried items.
---- * This function returns item TYPES, not item instance identifiers. Use `playerammo` to retrieve ammo values for specific carried weapons.
---- * The returned table includes only items equippable in hands and visible in weapon selection. Special items like flags, gas masks, or armours are excluded. Use the `player` command for these items with the relevant parameter.
+--- * This function returns item TYPES, not item instance identifiers. Use [playerammo](lua://playerammo) to retrieve ammo values for specific carried weapons.
+--- * The returned table includes only items equippable in hands and visible in weapon selection. Special items like flags, gas masks, or armours are excluded.
+---   Use the [player](lua://player) command for these items with the relevant parameter.
 ---
 --- **Item Names and Type Identifiers**:
 --- Refer to the [item reference image](https://cs2d.com/img/ref_items.png) for a complete list.
 ---
---- **Examples**:
+--- **Example**:
 --- * List items carried by player 1:
 ---   ```lua
----   local itemlist = playerweapons(1)
----   for _, id in pairs(itemlist) do
+---   local item_list = playerweapons(1)
+---   for _, id in pairs(item_list) do
 ---       print(itemtype(id, "name"))
 ---   end
 ---   ```
@@ -1480,239 +1481,425 @@ function playerammo(p, itemType) end
 --- @param p number The player identifier whose items are being queried.
 ---
 --- @return table: A table of all equippable item types the player carries.
+---
+--- @see playerammo to retrieve ammo values for specific carried weapons.
+--- @see player to receive special items a player may carry.
 function playerweapons(p) end
 
--- Shows "text" in console.
--- You can start "text" with an RGB colour code "\169RRRGGGBBB" to change its colour. (use a colourpicker to get the values)
--- https://www.google.com/search?q=colourpicker
---
--- Sample 1: Showing a text in console
--- print("hello, world")
---
---
--- Sample 2: Showing a red text (note that there is no space behind the colour tag)
--- print("\169255000000This message is red!")
---
---
--- Note: You can prefix the text with "UTF-8:" to pass encoded UTF-8 strings to this function. Use this tool to encode strings!
--- https://mothereff.in/utf-8
+--- Prints a string to the console.
+---
+--- **Colouring the Message**:
+--- * Start `text` with an RGB colour code (`"\169RRRGGGBBB"`) to change its colour.
+---   - Example: `"\169255000000This message is red!"` (displays a red message).
+---   - Use [this colour picker](https://www.google.com/search?q=colourpicker) to get the RGB values.
+---
+--- **UTF-8 Encoding**:
+--- * Prefix `text` with `"UTF-8:"` to pass encoded UTF-8 strings to this function.
+---   - Use [this tool](https://mothereff.in/utf-8) to encode strings.
+---
+--- **Examples**:
+--- * Show a text in the console:
+---   ```lua
+---   print("hello, world")
+---   ```
+--- * Show a red text in the console (no space after the colour code):
+---   ```lua
+---   print("\169255000000This message is red!")
+---   ```
+---
+--- @param text string The text to display in the console. Supports colour codes and UTF-8 encoding.
+---
+--- @see msg to print messages to the chat instead.
+--- @see msg2 to print messages to the chat instead.
 function print(text) end
 
--- Returns a value of a projectile (projectiles are grenades and most stuff launched by weapons which is visible for multiple frames. Regular bullets are NO projectiles though):
---
--- > exists: boolean, true if projectile with this identifier exists, false otherwise
---
--- > type: internal type identifier (equal to the identifiers of the corresponding weapons)
--- > x: current x position on map (in pixels)
---
--- > y: current y position on map (in pixels)
---
--- > dir: current flight direction
---
--- > rot: current rotation angle (just for the visual effect)
---
--- > flydist: distance in pixel this projectile will fly (relevant for flying projectiles)
---
--- > time: countdown in seconds until object will be removed (relevant for ground projectiles)
---
---
--- Note: Projectiles are managed in two lists: "flying" and "ground"! "flying" holds all projectiles which are currently flying. "ground" holds the projectiles which are idle on the ground.
--- Note: Projectiles in the ground list never move even if their values (like "flydist") might indicate something else!
--- Note: Server projectile values and actual client values can be different due to internet lag and latency!
--- Note: There is no projectile(0,"table") as it is common for comparable commands! Use the command "projectilelist" instead!
--- Attention: There can be multiple projectiles with the same identifier (each player has its own projectile identifier-space)! That's why you have to specify the identifier and the player because only the combination of those two values is unique and therefore suited to address a certain unique projectile
+--- Returns a value of a projectile (e.g., grenades and objects launched by weapons visible for multiple frames).
+--- Regular bullets are NOT considered projectiles.
+---
+--- **Available Values**:
+--- * `exists`: `boolean`, `true` if the projectile exists, `false` otherwise.
+--- * `type`: Internal type identifier (matches the weapon's corresponding identifier).
+--- * `x`, `y`: Current `X` and `Y` positions on the map (in pixels).
+--- * `dir`: Current flight direction.
+--- * `rot`: Current rotation angle (used for visual effects only).
+--- * `flydist`: Distance (in pixels) the projectile will fly (applies to flying projectiles).
+--- * `time`: Countdown (in seconds) until the projectile is removed (applies to ground projectiles).
+---
+--- **Important Notes**:
+--- * Projectiles are managed in two lists:
+---   - "flying": Contains projectiles currently in flight.
+---   - "ground": Contains idle projectiles on the ground (do not move even if their values suggest otherwise).
+--- * Server projectile values might differ from client values due to internet lag and latency.
+--- * There is no `projectile(0, "table")` command. Use (projectilelist)[lua://projectilelist] instead.
+--- * Projectiles can have duplicate identifiers because each player has their own identifier space. Always specify both `projectileID` and `p` to uniquely identify a projectile.
+---
+--- **Example**:
+--- * Retrieve and print a projectile's type:
+---   ```lua
+---   local projType = projectile(1, 2, "type")
+---   print("Projectile Type: " .. projType)
+---   ```
+---
+--- @param projectileID number Identifier of the projectile.
+--- @param p number Identifier of the player associated with the projectile.
+--- @param value string The property to retrieve (e.g., `"exists"`, `"x"`, `"type"`).
+---
+--- @return any PROPERTY The requested property value or `nil` if the projectile does not exist.
+---
+--- @see projectilelist for a list of projectiles.
 function projectile(projectileID, p, value) end
 
--- Returns a list (Lua table) containing projectile key data (identifiers and parent player) of all flying or ground projectiles. You can also limit the output to the projectiles of a certain player (player=0 is default and will list projectiles of all players).
--- The list parameter can either be 0 (default) for all flying projectiles or 1 for all ground projectiles.
---
--- Use a "for"-loop and "in pairs" of Lua to process the resulting list properly!
---
--- Sample 1: Iterating over list (flying projectiles of all players) using in pairs
--- local list=projectilelist(0,0)
--- for _,p in pairs(list) do
---    print("projectile with identifier "..p.id.." of player "..p.player..") - "..projectile(p.id,p.player,"type"))
--- end
---
---
--- Note: The resulting "list" is actually a Lua table with one sub Lua table per projectile in it. The sub tables have the fields/indices "id" and "player" which contain the identifier and the player who launched the projectile
--- Attention: There can be multiple projectiles with the same identifier (each player has its own projectile identifier-space)! That's why you have to specify the identifier and the player because only the combination of those two values is unique and therefore suited to address a certain unique projectile
+--- Returns a value of a projectile (e.g., grenades and objects launched by weapons visible for multiple frames).
+--- Regular bullets are NOT considered projectiles.
+---
+--- **Available Values**:
+--- * `exists`: `boolean`, `true` if the projectile exists, `false` otherwise.
+--- * `type`: Internal type identifier (matches the weapon's corresponding identifier).
+--- * `x`, `y`: Current x and y positions on the map (in pixels).
+--- * `dir`: Current flight direction.
+--- * `rot`: Current rotation angle (used for visual effects only).
+--- * `flydist`: Distance (in pixels) the projectile will fly (applies to flying projectiles).
+--- * `time`: Countdown (in seconds) until the projectile is removed (applies to ground projectiles).
+---
+--- **Important Notes**:
+--- * Projectiles are managed in two lists:
+---   - "flying": Contains projectiles currently in flight.
+---   - "ground": Contains idle projectiles on the ground (do not move even if their values suggest otherwise).
+--- * Server projectile values might differ from client values due to internet lag and latency.
+--- * There is no `projectile(0, "table")` command. Use `projectilelist` instead.
+--- * Projectiles can have duplicate identifiers because each player has their own identifier space. Always specify both `projectileID` and `p` to uniquely identify a projectile.
+---
+--- **Examples**:
+--- * Retrieve and print a projectile's type:
+---   ```lua
+---   local projType = projectile(1, 2, "type")
+---   print("Projectile Type: " .. projType)
+---   ```
+---
+--- @param projectileID number Identifier of the projectile.
+--- @param p number Identifier of the player associated with the projectile.
+--- @param value string The property to retrieve (e.g., "exists", "x", "type").
+---
+--- @return any The requested property value or `nil` if the projectile does not exist.
+function projectile(projectileID, p, value) end
+
+--- Returns a list (*Lua table*) containing projectile key data (identifiers and parent player) of all flying or ground projectiles.
+--- You can also limit the output to projectiles of a specific player (`player=0` lists projectiles of all players).
+---
+--- **Parameters**:
+--- * `list` (number): `0` (default) for flying projectiles or `1` for ground projectiles.
+--- * `p` (number): Player identifier (*optional*). Defaults to `0` to include projectiles from all players.
+---
+--- **Important Notes**:
+--- * The resulting `list` is a Lua table with one sub-table per projectile. Each sub-table contains:
+---   - `id`: The projectile identifier.
+---   - `player`: The player who launched the projectile.
+--- * There can be multiple projectiles with the same identifier, as each player has their own identifier space. Use both `id` and `player` for unique identification.
+---
+--- **Example**:
+--- * Iterate over a list of all flying projectiles:
+---   ```lua
+---   local list = projectilelist(0, 0)
+---   for _, p in pairs(list) do
+---       print("Projectile with ID " .. p.id .. " from player " .. p.player .. " - Type: " .. projectile(p.id, p.player, "type"))
+---   end
+---   ```
+---
+--- @param list number Specify `0` for flying projectiles or `1` for ground projectiles.
+--- @param p number Player identifier to filter projectiles (optional, defaults to `0`).
+---
+--- @return table PROJECTILES A table of projectiles, each containing `id` and `player` fields.
 function projectilelist(list, p) end
 
--- Returns the tile x and y position (2 values!) of a random entity of a certain type or -100,-100 if no entity has been found.
--- Use AI-State to only find entities with this AI state (-1 or omit to ignore the AI-state).
--- Use int0 to only find entities with this int0 value (-1 or omit to ignore the int0 value).
---
--- Sample 1: Find a random terrorist spawnpoint (entity type 0)
--- x,y=randomentity(0)
--- print("T spawn @ "..x..","..y)
---
---
--- Note: This command is very useful for AI Lua scripts (bots).
--- Note: The AI-state of an entity can be changed with setentityaistate.
--- Note: The int0 value is useful to find Info_CTF_Flag entities belonging to a certain team or Info_Dom_Point entities with a certain state.
--- Attention: Does NOT work with Env_Decal entities!
+--- Returns the tile `X` and `Y` position of a random entity of a specific type, or `-100, -100` if none is found.
+--- Optionally filter by AI state or `int0` value.
+---
+--- **Parameters**:
+--- * `type` (number): The entity type to search for.
+--- * `ai_state` (number): AI state to filter entities (`-1` to ignore, optional).
+--- * `int0` (number): `int0` value to filter entities (`-1` to ignore, optional).
+---
+--- **Important Notes**:
+--- * This command is useful for AI scripts (e.g., bots).
+--- * The AI state of an entity can be modified with [setentityaistate](lua://setentityaistate).
+--- * Use `int0` to find specific entities like `Info_CTF_Flag` for a team or `Info_Dom_Point` with a specific state.
+--- * Does NOT work with `Env_Decal` entities.
+---
+--- **Example**:
+--- * Find a random terrorist spawn point:
+---   ```lua
+---   local x, y = randomentity(0)
+---   print("Terrorist spawn at: " .. x .. ", " .. y)
+---   ```
+---
+--- @param type number The entity type to search for.
+--- @param ai_state number AI state to filter by (`-1` to ignore, optional).
+--- @param int0 number `int0` value to filter by (`-1` to ignore, optional).
+---
+--- @return number, number The tile x and y positions of the entity, or `-100, -100` if none is found.
+---
+--- @see entity to view an entity's properties.
+--- @see entitylist to retrieve the list of entities.
 function randomentity(type, ai_state, int0) end
 
--- Returns the tile x and y position (2 values!) of a random living and unused (not following anyone) hostage. Returns -100,-100 if no hostage has been found. Set unused to 0 if you want to get used hostages as well!
---
--- Note: The returned position is in tiles, NOT in pixels!
---
--- Note: Returns 2 values, see example!
---
--- Sample 1: Getting the position of a random hostage
--- x,y=randomhostage()
+--- Returns the tile `X` and `Y` position of a random living and unused hostage.
+--- Returns `-100, -100` if no hostage is found.
+---
+--- **Parameters**:
+--- * `unused` (number): Set to `0` to include used hostages, or `1` to exclude them (default).
+---
+--- **Important Notes**:
+--- * The returned position is in tiles, not pixels.
+--- * Returns two values: `X` and `Y`.
+---
+--- **Example**:
+--- * Get the position of a random hostage:
+---   ```lua
+---   local x, y = randomhostage(1)
+---   print("Hostage at: " .. x .. ", " .. y)
+---   ```
+---
+--- @param unused number Set to `0` to include used hostages or `1` to exclude them.
+---
+--- @return number, number POSITION The tile `X` and `Y` positions of the hostage, or `-100, -100` if none is found.
 function randomhostage(unused) end
 
---- Removes all Lua key binds (see addbind). This will entirely disable all additional network traffic caused by key binds and the key-hook won't be called anymore.
+--- Removes all Lua key binds added via [addbind](lua://addbind).
+--- This disables all additional network traffic caused by key binds, and the key-hook will no longer be called.
 ---
---- **Note:** If you only want to remove a specific bind use removebind instead.
---- **Note:** Since key binds cause additional network traffic, it's highly recommended to remove all binds that you don't need/use actively!
+--- **Important Notes**:
+--- * Use [removebind](lua://removebind) to remove specific binds instead of all.
+--- * Since key binds cause additional network traffic, it's recommended to remove any unused binds.
 ---
----@see addbind to add a bind.
+--- **Example**:
+--- * Remove all binds:
+---   ```lua
+---   removeallbinds()
+---   ```
+---
+--- @see addbind to add a bind.
+--- @see removebind to remove a bind.
 function removeallbinds() end
 
--- Removes a specific Lua key bind. They key must have been added beforehand with addbind.
--- Returns 1 if the bind was removed, 0 if the bind did not exist.
---
--- Valid key names:
--- > Numeric keys: "0", "1" ... "9"
---
--- > Alphabetic keys: "A", "B", ... "Z"
---
--- > Function keys: "F1", "F2", ... "F12"
---
--- > Mouse: "mouse1" (left click), "mouse2" (right click), "mouse3" (middle click), "mwheelup", "mwheeldown" (scrolling)
---
--- > Special/Modifier keys: "leftshift", "rightshift", "leftctrl", "rightctrl", "leftalt", "rightalt", "leftsys", "rightsys"
---
--- > Arrow keys: "leftarrow", "rightarrow", "uparrow", "downarrow"
---
--- > Others: "backspace", "tab", "clear", "enter", "escape", "space", "pgup", "pgdn", "end", "home", "select", "print", "execute", "screen", "ins", "del"
---
--- > Numpad/keypad: Same as above with "kp_" prefix. e.g. "kp_leftarrow", "kp_home", "kp_ins" etc., "kp_5" for centre button
---
---
--- Note: Since key binds cause additional network traffic, it's highly recommended to remove all binds that you don't need/use actively!
--- Note: You can also remove all existing binds at once use removeallbinds
--- Attention: Adding/removing key binds also causes network traffic. So if the same key bind will be required again later it might make sense to keep it instead of removing it and adding it again later.
----@see addbind to add a bind.
+--- Removes a specific Lua key bind. The key must have been added beforehand with [addbind](lua://addbind).
+---
+--- **Important Notes**:
+--- * Removing or adding key binds causes additional network traffic. If the same key bind will be required again, consider keeping it instead of removing and re-adding it.
+--- * Use [removeallbinds](lua://removeallbinds) to remove all binds at once if necessary.
+---
+--- **Example**:
+--- * Remove a specific key bind:
+---   ```lua
+---   removebind("F1")
+---   ```
+---
+--- **Parameters**:
+--- @param key string The name of the key to remove.
+--- > Valid key names:
+--- > * Numeric keys: `'0'`, `'1'`, ... `'9'`
+--- > * Alphabetic keys: `'A'`, `'B'`, ... `'Z'`
+--- > * Function keys: `"F1"`, `"F2"`, ... `"F12"`
+--- > * Mouse: `"mouse1"` (left click), `"mouse2"` (right click), `"mouse3"` (middle click), `"mwheelup"`, `"mwheeldown"` (scrolling)
+--- > * Special/Modifier keys: `"leftshift"`, `"rightshift"`, `"leftctrl"`, `"rightctrl"`, `"leftalt"`, `"rightalt"`, `"leftsys"`, `"rightsys"`
+--- > * Arrow keys: `"leftarrow"`, `"rightarrow"`, `"uparrow"`, `"downarrow"`
+--- > * Others: `"backspace"`, `"tab"`, `"clear"`, `"enter"`, `"escape"`, `"space"`, `"pgup"`, `"pgdn"`, `"end"`, `"home"`, `"select"`, `"print"`, `"execute"`, `"screen"`, `"ins"`, `"del"`
+--- > * Numpad/keypad: Same as above with `kp_` prefix, e.g., `"kp_leftarrow"`, `"kp_home"`, `"kp_ins"`, `"kp_5"` for the centre button.
+---
+--- @return number `1` if the bind was removed, `0` if the bind did not exist.
+---
+--- @see addbind to add a bind.
+--- @see removeallbinds to remove all binds.
 function removebind(key) end
 
--- reqcld is short for "request client data". This command requests data from a single player client (id=player id) or from all clients (id=0).
---
--- Mode specifies which data the server will receive:
---
--- > Mode 0: Cursor position (cursor position on screen in pixels, scaled based on mp_hudscale)
--- > Deprecated: It is recommended to use player with parameters "mousex"/"mousey" instead!
---
--- > Mode 1: Map scrolling (scrolling offset in pixels)
---
--- > Mode 2: Absolute cursor position (cursor position on map in pixels, NOT influenced by mp_hudscale)
--- > Deprecated: It is recommended to use player with parameters "mousemapx"/"mousemapy" instead!
---
--- > Mode 3: 1 if the client has the advanced light engine enabled, 0 otherwise (second value always 0)
---
--- > Mode 4: 1 if the file specified with parameter (file path relative to the CS2D folder) has been loaded, 0 otherwise; checksum of the file (only if the file is under gfx/ or sfx/) as provided by checksumfile
---
--- > Mode 5: Mod info
---
--- > Mode 6: 1 if the client has 3D rendering (render3d) enabled, 0 otherwise (second value always 0)
---
---
--- The last parameter is not required for all modes. For some modes (mode 4) it is crucial though. Please read the descriptions of the modes to learn when and how it is used.
---
--- The requested data will be received with a delay. This is because it is sent over the network. You have to use the clientdata-hook to handle the incoming data!
---
--- Note: reqcld-data is guaranteed to arrive (unless the client is unreachable).
--- Note: The last parameter is optional and only required/used by some of the modes.
--- Note: mode 0 / mode 2: Please check if you can use the player Lua command instead. It allows you to get "mousex"/"mousey" or "mousemapx"/"mousemapy" as well without causing additional network traffic!
--- Attention: This command uses reliable UDP packets. Using it too frequently might lead to lags or ping spikes!
--- Attention: Keep in mind that all values sent by the client might be manipulated by hacks or other software. You can't trust them 100%!
+--- Requests data from a single player client or all clients.
+--- The [reqcld](lua://reqcld) function requests specific types of data from a player client, identified by their ID (`p`).
+---
+--- **Modes**:
+--- * `0`: Cursor position on screen (in pixels, scaled based on `mp_hudscale`).
+---   - **Deprecated**: Use `player` with "mousex"/"mousey" instead.
+--- * `1`: Map scrolling offset (in pixels).
+--- * `2`: Absolute cursor position on the map (in pixels, not influenced by `mp_hudscale`).
+---   - **Deprecated**: Use `player` with "mousemapx"/"mousemapy" instead.
+--- * `3`: Advanced light engine state (`1` if enabled, `0` otherwise; second value is always `0`).
+--- * `4`: File load status and checksum.
+---   - Returns `1` if the file (specified with `param`) is loaded, `0` otherwise.
+---   - If the file is under `gfx/` or `sfx/`, also returns the checksum as provided by `checksumfile`.
+--- * `5`: Mod information.
+--- * `6`: 3D rendering state (`1` if enabled, `0` otherwise; second value is always `0`).
+---
+--- **Parameters**:
+--- * `p` (number): Player ID (`0` for all players).
+--- * `mode` (number): Mode specifying the type of data to request.
+--- * `param` (string): Optional. Required for certain modes (e.g., mode `4` for file paths).
+---
+--- **Important Notes**:
+--- * The requested data is sent over the network and will be received with a delay. Use the `clientdata` hook to handle the incoming data.
+--- * Modes `0` and `2` are deprecated. Consider using the [player](lua://player) command to avoid additional network traffic.
+--- * This function uses reliable UDP packets. Frequent usage might cause lags or ping spikes.
+--- * All values sent by the client can potentially be manipulated by external software. Validate client-provided data accordingly.
+---
+--- **Examples**:
+--- * Request the cursor position on the map:
+---   ```lua
+---   reqcld(1, 2)
+---   ```
+--- * Check if a specific file is loaded:
+---   ```lua
+---   reqcld(1, 4, "gfx/sprites/example.png")
+---   ```
+---
+--- @param p number Player ID (`0` for all players).
+--- @param mode number Mode specifying the data type to request.
+--- @param param? string Optional parameter required for some modes.
+---
+--- @see player to retrieve immediate data.
 function reqcld(p, mode, param) end
 
--- reqhttp is short for "request HTTP". HTTP is used to request data from web pages / web services.
---
--- "url" = The domain name or IP e.g. "cs2d.com"
---
--- "path" = The relative path of the thing you want to request, normally starting with a backslash. E.g. "/index.php"
---
--- mode = Controls how you want to receive the result. 0 for a plain string, 1 for a byte array (Lua table with numbers).
---
--- The requested data will be received with a delay. This is because it is sent over the network. You have to use the httpdata-hook to handle the incoming data!
---
--- The command will return a unique identifier for the request. The same identifier will be passed to the httpdata-hook so you can match request and response.
---
--- Attention: Many/big HTTP requests can influence the performance of the server in a negative way and can lead to ping spikes for connected players. Use with care!
+--- Sends an HTTP request to a specified URL and path.
+---
+--- The [reqhttp](lua://reqhttp) function retrieves data from web pages or web services, with the response handled via the `httpdata` hook.
+---
+--- **Parameters**:
+--- * `url` (string): The domain name or IP address (e.g., `"cs2d.com"`).
+--- * `path` (string): The relative path of the resource, starting with a backslash (e.g., `"/index.php"`).
+--- * `mode` (number): Specifies the response format:
+---   - `0`: Plain string.
+---   - `1`: Byte array (Lua table with numbers).
+---
+--- **Important Notes**:
+--- * The response data is received with a delay, as it is sent over the network. Use the `httpdata` hook to process it.
+--- * The function returns a unique identifier for the request, which is passed to the `httpdata` hook for matching requests with responses.
+--- * Excessive or large HTTP requests can negatively impact server performance and cause ping spikes. Use sparingly.
+---
+--- **Example**:
+--- * Request the homepage of cs2d.com:
+---   ```lua
+---   reqhttp("cs2d.com", "/index.php", 0)
+---   ```
+---
+--- @param url string The domain name or IP address.
+--- @param path string The relative path of the resource.
+--- @param mode number The response format (`0` for string, `1` for byte array).
+---
+--- @return number REQ_ID The unique request identifier.
 function reqhttp(url, path, mode) end
 
--- Sets the AI state value of the entity at tile position (`X`|`Y`). The AI state of each entity is automatically set to 0 on each round start.
--- CS2D does not actively use the AI state and you can set it to any number value you want.
--- It's commonly used in AI scripts (bots) only.
--- e.g.: when a bomb has been planted, bots can mark a bomb spot as checked ("bomb is not here") using the AI state. This can be used to prevent that the same spot is checked again.
---
--- Note: The AI state of an entity is especially useful in AI scripts in conjunction with randomentity!
--- Attention: You shouldn't use this command in server or map scripts. It's meant to be used in AI scripts only. Using it somewhere else might lead to problems with bots! Of course you can ignore this warning if you don't use bots or if you use custom bot scripts which do not rely on the AI state.
+--- Sets the AI state value of an entity at a specified tile position.
+---
+--- The AI state is automatically reset to `0` at the start of each round. This value is used primarily in AI scripts (e.g., for bots).
+---
+--- **Parameters**:
+--- * `tx` (number): Tile `X`-position of the entity.
+--- * `ty` (number): Tile `Y`-position of the entity.
+--- * `ai` (number): The AI state value to set (customizable).
+---
+--- **Important Notes**:
+--- * Avoid using this command in server or map scripts, as it is designed for AI scripts. Misuse can cause issues with bots.
+--- * Common use cases include marking bomb spots or areas that bots have already checked.
+--- * Works well with [randomentity](lua://randomentity) for AI-based logic.
+---
+--- **Example**:
+--- * Set AI state for a tile:
+---   ```lua
+---   setentityaistate(5, 10, 1)
+---   ```
+---
+--- @param tx number The tile `X`-position of the entity.
+--- @param ty number The tile `Y`-position of the entity.
+--- @param ai number The AI state value to assign.
+---
+--- @see randomentity to retrieve a random entity.
 function setentityaistate(tx, ty, ai) end
 
--- Enables(1)/Disables(0) a hook completely. A disabled hook does not execute the attached Lua functions anymore.
+--- Enables or disables a hook.
+---
+--- **Parameters**:
+--- * `hook` (string): The name of the hook to enable or disable.
+--- * `state` (number): `1` to enable, `0` to disable.
+---
+--- **Examples**:
+--- * Disable the "clientdata" hook:
+---   ```lua
+---   sethookstate("clientdata", 0)
+---   ```
+--- * Enable the "join" hook:
+---   ```lua
+---   sethookstate("join", 1)
+---   ```
+---
+--- @param hook string The name of the hook.
+--- @param state number `1` to enable, `0` to disable.
 function sethookstate(hook, state) end
 
--- Returns stats for a U.S.G.N. account identifier:
---
--- > exists: boolean, true if stats for that U.S.G.N. identifier are available, false otherwise
---
--- > rank: gets the current rank of the player on the server 1 for the best (0 if unranked)
---
--- > killsperdeath: returns the kills per death ratio (equation: kills/deaths)
---
--- > score: score value (sum of map mission goal score and frags)
---
--- > frags: number of kills
---
--- > deaths: number of deaths
---
--- > secs: time spent on server in seconds (only time while being in a team is counted, time as spectator is ignored)
---
--- > mvp: number of rounds this player was the most valuable player
---
--- > assists: number of kill assists
---
---
---
--- The command returns the boolean value false if stats are not available for the specified U.S.G.N. identifier or if wrong parameters are specified.
---
--- Note: There's also steamstats which is the same but works with the Steam identifier instead of the U.S.G.N. identifier as identifier.
--- Note: Different stats or no stats might be available via the stats or steamstats commands. This depends on the login behaviour of the player.
-function stats(usgnid, value) end
+--- Returns stats for a U.S.G.N. account identifier.
+---
+--- Retrieves various statistics for a specific U.S.G.N. identifier, such as rank, kills, and time spent on the server.
+---
+--- **Available Values**:
+--- * `exists`: `boolean`, `true` if stats for the U.S.G.N. identifier are available, `false` otherwise.
+--- * `rank`: Current rank of the player on the server (`1` for the best, `0` if unranked).
+--- * `killsperdeath`: Kills per death ratio (calculated as `kills / deaths`).
+--- * `score`: Total score (sum of map mission goal score and frags).
+--- * `frags`: Number of kills.
+--- * `deaths`: Number of deaths.
+--- * `secs`: Time spent on the server in seconds (only counts time while in a team, excludes time as spectator).
+--- * `mvp`: Number of rounds where the player was the most valuable player.
+--- * `assists`: Number of kill assists.
+---
+--- **Important Notes**:
+--- * Returns `false` if stats are not available for the specified U.S.G.N. identifier or if invalid parameters are provided.
+--- * Similar stats may be available using [steamstats](lua://steamstats) for Steam identifiers instead of U.S.G.N. identifiers.
+--- * Stats availability depends on the player's login behaviour.
+---
+--- **Example**:
+--- * Retrieve the kills per death ratio for a U.S.G.N. account:
+---   ```lua
+---   local kdr = stats(12345, "killsperdeath")
+---   print("Kills per death: " .. kdr)
+---   ```
+---
+--- @param usgn_id number The U.S.G.N. identifier.
+--- @param value string The stat to retrieve (e.g., "killsperdeath", "score").
+---
+--- @return any STAT The requested stat value, or `false` if not available.
+---
+--- @see steamstats for Steam stats.
+function stats(usgn_id, value) end
 
--- Returns stats for a Steam account identifier (provided as string):
---
--- > exists: boolean, true if stats for that Steam identifier are available, false otherwise
---
--- > rank: gets the current rank of the player on the server 1 for the best (0 if unranked)
---
--- > killsperdeath: returns the kills per death ratio (equation: kills/deaths)
---
--- > score: score value (sum of map mission goal score and frags)
---
--- > frags: number of kills
---
--- > deaths: number of deaths
---
--- > secs: time spent on server in seconds (only time while being in a team is counted, time as spectator is ignored)
---
--- > mvp: number of rounds this player was the most valuable player
---
--- > assists: number of kill assists
---
---
---
--- The command returns the boolean value false if stats are not available for the specified Steam identifier or if wrong parameters are specified.
---
--- Note: There's also stats which is the same but works with the U.S.G.N. identifier instead of the Steam identifier as identifier.
--- Note: Different stats or no stats might be available via the stats or steamstats commands. This depends on the login behaviour of the player.
-function steamstats(steamid, value) end
+--- Returns stats for a Steam account identifier.
+---
+--- Retrieves various statistics for a specific Steam identifier, such as rank, kills, and time spent on the server.
+---
+--- **Available Values**:
+--- * `"exists"`: `boolean`, `true` if stats for the Steam identifier are available, `false` otherwise.
+--- * `"rank"`: Current rank of the player on the server (`1` for the best, `0` if unranked).
+--- * `"killsperdeath"`: Kills per death ratio (calculated as `kills / deaths`).
+--- * `"score"`: Total score (sum of map mission goal score and frags).
+--- * `"frags"`: Number of kills.
+--- * `"deaths"`: Number of deaths.
+--- * `"secs"`: Time spent on the server in seconds (only counts time while in a team, excludes time as spectator).
+--- * `"mvp"`: Number of rounds where the player was the most valuable player.
+--- * `"assists"`: Number of kill assists.
+---
+--- **Important Notes**:
+--- * Returns `false` if stats are not available for the specified Steam identifier or if invalid parameters are provided.
+--- * Similar stats may be available using [stats](lua://stats) for U.S.G.N. identifiers instead of Steam identifiers.
+--- * Stats availability depends on the player's login behaviour.
+---
+--- **Example**:
+--- * Retrieve the total score for a Steam account:
+---   ```lua
+---   local score = steamstats("STEAM_0:1:12345678", "score")
+---   print("Total score: " .. score)
+---   ```
+---
+--- @param steam_id string The Steam identifier (as a string).
+--- @param value string The stat to retrieve (e.g., "killsperdeath", "score").
+---
+--- @return any STAT The requested stat value, or `false` if not available.
+---
+--- @see stats for U.S.G.N. stats.
+function steamstats(steam_id, value) end
 
 -- Returns a value of the tile at the tile position (`X`|`Y`):
 --
