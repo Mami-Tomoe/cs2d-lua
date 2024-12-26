@@ -46,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Optionally, display a message to the user about this change
 	vscode.window.showInformationMessage(
-		'CS2D Lua documentation loaded for Sumneko!\nHappy scripting! ~MT'
+		'CS2D Lua documentation loaded for `Sumneko.lua`!\nHappy scripting! ~MT'
 	);
 }
 
