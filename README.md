@@ -5,6 +5,13 @@ Easily access function signatures, detailed comments, and more to streamline you
 
 ## Credits
 
+# This project was made possible thanks to:
+
+-    Mami Tomoe (([#99153](https://www.unrealsoftware.de/profile.php?userid=99153)) - Author of the project.
+-    Margineanu65 ([#187522](https://www.unrealsoftware.de/profile.php?userid=187522)) - Co-author of the project.
+-    Gaios ([#18271](https://www.unrealsoftware.de/profile.php?userid=18271)) - Donating a sample of their own personal stubs project.
+-    TrialAndError ([#129440](https://www.unrealsoftware.de/profile.php?userid=129440)) - Donating a sample of their own personal stubs project.
+-    [ChatGPT](https://chatgpt.com/) - Did a lot of the repetitive tasks.
 -    Extension's icon was sourced from: [Lua icons created by IconMarketPK - Flaticon](https://www.flaticon.com/free-icons/lua)
 
 ## Features
@@ -12,9 +19,9 @@ Easily access function signatures, detailed comments, and more to streamline you
 -    Provides function definitions for CS2D Lua functions.
 -    Provides documentation for CS2D Lua functions.
 -    Uses `Sumneko.lua` to provide helpful instructions on how to use the various CS2D Lua functions, such as:
-     > -    Required parameters.
-     > -    Optional parameters.
-     > -    Return values.
+     -    Required parameters.
+     -    Optional parameters.
+     -    Return values.
 -    Expands on related CS2D Lua functions to the one currently being used (if applicable).
 
 <!-- For example if there is an image subfolder under your extension project workspace:

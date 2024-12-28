@@ -2,6 +2,16 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.0.7]
+
+### Changed
+
+-    Updated `README.md`.
+
+## Removed
+
+-    `CREDITS.md`
+
 ## [0.0.6]
 
 ### Added
