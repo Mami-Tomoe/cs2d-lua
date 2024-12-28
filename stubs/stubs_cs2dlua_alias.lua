@@ -1,0 +1,699 @@
+--- @meta stubs_cs2dlua_alias
+
+--- Numeric keys [`0`-`9`] that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_numeric
+--- | 0
+--- | 1
+--- | 2
+--- | 3
+--- | 4
+--- | 5
+--- | 6
+--- | 7
+--- | 8
+--- | 9
+
+--- Alphabetic keys [`A`-`Z`] that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_alphabetic
+--- | 'A'
+--- | 'B'
+--- | 'C'
+--- | 'D'
+--- | 'E'
+--- | 'F'
+--- | 'G'
+--- | 'H'
+--- | 'I'
+--- | 'J'
+--- | 'K'
+--- | 'L'
+--- | 'M'
+--- | 'N'
+--- | 'O'
+--- | 'P'
+--- | 'Q'
+--- | 'R'
+--- | 'S'
+--- | 'T'
+--- | 'U'
+--- | 'V'
+--- | 'W'
+--- | 'X'
+--- | 'Y'
+--- | 'Z'
+
+--- Function keys [`F1`-`F12`] that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_function
+--- | "F1"
+--- | "F2"
+--- | "F3"
+--- | "F4"
+--- | "F5"
+--- | "F6"
+--- | "F7"
+--- | "F8"
+--- | "F9"
+--- | "F10"
+--- | "F11"
+--- | "F12"
+
+--- Mouse buttons that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_mouse
+--- | "mouse1" # Left Click.
+--- | "mouse2" # Right Click.
+--- | "mouse3" # Middle Click.
+--- | "mwheelup" # Mouse Wheel Up.
+--- | "mwheeldown" # Mouse Wheel Down.
+
+--- System keys that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_special
+--- | "leftshift" # Left Shift.
+--- | "rightshift" # Right Shift.
+--- | "leftctrl" # Left Control.
+--- | "rightctrl" # Right Control.
+--- | "leftalt" # Left Alt.
+--- | "rightalt" # Right Alt.
+--- | "leftsys" # Left System.
+--- | "rightsys" # Right System.
+
+--- Arrow keys that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_arrow
+--- | "leftarrow" # ←
+--- | "rightarrow" # →
+--- | "uparrow" # ↑
+--- | "downarrow" # ↓
+
+--- @todo: complete unknown keys.
+--- Miscellaneous keys like that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_misc
+--- | "backspace" # Backspace.
+--- | "tab" # TAB.
+--- | "clear" # Unknown.
+--- | "enter" # Enter/Return.
+--- | "escape" # Escape.
+--- | "space" # Space.
+--- | "pgup" # Page up.
+--- | "pgdn" # Page down.
+--- | "end" # End.
+--- | "home" # Home.
+--- | "select" # Unknown.
+--- | "print" # Unknown, perhaps print screen?
+--- | "execute" # Unknown.
+--- | "screen" # Unknown, perhaps print screen?
+--- | "ins" # Insert.
+--- | "del" # Delete.
+--- | "kp_leftarrow" # Keypad: ←
+--- | "kp_rightarrow" # Keypad: →
+--- | "kp_uparrow" # Keypad: ↑
+--- | "kp_downarrow" # Keypad: ↓
+--- | "kp_home" # Keypad: Home.
+--- | "kp_ins" # Keypad: Insert.
+--- | "kp_0" # Keypad: 0.
+--- | "kp_1" # Keypad: 1.
+--- | "kp_2" # Keypad: 2.
+--- | "kp_3" # Keypad: 3.
+--- | "kp_4" # Keypad: 4.
+--- | "kp_5" # Keypad: 5.
+--- | "kp_6" # Keypad: 6.
+--- | "kp_7" # Keypad: 7.
+--- | "kp_8" # Keypad: 8.
+--- | "kp_9" # Keypad: 9.
+--- | "kp_divide" # Keypad: Divide.
+--- | "kp_multiply" # Keypad: Multiply.
+--- | "kp_del" # Keypad: Delete.
+
+--- All keys that can be used by the [addbind](lua://addbind) function.
+--- @alias bind_key_types
+--- | bind_key_numeric
+--- | bind_key_alphabetic
+--- | bind_key_function
+--- | bind_key_mouse
+--- | bind_key_special
+--- | bind_key_arrow
+--- | bind_key_misc
+
+--- Generic binary value.
+--- @alias binary_value
+--- | 0
+--- | 1
+
+--- List of all possible player number identifiers.
+--- @alias player_id
+--- | 0 # Used by the server instance or when no player is specified.
+--- | 1  # Player carrying identifier number 1.
+--- | 2  # Player carrying identifier number 2.
+--- | 3  # Player carrying identifier number 3.
+--- | 4  # Player carrying identifier number 4.
+--- | 5  # Player carrying identifier number 5.
+--- | 6  # Player carrying identifier number 6.
+--- | 7  # Player carrying identifier number 7.
+--- | 8  # Player carrying identifier number 8.
+--- | 9  # Player carrying identifier number 9.
+--- | 10 # Player carrying identifier number 10.
+--- | 11 # Player carrying identifier number 11.
+--- | 12 # Player carrying identifier number 12.
+--- | 13 # Player carrying identifier number 13.
+--- | 14 # Player carrying identifier number 14.
+--- | 15 # Player carrying identifier number 15.
+--- | 16 # Player carrying identifier number 16.
+--- | 17 # Player carrying identifier number 17.
+--- | 18 # Player carrying identifier number 18.
+--- | 19 # Player carrying identifier number 19.
+--- | 20 # Player carrying identifier number 20.
+--- | 21 # Player carrying identifier number 21.
+--- | 22 # Player carrying identifier number 22.
+--- | 23 # Player carrying identifier number 23.
+--- | 24 # Player carrying identifier number 24.
+--- | 25 # Player carrying identifier number 25.
+--- | 26 # Player carrying identifier number 26.
+--- | 27 # Player carrying identifier number 27.
+--- | 28 # Player carrying identifier number 28.
+--- | 29 # Player carrying identifier number 29.
+--- | 30 # Player carrying identifier number 30.
+--- | 31 # Player carrying identifier number 31.
+--- | 32 # Player carrying identifier number 32.
+
+--- @todo document each command
+-- Console settings that can be executed by the [parse](lua://parse) function.
+--- @alias console_command
+--- | "ah"
+--- | "ak47"
+--- | "alias"
+--- | "aliases"
+--- | "attack"
+--- | "attack2"
+--- | "aug"
+--- | "autobuy"
+--- | "autoscreen"
+--- | "autoswitch"
+--- | "awp"
+--- | "back"
+--- | "banip"
+--- | "banname"
+--- | "bans"
+--- | "bansteam"
+--- | "banusgn"
+--- | "bind"
+--- | "bot"
+--- | "bot_add"
+--- | "bot_add_ct"
+--- | "bot_add_t"
+--- | "bot_autofill"
+--- | "bot_count"
+--- | "bot_freeze"
+--- | "bot_jointeam"
+--- | "bot_keepfreeslots"
+--- | "bot_kill"
+--- | "bot_prefix"
+--- | "bot_remove"
+--- | "bot_remove_all"
+--- | "bot_remove_ct"
+--- | "bot_remove_t"
+--- | "bot_skill"
+--- | "bot_weapons"
+--- | "bullets"
+--- | "buy"
+--- | "buyammo1"
+--- | "buyammo2"
+--- | "buyequip"
+--- | "changelevel"
+--- | "changemap"
+--- | "chooseteam"
+--- | "clear"
+--- | "clientport"
+--- | "close"
+--- | "cmsg"
+--- | "connections"
+--- | "console"
+--- | "copyaddress"
+--- | "customkill"
+--- | "damageobject"
+--- | "damagetile"
+--- | "deagle"
+--- | "deathnoticeimg"
+--- | "deathslap"
+--- | "debug"
+--- | "debugai"
+--- | "debuglog"
+--- | "debuglua"
+--- | "debugstats"
+--- | "defuser"
+--- | "disconnect"
+--- | "dmgindicator"
+--- | "download"
+--- | "drawradar"
+--- | "drop"
+--- | "echo"
+--- | "effect"
+--- | "elite"
+--- | "elites"
+--- | "endround"
+--- | "equip"
+--- | "exec"
+--- | "exit"
+--- | "explosion"
+--- | "famas"
+--- | "flare"
+--- | "flash"
+--- | "flashlight"
+--- | "flashplayer"
+--- | "flashposition"
+--- | "fn57"
+--- | "forward"
+--- | "fowalpha"
+--- | "fowdetails"
+--- | "fps"
+--- | "freeprojectile"
+--- | "g3sg1"
+--- | "galil"
+--- | "glock"
+--- | "gore"
+--- | "grenademode"
+--- | "hegren"
+--- | "hudtxt"
+--- | "hudtxt2"
+--- | "hudtxtalphafade"
+--- | "hudtxtclear"
+--- | "hudtxtcolorfade"
+--- | "hudtxtmove"
+--- | "hud_fastswitch"
+--- | "hud_takesshots"
+--- | "include"
+--- | "invnext"
+--- | "invprev"
+--- | "items"
+--- | "itemshadows"
+--- | "kick"
+--- | "kill"
+--- | "killobject"
+--- | "killplayer"
+--- | "lastinv"
+--- | "left"
+--- | "lefthand"
+--- | "listbans"
+--- | "listplayers"
+--- | "localport"
+--- | "logaddress_add"
+--- | "logaddress_remove"
+--- | "logaddress_removeall"
+--- | "logbatch"
+--- | "logmaxflushrate"
+--- | "logsplit"
+--- | "logstamp"
+--- | "lua"
+--- | "luareset"
+--- | "m249"
+--- | "m3"
+--- | "m4a1"
+--- | "mac10"
+--- | "makect"
+--- | "makespec"
+--- | "maket"
+--- | "map"
+--- | "mapinfo"
+--- | "maps"
+--- | "mapshadows"
+--- | "mapsounds"
+--- | "markplayer"
+--- | "memory"
+--- | "menuselect"
+--- | "menu_lanscanport"
+--- | "mp5"
+--- | "mp_antispeeder"
+--- | "mp_autogamemode"
+--- | "mp_autoteambalance"
+--- | "mp_building_health"
+--- | "mp_building_limit"
+--- | "mp_building_price"
+--- | "mp_buymenu"
+--- | "mp_buytime"
+--- | "mp_c4timer"
+--- | "mp_connectionlimit"
+--- | "mp_curtailedexplosions"
+--- | "mp_damagefactor"
+--- | "mp_deathdrop"
+--- | "mp_dispenser_health"
+--- | "mp_dispenser_money"
+--- | "mp_dmspawnmoney"
+--- | "mp_dropgrenades"
+--- | "mp_flashlight"
+--- | "mp_floodprot"
+--- | "mp_floodprotignoretime"
+--- | "mp_freezetime"
+--- | "mp_grenaderebuy"
+--- | "mp_hostagepenalty"
+--- | "mp_hovertext"
+--- | "mp_hud"
+--- | "mp_hudscale"
+--- | "mp_idleaction"
+--- | "mp_idlekick"
+--- | "mp_idletime"
+--- | "mp_infammo"
+--- | "mp_kevlar"
+--- | "mp_kickpercent"
+--- | "mp_killbuildingmoney"
+--- | "mp_killbuildings"
+--- | "mp_killinfo"
+--- | "mp_killteambuildings"
+--- | "mp_lagcompensation"
+--- | "mp_lagcompensationdivisor"
+--- | "mp_localrconoutput"
+--- | "mp_luamap"
+--- | "mp_luaserver"
+--- | "mp_mapgoalscore"
+--- | "mp_mapvoteratio"
+--- | "mp_maxclientsip"
+--- | "mp_maxrconfails"
+--- | "mp_natholepunching"
+--- | "mp_pinglimit"
+--- | "mp_postspawn"
+--- | "mp_radar"
+--- | "mp_randomspawn"
+--- | "mp_recoil"
+--- | "mp_reservations"
+--- | "mp_respawndelay"
+--- | "mp_roundlimit"
+--- | "mp_roundtime"
+--- | "mp_shotweakening"
+--- | "mp_smokeblock"
+--- | "mp_startmoney"
+--- | "mp_supply_items"
+--- | "mp_teamkillpenalty"
+--- | "mp_teleportreload"
+--- | "mp_tempbantime"
+--- | "mp_timelimit"
+--- | "mp_tkpunish"
+--- | "mp_trace"
+--- | "mp_turretdamage"
+--- | "mp_unbuildable"
+--- | "mp_unbuyable"
+--- | "mp_vulnerablehostages"
+--- | "mp_weaponfadeout"
+--- | "mp_winlimit"
+--- | "mp_wpndmg"
+--- | "mp_wpndmg_z1"
+--- | "mp_wpndmg_z2"
+--- | "mp_zombiedmg"
+--- | "mp_zombiekillequip"
+--- | "mp_zombiekillscore"
+--- | "mp_zombierecover"
+--- | "mp_zombiespeedmod"
+--- | "msg"
+--- | "name"
+--- | "netinfo"
+--- | "nick"
+--- | "nightvision"
+--- | "nvgs"
+--- | "p228"
+--- | "p90"
+--- | "particles"
+--- | "playershadows"
+--- | "quit"
+--- | "radio1"
+--- | "radio2"
+--- | "radio3"
+--- | "rcon"
+--- | "rcon_password"
+--- | "rcon_pw"
+--- | "rebuy"
+--- | "recoil"
+--- | "relativemovement"
+--- | "reload"
+--- | "removeitem"
+--- | "render3d"
+--- | "renderdecals"
+--- | "renderdecoration"
+--- | "reroute"
+--- | "resources"
+--- | "restart"
+--- | "restartround"
+--- | "right"
+--- | "say"
+--- | "sayteam"
+--- | "scout"
+--- | "screenshot"
+--- | "server"
+--- | "serveraction1"
+--- | "serveraction2"
+--- | "serveraction3"
+--- | "serverinfo"
+--- | "setammo"
+--- | "setarmor"
+--- | "setassists"
+--- | "setdeaths"
+--- | "sethealth"
+--- | "setmaxhealth"
+--- | "setmoney"
+--- | "setmvp"
+--- | "setname"
+--- | "setpos"
+--- | "setscore"
+--- | "setteamscores"
+--- | "settile"
+--- | "setweapon"
+--- | "SG550"
+--- | "sg552"
+--- | "sgren"
+--- | "shadows"
+--- | "shadowshade_obstacle"
+--- | "shadowshade_wall"
+--- | "shadowz_obstacles"
+--- | "shadowz_wall"
+--- | "shadow_angle"
+--- | "shadow_frameskipping"
+--- | "shake"
+--- | "shield"
+--- | "showscores"
+--- | "slap"
+--- | "slot0"
+--- | "slot1"
+--- | "slot10"
+--- | "slot2"
+--- | "slot3"
+--- | "slot4"
+--- | "slot5"
+--- | "slot6"
+--- | "slot7"
+--- | "slot8"
+--- | "slot9"
+--- | "snapshot"
+--- | "sounddriver"
+--- | "soundmode"
+--- | "spawnitem"
+--- | "spawnnpc"
+--- | "spawnobject"
+--- | "spawnplayer"
+--- | "spawnprojectile"
+--- | "specmode"
+--- | "specplayer"
+--- | "speed"
+--- | "speedmod"
+--- | "spray"
+--- | "spraycolor"
+--- | "spraylogo"
+--- | "strip"
+--- | "sv_checkusgnlogin"
+--- | "sv_daylighttime"
+--- | "sv_forcelight"
+--- | "sv_fow"
+--- | "sv_friendlyfire"
+--- | "sv_gamemode"
+--- | "sv_gm"
+--- | "sv_hostport"
+--- | "sv_lan"
+--- | "sv_map"
+--- | "sv_maptransfer"
+--- | "sv_maxplayers"
+--- | "sv_msg"
+--- | "sv_msg2"
+--- | "sv_name"
+--- | "sv_offscreendamage"
+--- | "sv_password"
+--- | "sv_rcon"
+--- | "sv_rconusers"
+--- | "sv_restart"
+--- | "sv_restartround"
+--- | "sv_sound"
+--- | "sv_sound2"
+--- | "sv_soundpos"
+--- | "sv_specmode"
+--- | "sv_spraytransfer"
+--- | "sv_stopsound"
+--- | "sv_usgnonly"
+--- | "team"
+--- | "tileanimations"
+--- | "tmp"
+--- | "transfer_speed"
+--- | "trigger"
+--- | "triggerposition"
+--- | "ump45"
+--- | "unban"
+--- | "unbanall"
+--- | "unbindall"
+--- | "use"
+--- | "usgn_addserver"
+--- | "usgn_info"
+--- | "usgn_pw"
+--- | "usgn_user"
+--- | "usp"
+--- | "vest"
+--- | "vesthelm"
+--- | "visibleshots"
+--- | "volume"
+--- | "vote"
+--- | "votemap"
+--- | "votemenu"
+--- | "weapon"
+--- | "wiggle"
+--- | "win"
+--- | "xm1014"
+
+--- @todo document each command
+--- Console Settings that can be accessed by the [game](lua://game) function.
+--- @alias setting_command
+--- | "version" # `string`: the current game version.
+--- | "dedicated" # `boolean`: `true` if server is dedicated, `false` otherwise.
+--- | "phase" # `number`: game phase (`0` for freezetime, `1` for actual game).
+--- | "round" # `number`: current round.
+--- | "timeleft" # `number`: remaining round time in seconds.
+--- | "maptimeleft" # `number`: remaining time on map in seconds (float precision), `1000000` if unlimited.
+--- | "score_t" # `number`: score of terrorists (rounds won).
+--- | "score_ct" # `number`: score of counter-terrorists (rounds won).
+--- | "winrow_t" # `number`: rounds won in a row by terrorists.
+--- | "winrow_ct" # `number`: rounds won in a row by counter-terrorists.
+--- | "nextmap" # `string`: the next map in the map cycle.
+--- | "ticks" # `number`: server ticks (refresh rate / main-loop iterations per second).
+--- | "port" # `string`: UDP port used by the server (`"no socket"` if failed to open port).
+--- | "bombplanted" # `boolean`: `true` if bomb is currently planted and blinking, `false` otherwise.
+--- | "sysfolder" # `string`: the system folder/path (`"sys"` by default, custom value if specified via commandline).
+--- | "ah"
+--- | "autoscreen"
+--- | "autoswitch"
+--- | "bot_count"
+--- | "bot_jointeam"
+--- | "bot_prefix"
+--- | "bot_skill"
+--- | "bot_weapons"
+--- | "bullets"
+--- | "connection"
+--- | "debug"
+--- | "debugai"
+--- | "debuglog"
+--- | "debuglua"
+--- | "dmgindicator"
+--- | "drawradar"
+--- | "fowalpha"
+--- | "fowdetails"
+--- | "gore"
+--- | "grenademode"
+--- | "hud_fastswitch"
+--- | "itemshadows"
+--- | "localport"
+--- | "mapshadows"
+--- | "mapsounds"
+--- | "markplayer"
+--- | "menu_lanscanport"
+--- | "mp_antispeeder"
+--- | "mp_autogamemode"
+--- | "mp_autoteambalance"
+--- | "mp_buytime"
+--- | "mp_c4timer"
+--- | "mp_connectionlimit"
+--- | "mp_curtailedexplosions"
+--- | "mp_damagefactor"
+--- | "mp_deathdrop"
+--- | "mp_dispenser_health"
+--- | "mp_dispenser_money"
+--- | "mp_dmspawnmoney"
+--- | "mp_dropgrenades"
+--- | "mp_flashlight"
+--- | "mp_floodprot"
+--- | "mp_floodprotignoretime"
+--- | "mp_freezetime"
+--- | "mp_grenaderebuy"
+--- | "mp_hostagepenalty"
+--- | "mp_hovertext"
+--- | "mp_hud"
+--- | "mp_hudscale"
+--- | "mp_idleaction"
+--- | "mp_idlekick"
+--- | "mp_idletime"
+--- | "mp_infammo"
+--- | "mp_kevlar"
+--- | "mp_kickpercent"
+--- | "mp_killbuildingmoney"
+--- | "mp_killbuildings"
+--- | "mp_killinfo"
+--- | "mp_killteambuildings"
+--- | "mp_lagcompensation"
+--- | "mp_lagcompensationdivisor"
+--- | "mp_localrconoutput"
+--- | "mp_luamap"
+--- | "mp_luaserver"
+--- | "mp_mapgoalscore"
+--- | "mp_mapvoteratio"
+--- | "mp_maxclientsip"
+--- | "mp_maxrconfails"
+--- | "mp_natholepunching"
+--- | "mp_pinglimit"
+--- | "mp_postspawn"
+--- | "mp_radar"
+--- | "mp_randomspawn"
+--- | "mp_recoil"
+--- | "mp_respawndelay"
+--- | "mp_roundlimit"
+--- | "mp_roundtime"
+--- | "mp_shotweakening"
+--- | "mp_smokeblock"
+--- | "mp_startmoney"
+--- | "mp_supply_items"
+--- | "mp_teamkillpenalty"
+--- | "mp_teleportreload"
+--- | "mp_tempbantime"
+--- | "mp_timelimit"
+--- | "mp_tkpunish"
+--- | "mp_trace"
+--- | "mp_turretdamage"
+--- | "mp_unbuyable"
+--- | "mp_vulnerablehostages"
+--- | "mp_weaponfadeout"
+--- | "mp_winlimit"
+--- | "mp_zombiedmg"
+--- | "mp_zombiekillequip"
+--- | "mp_zombiekillscore"
+--- | "mp_zombierecover"
+--- | "mp_zombiespeedmod"
+--- | "name"
+--- | "particles"
+--- | "playershadows"
+--- | "recoil"
+--- | "relativemovement"
+--- | "renderdecals"
+--- | "renderdecoration"
+--- | "shadows"
+--- | "shadowshade_obstacle"
+--- | "shadowshade_wall"
+--- | "soundmode"
+--- | "spraycolor"
+--- | "spraylogo"
+--- | "sv_checkusgnlogin"
+--- | "sv_daylighttime"
+--- | "sv_fow"
+--- | "sv_friendlyfire"
+--- | "sv_gamemode"
+--- | "sv_hostport"
+--- | "sv_lan"
+--- | "sv_map"
+--- | "sv_maptransfer"
+--- | "sv_maxplayers"
+--- | "sv_name"
+--- | "sv_offscreendamage"
+--- | "sv_password"
+--- | "sv_specmode"
+--- | "sv_spraytransfer"
+--- | "sv_usgnonly"
+--- | "tileanimations"
+--- | "transfer_speed"
+--- | "visibleshots"
+--- | "volume"
+--- | "wiggle"
