@@ -60,7 +60,7 @@ function addbind(key) end
 --- addhook(leave, my_leave_hook)
 --- ```
 ---
---- @param hook string The name of the hook to attach the function to.
+--- @param hook hook_types The name of the hook to attach the function to.
 --- @param func string The name of the Lua function to execute when the hook event occurs.
 --- @param prio? number Optional priority of the hook. Defaults to `0`.
 ---
@@ -89,7 +89,7 @@ function ai_aim(p, x, y) end
 --- Of course you can also manually trigger reloading ([ai_reload](lua://ai_reload)) or manually switch to another weapon ([ai_selectweapon](lua://ai_selectweapon)).
 ---
 --- @param p player_id The bot's identifier.
---- @param secondary? number Set secondary to `1` to use the secondary weapon function (=`attack2`) instead of the primary function.
+--- @param secondary? binary_value Set secondary to `1` to use the secondary weapon function (=`attack2`) instead of the primary function.
 ---
 --- @see playerammo to check how much ammo a player/bot has.
 --- @see ai_iattack for intelligent attacks.
@@ -103,7 +103,7 @@ function ai_attack(p, secondary) end
 --- ![Buildings List](https://cs2d.com/img/ref_dynamicobjects.png)
 ---
 --- @param p player_id The bot's identifier.
---- @param building number The building identifier (must be a number, not a string).
+--- @param building dynamic_object_type_id_types The building identifier (must be a number, not a string).
 --- @param tx number The `X`-coordinate (tile position) of the building's location.
 --- @param ty number The `Y`-coordinate (tile position) of the building's location.
 ---
@@ -115,7 +115,7 @@ function ai_build(p, building, tx, ty) end
 --- ℹ️ **Note**: The bot has to be in a buy area to make this work. It does NOT walk into a buy area automatically when this command is called!
 ---
 --- @param p player_id The bot's identifier.
---- @param itemType number The item type identifier (must be a number, not a string).
+--- @param itemType item_type_id_types The item type identifier (must be a number, not a string).
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_buy#cmd
 function ai_buy(p, itemType) end
@@ -139,7 +139,7 @@ function ai_drop(p) end
 ---
 --- @param p player_id The player's identifier.
 ---
---- @return number playerId The identifier of the closest enemy or `0` if no enemy is found.
+--- @return player_id playerId The identifier of the closest enemy or `0` if no enemy is found.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_findtarget#cmd
@@ -162,7 +162,7 @@ function ai_freeline(p, x, y) end
 --- @param p player_id The bot's identifier.
 --- @param tx number The `X`-coordinate (in tiles) of the target position.
 --- @param ty number The `Y`-coordinate (in tiles) of the target position.
---- @param walk number Set to `1` to make the bot walk silently.
+--- @param walk binary_value Set to `1` to make the bot walk silently.
 ---
 --- @return number `0` if failed to find path, `1` if the target is reached, or `2` if the bot is still moving.
 ---
@@ -188,9 +188,9 @@ function ai_iattack(p) end
 ---
 --- @param p player_id The bot's identifier.
 --- @param angle number The angle (in degrees) to move towards (`0°` to `360°`).
---- @param walk number Set to `1` to make the bot walk.
+--- @param walk binary_value Set to `1` to make the bot walk.
 ---
---- @return number `1` if successful, `0` if the way is blocked.
+--- @return binary_value `1` if successful, `0` if the way is blocked.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_move#cmd
 ---
@@ -200,7 +200,7 @@ function ai_move(p, angle, walk) end
 --- Bot with given identifier sends a radio message.
 ---
 --- @param p player_id The bot's identifier.
---- @param radio_id number The identifier of the radio message to send.
+--- @param radio_id radio_message_type_id_types The identifier of the radio message to send.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_radio#cmd
 function ai_radio(p, radio_id) end
@@ -252,7 +252,7 @@ function ai_sayteam(p, text) end
 --- Bot with given identifier selects the weapon specified with `itemtype` (must be a number identifier, not the name of the weapon!).
 ---
 --- @param p player_id The bot's identifier.
---- @param itemtype number The identifier of the weapon the bot should select.
+--- @param itemtype item_type_id_types The identifier of the weapon the bot should select.
 --- > ℹ️ **Note**: The weapon has to be in the inventory of the bot already. Otherwise, nothing will happen.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_selectweapon#cmd
@@ -352,7 +352,7 @@ function closehostage(p) end
 --- @param p player_id The player identifier.
 --- @param range number The range in tiles.
 ---
---- @return table item_list A table containing item identifiers.
+--- @return table<number, item_type_id_types> item_list A table containing item identifiers.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeitems#cmd
@@ -374,9 +374,9 @@ function closeitems(p, range) end
 --- @param x number The `X`-coordinate in pixels.
 --- @param y number The `Y`-coordinate in pixels.
 --- @param radius number The radius in pixels.
---- @param type? number Optional. The type of object to search for.
+--- @param type? dynamic_object_type_id_types Optional. The type of object to search for.
 ---
---- @return table object_list A table containing object identifiers within the specified radius.
+--- @return table<number, dynamic_object_type_id_types> object_list A table containing object identifiers within the specified radius.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeobjects#cmd
@@ -397,9 +397,9 @@ function closeobjects(x, y, radius, type) end
 --- @param x number The `X`-coordinate in pixels.
 --- @param y number The `Y`-coordinate in pixels.
 --- @param radius number The radius in pixels.
---- @param team? number The team identifier (`0` for all teams, `1` for Ts, `2` for CTs).
+--- @param team? player_team_type_id The team identifier (`0` for all teams, `1` for Ts, `2` for CTs).
 ---
---- @return table players A table containing player identifiers within the specified radius.
+--- @return table<number, player_id> players A table containing player identifiers within the specified radius.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeplayers#cmd
@@ -407,6 +407,7 @@ function closeobjects(x, y, radius, type) end
 --- @see hascloseplayers if you only want to check if ANY player is within a radius (faster).
 function closeplayers(x, y, radius, team) end
 
+---@todo continue here with alias creation
 --- Returns a value of an entity at the tile position (`X`|`Y`):
 ---
 --- ⚠️ **Attention**: `Env_Decal` entities are NOT accessible with this command.
@@ -537,7 +538,7 @@ function funcs() end
 ---
 --- > ℹ️ **Note**: Game will only return values for simple settings which are set with functions with one parameter.
 ---
---- @return any value The value of the game setting, cast to the appropriate type.
+--- @return string value The value of the game setting, as a string.
 --- > ℹ️ **Note**: This command always returns a string for game settings. Be mindful of casting when performing operations on the returned values.
 --- @nodiscard
 ---

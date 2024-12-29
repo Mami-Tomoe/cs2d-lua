@@ -137,6 +137,235 @@
 --- | 0
 --- | 1
 
+--- Category that contains the basic hooks.
+--- @alias hook_type_basic
+--- | "break"
+--- | "endround"
+--- | "httpdata"
+--- | "log"
+--- | "mapchange"
+--- | "parse"
+--- | "projectile"
+--- | "projectile_impact"
+--- | "rcon"
+--- | "shutdown"
+--- | "startround"
+--- | "startround_prespawn"
+--- | "trigger"
+--- | "triggerentity"
+
+--- Category that contains the time hooks.
+--- @alias hook_type_time
+--- | "always"
+--- | "minute"
+--- | "ms100"
+--- | "second"
+
+--- Category that contains anything involving the player.
+--- @alias hook_type_player
+--- | "assist"
+--- | "attack"
+--- | "attack2"
+--- | "bombdefuse"
+--- | "bombexplode"
+--- | "bombplant"
+--- | "build"
+--- | "buildattempt"
+--- | "buy"
+--- | "clientdata"
+--- | "clientsetting"
+--- | "collect"
+--- | "connect"
+--- | "die"
+--- | "disconnect"
+--- | "dominate"
+--- | "drop"
+--- | "flagcapture"
+--- | "flagtake"
+--- | "flashlight"
+--- | "hit"
+--- | "hostagedamage"
+--- | "hostagekill"
+--- | "hostagerescue"
+--- | "hostageuse"
+--- | "itemfadeout"
+--- | "join"
+--- | "key"
+--- | "kill"
+--- | "leave"
+--- | "menu"
+--- | "move"
+--- | "movetile"
+--- | "name"
+--- | "radio"
+--- | "reload"
+--- | "say"
+--- | "sayteam"
+--- | "select"
+--- | "serveraction"
+--- | "shieldhit"
+--- | "spawn"
+--- | "specswitch"
+--- | "spray"
+--- | "suicide"
+--- | "team"
+--- | "use"
+--- | "usebutton"
+--- | "vipescape"
+--- | "vote"
+--- | "walkover"
+
+--- Category that contains anything involving objects.
+--- @alias hook_type_object
+--- | "hitzone"
+--- | "objectdamage"
+--- | "objectkill"
+--- | "objectupgrade"
+--- | "turretscan"
+
+--- All possible hook values.
+--- @alias hook_types
+--- | hook_type_basic
+--- | hook_type_time
+--- | hook_type_player
+--- | hook_type_object
+
+--- Dynamic objects: Class 1: Buildings.
+--- @alias dynamic_object_type_id_buildings
+--- | 1 # Barricade
+--- | 2 # Barbed Wire
+--- | 3 # Wall I
+--- | 4 # Wall II
+--- | 5 # Wall III
+--- | 6 # Gate Field
+--- | 7 # Dispenser
+--- | 8 # Turret
+--- | 9 # Supply
+--- | 10 # Build Place
+--- | 11 # Dual Turret
+--- | 12 # Triple Turret
+--- | 13 # Teleporter Entrance
+--- | 14 # Teleporter Exit
+--- | 15 # Super Supply
+
+--- Dynamic objects: Class 2: Stuff.
+--- @alias dynamic_object_type_id_stuff
+--- | 20 # Mine
+--- | 21 # Laser Mine
+--- | 22 # Portal 1 (orange)
+--- | 23 # Portal 2 (blue)
+
+--- Dynamic objects: Class 3: Units.
+--- @alias dynamic_object_type_id_units
+--- | 30 # NPC
+
+--- Dynamic objects: Class 4: Images.
+--- @alias dynamic_object_type_id_images
+--- | 40 # Dynamic Image
+
+--- Dynamic object number identifier types.
+--- @alias dynamic_object_type_id_types
+--- | dynamic_object_type_id_buildings
+--- | dynamic_object_type_id_stuff
+--- | dynamic_object_type_id_units
+--- | dynamic_object_type_id_images
+
+--- List of primary (slot 1) items.
+--- @alias item_type_id_primary
+--- | 10 # M3
+--- | 11 # XM1014
+--- | 20 # MP5
+--- | 21 # TMP
+--- | 22 # P90
+--- | 23 # Mac 10
+--- | 24 # UMP45
+--- | 30 # AK-47
+--- | 31 # SG552
+--- | 32 # M4A1
+--- | 33 # Aug
+--- | 34 # Scout
+--- | 35 # AWP
+--- | 36 # G3SG1
+--- | 37 # SG550
+--- | 38 # Galil
+--- | 39 # Famas
+--- | 40 # M249
+--- | 41 # Tactical Shield
+--- | 45 # Laser
+--- | 46 # Flamethrower
+--- | 47 # RPG Launcher
+--- | 48 # Rocket Launcher
+--- | 49 # Grenade Launcher
+--- | 88 # Portal Gun
+--- | 90 # M134
+--- | 91 # FN F2000
+--- | 92 # Tesla Coil
+
+--- List of secondary (slot 2) items.
+--- @alias item_type_id_secondary
+--- | 1  # USP
+--- | 2  # Glock
+--- | 3  # Deagle
+--- | 4  # P228
+--- | 5  # Elite
+--- | 6  # Five-Seven
+
+--- List of melee (slot 3) items.
+--- @alias item_type_id_melee
+--- | 50 # Knife
+--- | 69 # Machete
+--- | 74 # Wrench
+--- | 78 # Claw
+--- | 85 # Chainsaw
+
+--- List of explosives (slot 4) items.
+--- @alias item_type_id_explosives
+--- | 51 # HE
+--- | 52 # Flashbang
+--- | 53 # Smoke Grenade
+--- | 54 # Flare
+--- | 55 # Bomb
+--- | 72 # Gas Grenade
+--- | 73 # Molotov Cocktail
+--- | 75 # Snowball
+--- | 76 # Air Strike
+--- | 77 # Mine
+--- | 86 # Gut Bomb
+--- | 87 # Laser Mine
+--- | 89 # Satchel Charge
+
+--- List of miscellaneous (slot 5/armour/equipment/special) items.
+--- @alias item_type_id_miscellaneous
+--- | 56 # Defuse Kit
+--- | 57 # Kevlar
+--- | 58 # Kevlar+Helm
+--- | 59 # Night Vision
+--- | 60 # Gas Mask
+--- | 61 # Primary Ammo
+--- | 62 # Secondary Ammo
+--- | 63 # Planted Bomb
+--- | 64 # Medikit
+--- | 65 # Bandage
+--- | 66 # Coins
+--- | 67 # Money
+--- | 68 # Gold
+--- | 70 # Red Flag
+--- | 71 # Blue Flag
+--- | 79 # Light Armour
+--- | 80 # Armour
+--- | 81 # Heavy Armour
+--- | 82 # Medic Armour
+--- | 83 # Super Armour
+--- | 84 # Stealth Suit
+
+--- All item type number identifier values.
+--- @alias item_type_id_types
+--- | item_type_id_primary
+--- | item_type_id_secondary
+--- | item_type_id_melee
+--- | item_type_id_explosives
+--- | item_type_id_miscellaneous
+
 --- List of all possible player number identifiers.
 --- @alias player_id
 --- | 0 # Used by the server instance or when no player is specified.
@@ -172,6 +401,69 @@
 --- | 30 # Player carrying identifier number 30.
 --- | 31 # Player carrying identifier number 31.
 --- | 32 # Player carrying identifier number 32.
+
+--- List of all possible player number identifiers.
+--- @alias player_team_type_id
+--- | 0 # Spectator
+--- | 1 # Terrorist
+--- | 2 # Counter-Terrorist - ⚠️ **Attention**: May include the VIP. Check function notes.
+--- | 3 # VIP - ⚠️ **Attention**: Some functions may include the VIP with the Counter-Terrorists. Check function notes.
+
+--- Radio messages (`I` menu).
+--- @alias radio_message_type_id
+--- | 6  # Cover Me - `"../sfx/radio/coverme.ogg"`
+--- | 32 # You Take the Point - `"../sfx/radio/takepoint.ogg"`
+--- | 23 # Hold this Position - `"../sfx/radio/position.ogg"`
+--- | 24 # Regroup Team - `"../sfx/radio/regroup.ogg"`
+--- | 13 # Follow Me - `"../sfx/radio/followme.ogg"`
+--- | 11 # Taking Fire, Need Assistance - `"../sfx/radio/fireassis.ogg"`
+
+--- Group radio messages (`O` menu).
+--- @alias group_radio_message_type_id
+--- | 15 # Go - `"../sfx/radio/go.ogg"`
+--- | 10 # Fall Back - `"../sfx/radio/fallback.ogg"`
+--- | 30 # Stick Together Team - `"../sfx/radio/sticktog.ogg"`
+--- | 14 # Get in Position - `"../sfx/radio/getinpos.ogg"`
+--- | 31 # Storm the Front - `"../sfx/radio/stormfront.ogg"`
+--- | 25 # Report In - `"../sfx/radio/reportin.ogg"`
+
+--- Report radio messages (`P` menu).
+--- @alias report_radio_message_type_id
+--- | 0  # Affirmative - `"../sfx/radio/affirm.ogg"`
+--- | 28 # Roger  - `"../sfx/radio/roger.ogg"`
+--- | 9  # Enemy Spotted - `"../sfx/radio/enemys.ogg"`
+--- | 1  # Need Backup - `"../sfx/radio/backup.ogg"`
+--- | 5  # Sector Clear - `"../sfx/radio/clear.ogg"`
+--- | 17 # I'm in Position - `"../sfx/radio/inpos.ogg"`
+--- | 26 # Reporting In - `"../sfx/radio/reportingin.ogg"`
+--- | 2  # She's gonna Blow! - `"../sfx/radio/blow.ogg"`
+--- | 22 # Negative - `"../sfx/radio/negative.ogg"`
+--- | 8  # Enemy Down - `"../sfx/radio/enemydown.ogg"`
+
+--- Game radio messages (sent automatically by the game).
+---
+--- ⚠️ **Attention**: You are not meant to use the `radio` hook with these, albeit some of them will call it.
+--- @alias game_radio_message_type_id
+--- | 3 # Bomb has been defused! - `"../sfx/radio/bombdef.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 4 # Bomb has been planted! - `"../sfx/radio/bombpl.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 7 # Counter-Terrorists Win - `"../sfx/radio/ctwin.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 12 # Fire in the hole! - `"../sfx/radio/fireinhole.ogg"`
+--- | 16 # Hostage down! - `"../sfx/radio/hosdown.ogg"`
+--- | 18 # Okay, let's go! - `"../sfx/radio/letsgo.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 19 # Lock and load! - `"../sfx/radio/locknload.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 20 # Teammate down! - `"../sfx/radio/matedown.ogg"`
+--- | 21 # Alright, let's move out! - `"../sfx/radio/moveout.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 27 # Hostage has been rescued! - `"../sfx/radio/rescued.ogg"`
+--- | 29 # Round draw! - `"../sfx/radio/rounddraw.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 33 # Terrorists Win - `"../sfx/radio/terwin.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+--- | 34 # Protect the V.I.P . Team! - `"../sfx/radio/vip.ogg"` - ⚠️ **Attention**: Does not trigger the `radio` hook.
+
+--- All possible radio messages.
+--- @alias radio_message_type_id_types
+--- | radio_message_type_id
+--- | group_radio_message_type_id
+--- | report_radio_message_type_id
+--- | game_radio_message_type_id
 
 --- @todo document each command
 -- Console settings that can be executed by the [parse](lua://parse) function.
@@ -570,12 +862,10 @@
 --- | "autoscreen"
 --- | "autoswitch"
 --- | "bot_count"
---- | "bot_jointeam"
 --- | "bot_prefix"
 --- | "bot_skill"
 --- | "bot_weapons"
 --- | "bullets"
---- | "connection"
 --- | "debug"
 --- | "debugai"
 --- | "debuglog"
@@ -589,6 +879,10 @@
 --- | "hud_fastswitch"
 --- | "itemshadows"
 --- | "localport"
+--- | "logbatch"
+--- | "logmaxflushrate"
+--- | "logsplit"
+--- | "logstamp"
 --- | "mapshadows"
 --- | "mapsounds"
 --- | "markplayer"
@@ -689,6 +983,7 @@
 --- | "sv_name"
 --- | "sv_offscreendamage"
 --- | "sv_password"
+--- | "sv_rcon"
 --- | "sv_specmode"
 --- | "sv_spraytransfer"
 --- | "sv_usgnonly"

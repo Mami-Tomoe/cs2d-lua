@@ -2,6 +2,14 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.0.8]
+
+### Changed
+
+-    Updated `README.md`.
+-    Updated `stubs_cs2dlua.lua`: Aliases and definitions from `stubs_cs2dlua_alias.lua`.
+-    Updated `stubs_cs2dlua_alias.lua`: Aliases and definitions for `stubs_cs2dlua.lua`.
+
 ## [0.0.7]
 
 ### Changed
@@ -22,7 +30,7 @@ All notable changes to the "cs2d-lua" extension will be documented in this file.
 ### Changed
 
 -    Updated `README.md`.
--    Updated `stubs_cs2dlua.lua`.
+-    Updated `stubs_cs2dlua.lua`: Aliases and definitions from `stubs_cs2dlua_alias.lua`.
 
 ## [0.0.5]
 
