@@ -8,6 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const stubFiles: string[] = [
 		path.join(context.extensionPath, 'stubs/stubs_cs2dlua.lua'),
 		path.join(context.extensionPath, 'stubs/stubs_cs2dcore.lua'),
+		path.join(context.extensionPath, 'stubs/stubs_cs2dlua_alias.lua'),
 	];
 
 	// Get the Lua configuration
@@ -46,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Optionally, display a message to the user about this change
 	vscode.window.showInformationMessage(
-		'CS2D Lua documentation loaded for `Sumneko.lua`!\nHappy scripting! ~MT'
+		'CS2D Lua documentation loaded for Sumneko.lua!\nHappy scripting! ~MT'
 	);
 }
 

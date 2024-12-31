@@ -103,7 +103,7 @@ function ai_attack(p, secondary) end
 --- ![Buildings List](https://cs2d.com/img/ref_dynamicobjects.png)
 ---
 --- @param p player_id The bot's identifier.
---- @param building dynamic_object_type_id_types The building identifier (must be a number, not a string).
+--- @param building dynamic_object_type_id_buildings The building identifier (must be a number, not a string).
 --- @param tx number The `X`-coordinate (tile position) of the building's location.
 --- @param ty number The `Y`-coordinate (tile position) of the building's location.
 ---

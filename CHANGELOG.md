@@ -2,6 +2,13 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.0.9]
+
+### Changed
+
+-    Fixed an issue where `stubs_cs2dlua_alias.lua` would not load.
+-    Fixed improper formatting in the load message.
+
 ## [0.0.8]
 
 ### Changed
