@@ -4,7 +4,7 @@
 	"publisher": "MamiTomoe",
 	"icon": "images/icon.png",
 	"description": "Enhance your CS2D Lua scripting with stubs, documentation, and function definitions for better code completion and understanding, streamlining your development process.",
-	"version": "0.0.9",
+	"version": "0.1.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Mami-Tomoe/cs2d-lua"
@@ -24,10 +24,25 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "cs2d-lua.loadStubs",
-				"title": "Load CS2D Lua Stubs"
+				"command": "cs2d-lua.selectFramework",
+				"title": "Select Framework",
+				"category": "CS2D Lua"
 			}
 		],
+		"configuration": {
+			"type": "object",
+			"title": "CS2D Lua",
+			"properties": {
+				"cs2d-lua.framework": {
+					"type": "string",
+					"default": "None",
+					"description": "Choose the framework used for CS2D Lua scripting.",
+					"enum": [
+						"None"
+					]
+				}
+			}
+		},
 		"languages": [
 			{
 				"id": "lua",
@@ -49,7 +64,7 @@
 		"test": "vscode-test"
 	},
 	"extensionDependencies": [
-		"sumneko.lua"
+		"Sumneko.lua"
 	],
 	"devDependencies": {
 		"@types/vscode": "^1.96.0",
@@ -63,7 +78,6 @@
 		"@vscode/test-electron": "^2.4.1"
 	},
 	"files": [
-		"out/**/*.js",
-		"/stubs/stubs_cs2dlua.lua"
+		"out/**/*.js"
 	]
 }

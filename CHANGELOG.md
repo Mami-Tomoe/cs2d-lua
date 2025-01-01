@@ -2,6 +2,13 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.0]
+
+### Changed
+
+-    Experimental update with experimental features.
+-    Extension should now remove the loaded libraries when disabled.
+
 ## [0.0.9]
 
 ### Changed
