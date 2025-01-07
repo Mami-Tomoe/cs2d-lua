@@ -2,6 +2,12 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.1]
+
+### Changed
+
+-    Fixed `parse` not accepting commands with parameters as valid.
+
 ## [0.1.0]
 
 ### Changed

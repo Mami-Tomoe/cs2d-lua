@@ -15,20 +15,20 @@ export async function activate(context: vscode.ExtensionContext) {
 		path.join(context.extensionPath, 'stubs/stubs_cs2dlua_alias.lua'),
 	];
 
-	loadStubRange(stubFiles);
+	await loadStubRangeAsync(stubFiles);
 
 	vscode.window.showInformationMessage(
 		'CS2D Lua entities loaded using Sumneko.lua!\nHappy scripting! ~MT'
 	);
 
-	// await addSelectFrameworkCommand(context);
+	// await addSelectFrameworkCommandAsync(context);
 }
 
-export function deactivate() {
-	unloadStubRange(addedStubFiles);
+export async function deactivate() {
+	await unloadStubRangeAsync(addedStubFiles);
 }
 
-function getConfig() {
+function getLuaConfig() {
 	// Get the Lua configuration
 	const luaConfig = vscode.workspace.getConfiguration('Lua');
 
@@ -43,8 +43,8 @@ function getLibrary(luaConfig: vscode.WorkspaceConfiguration) {
 	return currentLibrary;
 }
 
-function loadStubRange(stubs: string[]) {
-	const luaConfig = getConfig();
+async function loadStubRangeAsync(stubs: string[]) {
+	const luaConfig = getLuaConfig();
 	const currentLibrary: string[] = getLibrary(luaConfig);
 
 	// Filter stubs to only include those not already in the library
@@ -60,54 +60,50 @@ function loadStubRange(stubs: string[]) {
 	// Keep track of which files were added
 	addedStubFiles.push(...stubsToAdd);
 
-	updateLibrary(luaConfig, newLibrary);
+	await updateLibraryAsync(luaConfig, newLibrary);
 
 	console.log(`Loaded stubs: ${stubsToAdd.join(', ')}`);
 }
 
-function unloadStubRange(stubs: string[]) {
-	const luaConfig = getConfig();
+async function unloadStubRangeAsync(stubs: string[]) {
+	const luaConfig: vscode.WorkspaceConfiguration = getLuaConfig();
 	const currentLibrary: string[] = getLibrary(luaConfig);
-
+	console.log(stubs);
 	// Remove all stubs in the range from the current library
 	const newLibrary = currentLibrary.filter((path) => !stubs.includes(path));
 
-	updateLibrary(luaConfig, newLibrary);
+	updateLibraryAsync(luaConfig, newLibrary);
 }
 
-function updateLibrary(
+async function updateLibraryAsync(
 	luaConfig: vscode.WorkspaceConfiguration,
 	newLibrary: string[]
 ) {
-	// Update the workspace.library setting
-	luaConfig
-		.update(
+	try {
+		// Update the workspace.library setting
+		await luaConfig.update(
 			'workspace.library',
 			newLibrary,
 			vscode.ConfigurationTarget.Global
-		)
-		.then(
-			() => {
-				console.log(`Lua workspace.library updated successfully.`);
-
-				vscode.window.showInformationMessage(
-					'Lua workspace.library updated successfully.'
-				);
-			},
-			(error) => {
-				console.error(
-					'Failed to update Lua workspace.library:',
-					error
-				);
-
-				vscode.window.showErrorMessage(
-					'Failed to update Lua workspace.library. Check the console for more details.'
-				);
-			}
 		);
+
+		console.log(`Lua workspace.library updated successfully.`);
+
+		// vscode.window.showInformationMessage(
+		// 	'Lua workspace.library updated successfully.'
+		// );
+	} catch (error) {
+		console.error('Failed to update Lua workspace.library:', error);
+
+		// vscode.window.showErrorMessage(
+		// 	'Failed to update Lua workspace.library. Check the console for more details.'
+		// );
+	}
 }
 
-async function addSelectFrameworkCommand(context: vscode.ExtensionContext) {
+async function addSelectFrameworkCommandAsync(
+	context: vscode.ExtensionContext
+) {
 	const selectFrameworkCommand = vscode.commands.registerCommand(
 		'cs2d-lua.selectFramework',
 		async () => {

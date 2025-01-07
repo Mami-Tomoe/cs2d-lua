@@ -1337,10 +1337,10 @@ function objecttype(type, value) end
 --- * If you're having trouble with concatenation, use `print()` to check the resulting string before passing it to `parse`.
 --- * You can prefix the text with `"UTF-8:"` to pass encoded UTF-8 strings to this function. Use [this tool](https://mothereff.in/utf-8) to encode strings.
 ---
---- **Security Warning**:
---- * Do not set `Stop-At-Semicolon` to 0 when parsing user input, as this may allow users to execute unauthorized commands or manipulate parameters.
+--- ☠️ **Security Warning**:
+--- - Do not set `Stop-At-Semicolon` to `0` when parsing user input, as this may allow users to execute unauthorized commands or manipulate parameters.
 ---
---- @param commands console_command The CS2D command to execute (as a string).
+--- @param commands console_command|string The CS2D command to execute (as a string).
 --- @param stop_at_semicolon? number Optional. Set to 1 to stop at semicolons, preventing malicious input manipulation.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=parse#cmd
@@ -1460,8 +1460,8 @@ function player(p, value) end
 ---   ```
 ---   This example will send a message displaying the player's name and their current ammo in the weapon, as well as spare ammo.
 ---
---- **Security Warning**:
----   * Be careful when using this function with user input or in an environment with unreliable network conditions, as the values may be inaccurate.
+--- ☠️ **Security Warning**:
+--- - Be careful when using this function with user input or in an environment with unreliable network conditions, as the values may be inaccurate.
 ---
 --- @param p player_id The player identifier.
 --- @param itemType number The item type identifier of the weapon.
