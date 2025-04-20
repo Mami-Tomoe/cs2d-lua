@@ -23,9 +23,7 @@ function io.enumdir(path) end
 --- @see os.difftime for time comparison.
 function os.millisecs() end
 
---- @deprecated
+--- Returns a table with the host's operating system's identifying information.
 ---
---- This function serves no purpose as it is improperly implemented.
----
---- For more information, click [here](https://www.unrealsoftware.de/forum_posts.php?post=433322&start=0#post433324).
+--- @return table
 function os.info() end

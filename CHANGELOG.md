@@ -2,6 +2,29 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.2]
+
+### Added
+
+-    Added new hook: `frame`
+-    Added new hook: `post_endround`
+-    Added missing hook: `connect_attempt`
+-    Added missing hook: `connect_initplayer`
+-    Added missing hook: `sayteamutf8`
+-    Added missing hook: `sayutf8`
+-    Added missing hook: `voice`
+-    Added missing hook: `oncollision`
+-    Added missing hook: `oncollisionhit`
+-    Added missing hook: `onhit`
+-    Began adding parameter info for some hooks.
+-    Added new function: `itemsat`
+
+### Changed
+
+-    Updated `os.info`: No longer deprecated (fixed in CS2D `v1.0.1.5`).
+-    Replaced `Sample 1` with just `Sample` when no more than one sample exists.
+-    Updated: `imageshadow` to use `shadow_height`.
+
 ## [0.1.1]
 
 ### Changed

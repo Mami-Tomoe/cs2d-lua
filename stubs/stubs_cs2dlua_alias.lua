@@ -139,89 +139,102 @@
 
 --- Category that contains the basic hooks.
 --- @alias hook_type_basic
---- | "break"
---- | "endround"
---- | "httpdata"
---- | "log"
---- | "mapchange"
---- | "parse"
---- | "projectile"
---- | "projectile_impact"
---- | "rcon"
+--- | "break" # (```tile_x, tile_y, player_id?```)
+--- | "endround" # (```mode_id, delay_ms```)
+--- | "httpdata" request_id, state, data
+--- | "log" # (```text```) **->** `0`: proceed normally **|** `1`: don't log this line (this only affects logging, console output can not be controlled with it)
+--- | "mapchange" # (```new_map```)
+--- | "parse" # (```text```) **->** `0`: proceed normally **|** `1`: normal parsing, ignore unknown cmds **|** `2`: skip CS2D parsing
+--- | "post_endround"
+--- | "projectile" # (```player_id?, weapon_type_id, x, y, projectile_id```)
+--- | "projectile_impact" # (```player_id?, weapon_type_id, x, y, mode, projectile_id```)
+--- | "rcon" # (```commands, player_id?, ip, port```)
 --- | "shutdown"
---- | "startround"
---- | "startround_prespawn"
---- | "trigger"
---- | "triggerentity"
+--- | "startround" # (```mode```)
+--- | "startround_prespawn" # (```mode```)
+--- | "trigger" # (```trigger_name, source```) **->** `0`: proceed normally **|** `1`: don't trigger
+--- | "triggerentity" # (```tile_x, tile_y```) **->** `0`: proceed normally **|** `1`: don't trigger
 
 --- Category that contains the time hooks.
 --- @alias hook_type_time
 --- | "always"
+--- | "frame"
 --- | "minute"
 --- | "ms100"
 --- | "second"
 
 --- Category that contains anything involving the player.
 --- @alias hook_type_player
---- | "assist"
---- | "attack"
---- | "attack2"
---- | "bombdefuse"
---- | "bombexplode"
---- | "bombplant"
---- | "build"
---- | "buildattempt"
---- | "buy"
---- | "clientdata"
---- | "clientsetting"
---- | "collect"
---- | "connect"
---- | "die"
---- | "disconnect"
---- | "dominate"
---- | "drop"
---- | "flagcapture"
---- | "flagtake"
---- | "flashlight"
---- | "hit"
---- | "hostagedamage"
---- | "hostagekill"
---- | "hostagerescue"
---- | "hostageuse"
---- | "itemfadeout"
---- | "join"
---- | "key"
---- | "kill"
---- | "leave"
---- | "menu"
---- | "move"
---- | "movetile"
---- | "name"
---- | "radio"
---- | "reload"
---- | "say"
---- | "sayteam"
---- | "select"
---- | "serveraction"
---- | "shieldhit"
---- | "spawn"
---- | "specswitch"
---- | "spray"
---- | "suicide"
---- | "team"
---- | "use"
---- | "usebutton"
---- | "vipescape"
---- | "vote"
---- | "walkover"
+--- | "assist" # (```assistant_id, victim_id, killer_id```) **->** `0`: proceed normally (count and display assist) **|** `1`: don't count and display the assist (the related kill will be displayed and counted normally but without assist)
+--- | "attack" # (```player_id```)
+--- | "attack2" # (```player_id, weapon_mode```)
+--- | "bombdefuse" # (```player_id```) **->** `0`: proceed normally **|** `1`: don't defuse
+--- | "bombexplode" ---@todo
+--- | "bombplant" # ---@todo
+--- | "build" # ---@todo
+--- | "buildattempt" # ---@todo
+--- | "buy" # ---@todo
+--- | "clientdata" # ---@todo
+--- | "clientsetting" # ---@todo
+--- | "collect" # ---@todo
+--- | "connect" # ---@todo
+--- | "connect_attempt" # ---@todo
+--- | "connect_initplayer" # ---@todo
+--- | "die" # ---@todo
+--- | "disconnect" # ---@todo
+--- | "dominate" # ---@todo
+--- | "drop" # ---@todo
+--- | "flagcapture" # ---@todo
+--- | "flagtake" # ---@todo
+--- | "flashlight" # ---@todo
+--- | "hit" # ---@todo
+--- | "hostagedamage" # ---@todo
+--- | "hostagekill" # ---@todo
+--- | "hostagerescue" # ---@todo
+--- | "hostageuse" # ---@todo
+--- | "itemfadeout" # ---@todo
+--- | "join" # ---@todo
+--- | "key" # ---@todo
+--- | "kill" # ---@todo
+--- | "leave" # ---@todo
+--- | "menu" # ---@todo
+--- | "move" # ---@todo
+--- | "movetile" # ---@todo
+--- | "name" # ---@todo
+--- | "radio" # ---@todo
+--- | "reload" # ---@todo
+--- | "say" # ---@todo
+--- | "sayteam" # ---@todo
+--- | "sayteamutf8" # ---@todo
+--- | "sayutf8" # ---@todo
+--- | "select" # ---@todo
+--- | "serveraction" # ---@todo
+--- | "shieldhit" # ---@todo
+--- | "spawn" # ---@todo
+--- | "specswitch" # ---@todo
+--- | "spray" # ---@todo
+--- | "suicide" # ---@todo
+--- | "team" # ---@todo
+--- | "use" # ---@todo
+--- | "usebutton" # ---@todo
+--- | "vipescape" # ---@todo
+--- | "voice" # ---@todo
+--- | "vote" # ---@todo
+--- | "walkover" # ---@todo
 
 --- Category that contains anything involving objects.
 --- @alias hook_type_object
---- | "hitzone"
---- | "objectdamage"
---- | "objectkill"
---- | "objectupgrade"
---- | "turretscan"
+--- | "hitzone" # (```image_id, player_id?, object_id?, weapon_type_id, impact_x, impact_y, damage```) **->** `0`: proceed normally (without changing the damage) **|** `>0`: set damage to this value **|** `<0`: set damage to 0
+--- | "objectdamage" # (```object_id, damage, player_id?```) **->** `0`: proceed normally **|** `1`: don't damage/heal/repair object
+--- | "objectkill" # (```object_id, player_id?```)
+--- | "objectupgrade" # (```object_id, player_id?, progress, total```) **->** `0`: proceed normally **|** `1`: don't upgrade object
+--- | "turretscan" # (```turret_object_id, turret_team, turret_x_position, turret_y_position```) **->** `0`: proceed normally (normal scan & attack closest enemy player) **|** `1-32`: attack player with that ID (may not cause damage depending on team) **|** `-1`: stay idle and attack nobody
+
+--- Category that contains anything involving physics.
+--- @alias hook_type_physics
+--- | "oncollision" # (```body_a, body_b```)
+--- | "oncollisionhit" # (```body_a, body_b, velocity```)
+--- | "onhit" # (```physic_id, player_id, weapon_type_id, source_x, source_y, damaged, dynamic_object_id```)
 
 --- All possible hook values.
 --- @alias hook_types
@@ -229,6 +242,7 @@
 --- | hook_type_time
 --- | hook_type_player
 --- | hook_type_object
+--- | hook_type_physics
 
 --- Dynamic objects: Class 1: Buildings.
 --- @alias dynamic_object_type_id_buildings

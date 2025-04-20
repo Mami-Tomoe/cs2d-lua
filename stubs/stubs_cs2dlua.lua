@@ -304,7 +304,7 @@ function checksumfile(path) end
 
 --- Returns the SHA256 checksum of the given string.
 ---
---- Sample 1: Get the checksum of a player's name.
+--- Sample: Get the checksum of a player's name.
 --- ```lua
 --- addhook("join", "name_sum")
 --- function name_sum(id)
@@ -325,7 +325,7 @@ function checksumstring(string) return string end
 ---
 --- ℹ️ **Note**: The returned position is in tiles, NOT in pixels!
 ---
---- Sample 1: Getting the position of a hostage which is close to player 1
+--- Sample: Getting the position of a hostage which is close to player 1
 --- ```lua
 --- x, y = closehostage(1)
 --- ```
@@ -341,7 +341,7 @@ function closehostage(p) end
 --- Returns a Lua table with all identifiers of items which are close to the player specified with the id parameter.
 --- Only dropped items within the range will be returned. The unit for the range is tiles (range `1` equals `32` pixels).
 ---
---- Sample 1: List the names of all items which are close (within range of `5` tiles) to player `1`
+--- Sample: List the names of all items which are close (within range of `5` tiles) to player `1`
 --- ```lua
 --- local item_list = closeitems(1, 5)
 --- for _, id in pairs(item_list) do
@@ -363,7 +363,7 @@ function closeitems(p, range) end
 ---
 --- Object types: ![Objects list](https://cs2d.com/img/ref_dynamicobjects.png)
 ---
---- Sample 1: Get the identifiers of objects within a `300` pixel radius around the top left corner (`0`|`0`) of the map:
+--- Sample: Get the identifiers of objects within a `300` pixel radius around the top left corner (`0`|`0`) of the map:
 --- ```lua
 --- local object_list = closeobjects(0, 0, 300)
 --- for _, id in pairs(object_list) do
@@ -440,7 +440,7 @@ function entity(tx, ty, value) end
 ---
 --- Use a "`for`"-loop with "`in pairs`" to process the resulting list properly.
 ---
---- Sample 1: Iterating over list using in pairs:
+--- Sample: Iterating over list using in pairs:
 --- ```lua
 --- local list = entitylist()
 --- for _, e in pairs(list) do
@@ -797,6 +797,12 @@ function imageframe(img_id, frame) end
 --- > * `103` - Blood effect + stop shot.
 --- > * `104` - Green blood effect + stop shot.
 ---
+--- **Collision Blocking Modes (> `200`, shots will be stopped and players will collide):**
+--- > * `201` - Hit zone without effects + stop shot + collide.
+--- > * `202` - Wall effect + stop shot + collide.
+--- > * `203` - Blood effect + stop shot + collide.
+--- > * `204` - Green blood effect + stop shot + collide.
+---
 --- All hit zones with modes above `100` will block shots, preventing objects behind them from being damaged.
 --- These behave like walls but have no effect on player movement or vision.
 ---
@@ -904,10 +910,10 @@ function imagepos(img_id, x, y, rot) end
 --- ```
 ---
 --- @param img_id number: The identifier of the image to modify.
---- @param value number: `0` to disable the shadow, `1` to enable the shadow.
+--- @param shadow_height number: `0` to disable the shadow, `>0` to enable the shadow with defined height.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=imageshadow#cmd
-function imageshadow(img_id, value) end
+function imageshadow(img_id, shadow_height) end
 
 --- Changes the image scale factors (in other words: the image size).
 ---
@@ -1017,6 +1023,15 @@ function inentityzone(tx, ty, type) end
 ---
 --- @see playerweapons for a list of item types a player currently carries.
 function item(itemID, value) end
+
+--- Get table of items at specific tile.
+---
+--- @param tx number: The `X`-coordinate of the tile.
+--- @param ty number: The `Y`-coordinate of the tile.
+---
+--- @return table items Returns a table of item ids.
+--- @nodiscard
+function itemsat(tx, ty) end
 
 --- Returns a value of an item type.
 ---
