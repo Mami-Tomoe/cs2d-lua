@@ -141,7 +141,7 @@
 --- @alias hook_type_basic
 --- | "break" # (```tile_x, tile_y, player_id?```)
 --- | "endround" # (```mode_id, delay_ms```)
---- | "httpdata" request_id, state, data
+--- | "httpdata" (```request_id, state, data```)
 --- | "log" # (```text```) **->** `0`: proceed normally **|** `1`: don't log this line (this only affects logging, console output can not be controlled with it)
 --- | "mapchange" # (```new_map```)
 --- | "parse" # (```text```) **->** `0`: proceed normally **|** `1`: normal parsing, ignore unknown cmds **|** `2`: skip CS2D parsing
@@ -169,58 +169,58 @@
 --- | "attack" # (```player_id```)
 --- | "attack2" # (```player_id, weapon_mode```)
 --- | "bombdefuse" # (```player_id```) **->** `0`: proceed normally **|** `1`: don't defuse
---- | "bombexplode" ---@todo
---- | "bombplant" # ---@todo
---- | "build" # ---@todo
---- | "buildattempt" # ---@todo
---- | "buy" # ---@todo
---- | "clientdata" # ---@todo
---- | "clientsetting" # ---@todo
---- | "collect" # ---@todo
---- | "connect" # ---@todo
---- | "connect_attempt" # ---@todo
---- | "connect_initplayer" # ---@todo
---- | "die" # ---@todo
---- | "disconnect" # ---@todo
---- | "dominate" # ---@todo
---- | "drop" # ---@todo
---- | "flagcapture" # ---@todo
---- | "flagtake" # ---@todo
---- | "flashlight" # ---@todo
---- | "hit" # ---@todo
---- | "hostagedamage" # ---@todo
---- | "hostagekill" # ---@todo
---- | "hostagerescue" # ---@todo
---- | "hostageuse" # ---@todo
---- | "itemfadeout" # ---@todo
---- | "join" # ---@todo
---- | "key" # ---@todo
---- | "kill" # ---@todo
---- | "leave" # ---@todo
---- | "menu" # ---@todo
---- | "move" # ---@todo
---- | "movetile" # ---@todo
---- | "name" # ---@todo
---- | "radio" # ---@todo
---- | "reload" # ---@todo
---- | "say" # ---@todo
---- | "sayteam" # ---@todo
---- | "sayteamutf8" # ---@todo
---- | "sayutf8" # ---@todo
---- | "select" # ---@todo
---- | "serveraction" # ---@todo
---- | "shieldhit" # ---@todo
---- | "spawn" # ---@todo
---- | "specswitch" # ---@todo
---- | "spray" # ---@todo
---- | "suicide" # ---@todo
---- | "team" # ---@todo
---- | "use" # ---@todo
---- | "usebutton" # ---@todo
---- | "vipescape" # ---@todo
---- | "voice" # ---@todo
---- | "vote" # ---@todo
---- | "walkover" # ---@todo
+--- | "bombexplode" # (```player_id, explosion_tx, explosion_ty```) **->** `0`: proceed normally **|** `1`: don't explode
+--- | "bombplant" # (```player_id, bomb_tx, bomb_ty```)  **->** `0`: proceed normally **|** `1`: don't plant
+--- | "build" # (```player_id, building_type, building_tx, building_ty, building_mode, object_id```) **->** `0`: proceed normally **|** `1`: don't build
+--- | "buildattempt" # (```player_id, building_type, building_tx, building_ty, building_mode```) **->** `0`: proceed normally **|** `1`: don't build
+--- | "buy" # (```player_id, weapon_type_id```) **->** `0`: proceed normally **|** `1`: don't allow buying
+--- | "clientdata" # (```player_id, mode, data1, data2```)
+--- | "clientsetting" # (```player_id, setting, value1, value2```)
+--- | "collect" # (```player_id, item_id, item_type_id, ammo_in, ammo, item_mode```)
+--- | "connect" # (```player_id```)
+--- | "connect_attempt" # (```name, ip, port, usgn_id, usgn_name, steam_id, steam_name```) **->** `""`: (nothing) continue normally **|** `anything else`: cancel the connection process. Client will see a ban popup and the returned string will be displayed as ban reason
+--- | "connect_initplayer" # (```player_id```)
+--- | "die" # (```victim_id, killer_id?, weapon_type_id/special_source_id, death_x, death_y, killer_object_id```) **->** `0`: proceed normally (and drop stuff depending on settings) **|** `1`: drop bomb/flag only (all other carried items will get lost)
+--- | "disconnect" # (```player_id, reason_id```)
+--- | "dominate" # (```player_id, team, domination_tx, domination_ty```) **->** `0`: proceed normally **|** `1`: don't dominate
+--- | "drop" # (```player_id, item_id, item_type_id, ammo_in, ammo, weapon_mode, drop_tx, drop_ty```) **->** `0`: proceed normally (drop?) **|** `1`: don't drop the item
+--- | "flagcapture" # (```player_id, team, flag_tx, flag_ty```) **->** `0`: proceed normally **|** `1`: don't capture flag
+--- | "flagtake" # (```player_id, team, flag_tx, flag_ty```) **->** `0`: proceed normally **|** `1`: don't take flag
+--- | "flashlight" # (```player_id, state```)
+--- | "hit" # (```victim_id, source_id?, weapon_type_id, hp_dmg, ap_dmg, raw_dmg, object_id?```) **->** `0`: proceed normally **|** `1`: ignore this hit (no damage)
+--- | "hostagedamage" # (```player_id, hostage_id, damage```) **->** `0`: proceed normally (hurt hostage with fine) **|** `1`: skip entirely (don't hurt and no fine) **|** `2`: hurt without fine
+--- | "hostagekill" # (```player_id, hostage_id, damage```) **->** `0`: proceed normally (kill hostage with punishment and radio message) **|** `1`: no punishment but radio (kill hostage with radio message but no fine/punishment) **|** `2`: no punishment and no radio (kill hostage but without radio message and without fine/punishment)
+--- | "hostagerescue" # (```player_id, rescue_tx, rescue_ty```)
+--- | "hostageuse" # (```player_id, hostage_id, mode```) **->** `0`: proceed normally (start/stop follow if possible) **|** `1`: don't start/stop follow
+--- | "itemfadeout" # (```item_id, item_type_id, item_tx, item_ty```) **->** `0`: proceed normally (fade out the weapon) **|** `1`: don't fade out the weapon (droptimer will be set to 10000)
+--- | "join" # (```player_id```)
+--- | "key" # (```player_id, key, state```)
+--- | "kill" # (```killer_id?, victim_id, weapon_type_id, death_x, death_y, killer_obj_id, assistant_id```)
+--- | "leave" # (```player_id, reason```)
+--- | "menu" # (```player_id, title, button_id```)
+--- | "move" # (```player_id, x, y, walk```)
+--- | "movetile" # (```player_id, tx, ty```)
+--- | "name" # (```player_id, old_name, new_name, forced```) **->** `0`: proceed normally **|** `1`: don't change name
+--- | "radio" # (```player_id, message_id```) **->** `0`: proceed normally **|** `1`: don't show message
+--- | "reload" # (```player_id, mode```)
+--- | "say" # (```player_id, message```) **->** `0`: proceed normally **|** `1`: don't show message
+--- | "sayteam" # (```player_id, message```) **->** `0`: proceed normally **|** `1`: don't show message
+--- | "sayteamutf8" # (```player_id, message_utf8```) **->** `0`: proceed normally **|** `1`: don't show message
+--- | "sayutf8" # (```player_id, message_utf8```) **->** `0`: proceed normally **|** `1`: don't show message
+--- | "select" # (```player_id, item_type_id, item_mode```)
+--- | "serveraction" # (```player_id, action_key```)
+--- | "shieldhit" # (```player_id, source_id, weapon_type_id/source_type_id, attack_direction, attacker_object_id, damage```)
+--- | "spawn" # (```player_id```) **->** `""`: (nothing) spawn with regular items **|** `"x"`: spawn with melee weapon only **|** `"typeid,typeid,..."`: spawn with these items + melee
+--- | "specswitch" # (```player_id, target_id```)
+--- | "spray" # (```player_id```)
+--- | "suicide" # (```player_id```) **->** `0`: proceed normally **|** `1`: don't commit suicide
+--- | "team" # (```player_id, team_id, look_id```) **->** `0`: proceed normally **|** `1`: don't change team + close menu
+--- | "use" # (```player_id, event_id, data, use_tx, use_ty```)
+--- | "usebutton" # (```player_id, button_tx, button_ty```)
+--- | "vipescape" # (```player_id, escape_tx, escape_ty```)
+--- | "voice" # (```player_id```) **->** `0`: proceed normally **|** `1`: disallow voice chat
+--- | "vote" # (```player_id, vote_mode, param```) **->** `0`: proceed normally **|** `1`: ignore the vote and do nothing
+--- | "walkover" # (```player_id, item_id, item_type_id, ammo_in, ammo, item_mode```) **->** `0`: proceed normally (collect if possible) **|** `1`: don't collect
 
 --- Category that contains anything involving objects.
 --- @alias hook_type_object

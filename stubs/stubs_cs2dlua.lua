@@ -1355,7 +1355,7 @@ function objecttype(type, value) end
 --- ☠️ **Security Warning**:
 --- - Do not set `Stop-At-Semicolon` to `0` when parsing user input, as this may allow users to execute unauthorized commands or manipulate parameters.
 ---
---- @param commands console_command|string The CS2D command to execute (as a string).
+--- @param commands string|console_command The CS2D command to execute (as a string).
 --- @param stop_at_semicolon? number Optional. Set to 1 to stop at semicolons, preventing malicious input manipulation.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=parse#cmd

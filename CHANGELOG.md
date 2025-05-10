@@ -2,6 +2,16 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.3]
+
+### Added
+
+-    Finished adding parameter info for hooks.
+
+### Changed
+
+-    Fixed a bug with `parse` where it wouldn't respect commands with parameters. Thanks Maksio!
+
 ## [0.1.2]
 
 ### Added
