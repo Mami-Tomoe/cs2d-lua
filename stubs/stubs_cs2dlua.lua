@@ -822,10 +822,10 @@ function imageframe(img_id, frame) end
 ---
 --- @param img_id number: The identifier of the image to which the hit zone will be applied.
 --- @param mode number: The mode of the hit zone (defines its effect and whether it blocks shots).
---- @param xOffset number: The x-axis offset of the hit zone (relative to the image centre).
---- @param yOffset number: The y-axis offset of the hit zone (relative to the image centre).
---- @param width number: The width of the hit zone.
---- @param height number: The height of the hit zone.
+--- @param xOffset? number: The x-axis offset of the hit zone (relative to the image centre).
+--- @param yOffset? number: The y-axis offset of the hit zone (relative to the image centre).
+--- @param width? number: The width of the hit zone.
+--- @param height? number: The height of the hit zone.
 ---
 --- Sample usage:
 --- ```lua

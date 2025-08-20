@@ -2,6 +2,12 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.4]
+
+### Changed
+
+-    Fixed a bug with `imagehitzone` where it wouldn't expect being called without offset and size parameters. Thanks Maksio!
+
 ## [0.1.3]
 
 ### Added
