@@ -2,6 +2,12 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.6]
+
+### Changed
+
+-    Fixed parameter info for `object` CS2D Lua function.
+
 ## [0.1.5]
 
 ### Added
