@@ -1191,8 +1191,8 @@ function msg2(p, text) end
 --- * `"mode"`: The current mode of the object, which can vary depending on the object type.
 --- * `"team"`: The team the object belongs to (reference image [here](https://cs2d.com/img/ref_team.png)).
 --- * `"player"`: The player who created or owns the object, or for NPCs, the NPC type (reference [here](https://cs2d.com/img/ref_npcs.png)).
---- * `"X"`: The current x-position of the object in pixels.
---- * `"Y"`: The current y-position of the object in pixels.
+--- * `"x"`: The current x-position of the object in pixels.
+--- * `"y"`: The current y-position of the object in pixels.
 --- * `"rot"`: The current rotation angle of the object.
 --- * `"alpha"`: The alpha transparency value (`0.0` to `1.0`).
 --- * `"tilex` and `tiley"`: Tile position (`tx` and `ty`) on the map.
