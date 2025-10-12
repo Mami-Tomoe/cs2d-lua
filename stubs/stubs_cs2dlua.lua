@@ -164,7 +164,7 @@ function ai_freeline(p, x, y) end
 --- @param ty number The `Y`-coordinate (in tiles) of the target position.
 --- @param walk binary_value Set to `1` to make the bot walk silently.
 ---
---- @return number `0` if failed to find path, `1` if the target is reached, or `2` if the bot is still moving.
+--- @return 0|1|2 `0` if failed to find path, `1` if the target is reached, or `2` if the bot is still moving.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=ai_goto#cmd
 ---
@@ -352,7 +352,7 @@ function closehostage(p) end
 --- @param p player_id The player identifier.
 --- @param range number The range in tiles.
 ---
---- @return table<number, item_type_id_types> item_list A table containing item identifiers.
+--- @return table<item_type_id_types> item_list A table containing item identifiers.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeitems#cmd
@@ -376,7 +376,7 @@ function closeitems(p, range) end
 --- @param radius number The radius in pixels.
 --- @param type? dynamic_object_type_id_types Optional. The type of object to search for.
 ---
---- @return table<number, dynamic_object_type_id_types> object_list A table containing object identifiers within the specified radius.
+--- @return table<dynamic_object_type_id_types> object_list A table containing object identifiers within the specified radius.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeobjects#cmd
@@ -399,7 +399,7 @@ function closeobjects(x, y, radius, type) end
 --- @param radius number The radius in pixels.
 --- @param team? player_team_type_id The team identifier (`0` for all teams, `1` for Ts, `2` for CTs).
 ---
---- @return table<number, player_id> players A table containing player identifiers within the specified radius.
+--- @return table<player_id> players A table containing player identifiers within the specified radius.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=closeplayers#cmd
@@ -414,7 +414,7 @@ function closeplayers(x, y, radius, team) end
 ---
 --- @param tx number The `X`-coordinate of the entity in tiles.
 --- @param ty number The `Y`-coordinate of the entity in tiles.
---- @param value string The specific value to fetch (e.g., `"exists"`, `"typename"`, `"state"`).
+--- @param value entity_value_params The specific value to fetch (e.g., `"exists"`, `"typename"`, `"state"`).
 --- > * `"exists"`: boolean, `true` if there is an entity at this position, `false` otherwise
 --- > * `"typename"`: name of that entity type
 --- > * `"type"`: internal type identifier for that entity
@@ -454,7 +454,7 @@ function entity(tx, ty, value) end
 ---
 --- @param type? number Optional. The type of entity to filter by.
 ---
---- @return table list A table of entities with their positions.
+--- @return table<entity_type_ids> list A table of entities with their positions.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=entitylist#cmd
@@ -471,7 +471,7 @@ function entitylist(type) end
 --- @param x number The `X`-coordinate in pixels.
 --- @param y number The `Y`-coordinate in pixels.
 ---
---- @return number visibility `1` if hidden by fog of war, `0` if not.
+--- @return binary_value visibility `1` if hidden by fog of war, `0` if not.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=fow_in#cmd
@@ -480,7 +480,7 @@ function fow_in(p, x, y) end
 --- Removes a function from a hook.
 --- Nothing happens if the function has not been attached to the hook with [addhook](lua://addhook) before.
 ---
---- @param hook string The hook name to remove the function from.
+--- @param hook hook_types The hook name to remove the function from.
 --- @param func string The name of the function to remove from the hook.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=freehook#cmd
@@ -499,7 +499,7 @@ function freehook(hook, func) end
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=freeimage#cmd
 ---
 --- @see image to create an image.
---- @see imagealpha to hide the image (with alpha = `0`) as opposed to freeing the image.
+--- @see imagealpha to hide the image (with alpha = `0`) as opposed to freeing the image to be reused later.
 function freeimage(img_id) end
 
 --- Removes timers which call the specified `"function"` with the specified `"parameter"`.
@@ -555,7 +555,7 @@ function game(game_setting) end
 --- @param x number The x position to check around (in pixels).
 --- @param y number The y position to check around (in pixels).
 --- @param radius number The radius around the position to search in pixels.
---- @param team? number Optional. The team to limit the search to (default: `0` for all teams).
+--- @param team? player_team_type_id Optional. The team to limit the search to (default: `0` for all teams).
 --- > You can optionally specify a team to limit the search to players of that team:
 --- > * `0` - all teams (default)
 --- > * `1` - Ts only
@@ -582,7 +582,7 @@ function hascloseplayers(x, y, radius, team) end
 --- ```
 ---
 --- @param hostageID number The identifier of the hostage to query.
---- @param value string The specific value to retrieve (e.g., "exists", "health", etc.).
+--- @param value hostage_value_params The specific value to retrieve (e.g., "exists", "health", etc.).
 --- > * "exists": boolean, `true` if hostage with this identifier exists, `false` otherwise
 --- > * "health": number, hostage health (`0`-`100`)
 --- > * "follow": number, player identifier if the hostage is following a player, `0` otherwise
@@ -610,9 +610,9 @@ function hostage(hostageID, value) end
 --- > * Mode `2` - HUD image (covering everything, part of the interface, affected by mp_hudscale)
 --- > * Mode `3` - super top image (covering everything on the map)
 --- > * Mode `4` - background image (covering only the background)
---- > * Mode `101`-`132` - draw at player, covered by player (player id + `100`)
---- > * Mode `201`-`232` - draw at player, covering player (player id + `200`)
---- > * Mode `133`-`164` - draw at player, covering player and entity images (player id + `132`)
+--- > * Mode `101`-`132` - draw at player, covered by player (player ID + `100`)
+--- > * Mode `201`-`232` - draw at player, covering player (player ID + `200`)
+--- > * Mode `133`-`164` - draw at player, covering player and entity images (player ID + `132`)
 ---
 --- Meaning of `X` and `Y` when drawing at player:
 --- When drawing an image at a player (mode `101`-`232`), `X` and `Y` are not used for the position (because it's defined by the player).
@@ -673,8 +673,8 @@ function hostage(hostageID, value) end
 --- @param path string The path to the image file (relative to the CS2D folder).
 --- @param x number The x position (in pixels).
 --- @param y number The y position (in pixels).
---- @param mode number The display mode for the image.
---- @param player? number Optional. The player identifier to restrict visibility to a certain player (default: visible to all).
+--- @param mode image_draw_modes The display mode for the image.
+--- @param player? player_id Optional. The player identifier to restrict visibility to a certain player (default: visible to all).
 ---
 --- @return number img_id The identifier of the created image.
 --- @nodiscard
@@ -705,7 +705,7 @@ function imagealpha(img_id, alpha) end
 --- Commonly used for effects like transparency, glow, and other visual effects.
 ---
 --- @param img_id number: The identifier of the image to modify.
---- @param mode number: The blend mode to apply. Possible values:
+--- @param mode image_blend_modes: The blend mode to apply. Possible values:
 --- > * `0` - Normal (default)
 --- > * `1` - Additive (brightens underlying colours)
 --- > * `2` - Subtractive (darkens underlying colours)
@@ -821,7 +821,7 @@ function imageframe(img_id, frame) end
 --- > * Thin hit zones may not react correctly to all shots; it is recommended to have a minimum width and height of `10` pixels.
 ---
 --- @param img_id number: The identifier of the image to which the hit zone will be applied.
---- @param mode number: The mode of the hit zone (defines its effect and whether it blocks shots).
+--- @param mode image_hitzone_modes: The mode of the hit zone (defines its effect and whether it blocks shots).
 --- @param xOffset? number: The x-axis offset of the hit zone (relative to the image centre).
 --- @param yOffset? number: The y-axis offset of the hit zone (relative to the image centre).
 --- @param width? number: The width of the hit zone.
@@ -840,8 +840,8 @@ function imagehitzone(img_id, mode, xOffset, yOffset, width, height) end
 --- The exact meaning of the returned values may vary depending on the image mode.
 ---
 --- Available values to retrieve:
----   * **x**: The x-position of the image on the map (in pixels). The meaning can change depending on the image mode.
----   * **y**: The y-position of the image on the map (in pixels). The meaning can change depending on the image mode.
+---   * **x**: The X-position of the image on the map (in pixels). The meaning can change depending on the image mode.
+---   * **y**: The Y-position of the image on the map (in pixels). The meaning can change depending on the image mode.
 ---   * **rot**: The current rotation angle of the image (in degrees). Returns `0` if the image is not rotated.
 ---   * **alpha**: The alpha transparency value of the image, ranging from `0.0` (completely transparent) to `1.0` (completely opaque).
 ---   * **path**: The string path to the image (e.g., "gfx/sprites/flare.png").
@@ -855,7 +855,7 @@ function imagehitzone(img_id, mode, xOffset, yOffset, width, height) end
 --- * Images are treated as objects internally. You can use object methods to retrieve additional values if needed.
 ---
 --- @param img_id number: The identifier of the image to retrieve parameters from.
---- @param value string: The specific value to retrieve. Can be one of the options listed above (e.g., "x", "y", "rot").
+--- @param value imageparam_params: The specific value to retrieve. Can be one of the options listed above (e.g., "x", "y", "rot").
 ---
 --- @return string|number property Returns the requested property value (string for path, otherwise number for others).
 --- @nodiscard
@@ -973,7 +973,7 @@ function imagescale(img_id, width, height) end
 ---
 --- @param tx number: The `X`-coordinate of the tile to check.
 --- @param ty number: The `Y`-coordinate of the tile to check.
---- @param type string: The type of the entity to check for.
+--- @param type entity_type_ids: The type of the entity to check for.
 ---
 --- @return boolean value Returns `true` if the tile is inside the area of the specified entity type, `false` otherwise.
 --- @nodiscard
@@ -1014,7 +1014,7 @@ function inentityzone(tx, ty, type) end
 ---   - Items carried by players cannot be accessed with this command. Use [playerweapons](lua://playerweapons) to get a list of item types a player currently carries.
 ---
 --- @param itemID number: The unique identifier of the item instance on the map.
---- @param value string: The value you want to retrieve (e.g., `"name"`, `"ammo"`, etc.).
+--- @param value item_params: The value you want to retrieve (e.g., `"name"`, `"ammo"`, etc.).
 ---
 --- @return string|number|boolean property Returns the requested value for the item (e.g., string for name, number for ammo, or boolean for existence).
 --- @nodiscard
@@ -1029,7 +1029,7 @@ function item(itemID, value) end
 --- @param tx number: The `X`-coordinate of the tile.
 --- @param ty number: The `Y`-coordinate of the tile.
 ---
---- @return table items Returns a table of item ids.
+--- @return table<item_type_id_types> items Returns a table of item ids.
 --- @nodiscard
 function itemsat(tx, ty) end
 
@@ -1053,8 +1053,8 @@ function itemsat(tx, ty) end
 --- ℹ️ **Note**: Do not confuse the identifier of an item instance on the map (retrieved via the `item` command) with the type identifier.
 --- Each item has a unique instance identifier, but multiple items can share the same type identifier.
 ---
---- @param type number: The type identifier of the item.
---- @param value string: The value you want to retrieve (e.g., `"name"`, `"dmg"`, etc.).
+--- @param type item_type_id_types: The type identifier of the item.
+--- @param value item_type_params: The value you want to retrieve (e.g., `"name"`, `"dmg"`, etc.).
 ---
 --- @return string|number property Returns the requested value for the item type (e.g., string for name, number for damage, etc.).
 --- @nodiscard
@@ -1092,7 +1092,7 @@ function itemtype(type, value) end
 ---
 --- ℹ️ **Note**: The function returns information specific to the current map.
 ---
---- @param value string: The value you want to retrieve (e.g., `"name"`, `"xsize"`, etc.).
+--- @param value map_params: The value you want to retrieve (e.g., `"name"`, `"xsize"`, etc.).
 ---
 --- @return string|number property Returns the requested value for the map (e.g., string for name, number for size, etc.).
 --- @nodiscard
@@ -1100,7 +1100,7 @@ function itemtype(type, value) end
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=map#cmd
 function map(value) end
 
---- Opens a menu on the screen of a certain player (`id`=player id) or for every player (`id`=`0`).
+--- Opens a menu on the screen of a certain player (`id`=player ID) or for every player (`id`=`0`).
 ---
 --- **Menu Content Scheme**: `"title,b1,b2,...,b9"`
 --- * `"title"`: The title of the menu. Attach `"@b"` at the end of the title for a bigger menu, or `"@i"` for an invisible menu.
@@ -1124,8 +1124,8 @@ function map(value) end
 ---   end
 ---   ```
 ---
---- @param p player_id: The player id (`0` for all players).
---- @param content string: A string defining the content and structure of the menu.
+--- @param p player_id: The player ID (`0` for all players).
+--- @param content string: A string defining the content and structure of the menu in the CSV format.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=menu#cmd
 function menu(p, content) end
@@ -1218,14 +1218,14 @@ function msg2(p, text) end
 ---   end
 ---   ```
 ---
---- @param obj number The dynamic object identifier or `0` for retrieving all dynamic object identifiers.
---- @param value string The property or value you want to retrieve (e.g., "`exists`", "`health`", etc.).
+--- @param obj_id number The dynamic object identifier or `0` for retrieving all dynamic object identifiers.
+--- @param value object_params The property or value you want to retrieve (e.g., "`exists`", "`health`", etc.).
 ---
---- @return any property The requested property value or a `table` if `obj` is `0`.
+--- @return boolean|string|number|table property The requested property value or a `table` if `obj` is `0`.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=object#cmd
-function object(obj, value) end
+function object(obj_id, value) end
 
 --- Returns the identifier of the first object found at the specified tile position (`X`|`Y`) with the given type.
 --- If no type is specified, it returns the first object of any type at the given position.
@@ -1249,7 +1249,7 @@ function object(obj, value) end
 ---
 --- @param tx number The `X`-coordinate of the tile position.
 --- @param ty number The `Y`-coordinate of the tile position.
---- @param type? number The specific object type to search for (optional).
+--- @param type? dynamic_object_type_id_types The specific object type to search for (optional).
 ---
 --- @return number obj_id The identifier of the found object, or `0` if no object is found.
 --- @nodiscard
@@ -1298,11 +1298,11 @@ function objectat(tx, ty, type) end
 --- ℹ️ **Note**: Do not confuse the identifier of an object instance on the map (which can be retrieved using the [object](lua://object) command) with the object type identifier.
 --- These are different: each object instance has a unique identifier, but multiple objects may share the same type identifier.
 ---
---- @param type number The object type identifier.
+--- @param type dynamic_object_type_id_types The object type identifier.
 ---
---- @param value string The specific value to retrieve for the object type.
+--- @param value objecttype_params The specific value to retrieve for the object type.
 ---
---- @return any property The requested property value.
+--- @return string|number property The requested property value.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=objecttype#cmd
 ---
@@ -1356,7 +1356,7 @@ function objecttype(type, value) end
 --- - Do not set `Stop-At-Semicolon` to `0` when parsing user input, as this may allow users to execute unauthorized commands or manipulate parameters.
 ---
 --- @param commands string|console_command The CS2D command to execute (as a string).
---- @param stop_at_semicolon? number Optional. Set to 1 to stop at semicolons, preventing malicious input manipulation.
+--- @param stop_at_semicolon? binary_value Optional. Set to 1 to stop at semicolons, preventing malicious input manipulation.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=parse#cmd
 function parse(commands, stop_at_semicolon) end
@@ -1444,12 +1444,15 @@ function parse(commands, stop_at_semicolon) end
 ---   ```
 ---
 --- @param p player_id Player identifier or `0` to retrieve a table of players.
---- @param value string The requested property or table type.
+--- @param value player_params The requested property or table type.
 ---
---- @return any property Requested property value, `false` if invalid.
+--- @return number|string|table|boolean property Requested property value, `false` if invalid.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=player#cmd
+---
+--- @see playerweapons to retrieve owned weapons details.
+--- @see playerammo to retrieve ammo details.
 function player(p, value) end
 
 --- Returns how much ammo the specified player has left in the specified weapon.
@@ -1479,7 +1482,7 @@ function player(p, value) end
 --- - Be careful when using this function with user input or in an environment with unreliable network conditions, as the values may be inaccurate.
 ---
 --- @param p player_id The player identifier.
---- @param itemType number The item type identifier of the weapon.
+--- @param itemType item_type_id_types The item type identifier of the weapon.
 ---
 --- @return number ammoIn, number ammo The ammo currently loaded into the weapon and the spare ammo for reloading.
 --- @nodiscard
@@ -1509,7 +1512,7 @@ function playerammo(p, itemType) end
 ---
 --- @param p player_id The player identifier whose items are being queried.
 ---
---- @return table list A table of all equippable item types the player carries.
+--- @return table<item_type_id_types> list A table of all equippable item types the player carries.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=playerweapons#cmd
@@ -1576,51 +1579,14 @@ function print(text) end
 ---
 --- @param projectileID number Identifier of the projectile.
 --- @param p player_id Identifier of the player associated with the projectile.
---- @param value string The property to retrieve (e.g., `"exists"`, `"x"`, `"type"`).
+--- @param value projectile_params The property to retrieve (e.g., `"exists"`, `"x"`, `"type"`).
 ---
---- @return any property The requested property value or `nil` if the projectile does not exist.
+--- @return boolean|number|nil property The requested property value or `nil` if the projectile does not exist.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=projectile#cmd
 ---
 --- @see projectilelist for a list of projectiles.
-function projectile(projectileID, p, value) end
-
---- Returns a value of a projectile (e.g., grenades and objects launched by weapons visible for multiple frames).
---- Regular bullets are NOT considered projectiles.
----
---- **Available Values**:
---- * `exists`: `boolean`, `true` if the projectile exists, `false` otherwise.
---- * `type`: Internal type identifier (matches the weapon's corresponding identifier).
---- * `X`, `Y`: Current x and y positions on the map (in pixels).
---- * `dir`: Current flight direction.
---- * `rot`: Current rotation angle (used for visual effects only).
---- * `flydist`: Distance (in pixels) the projectile will fly (applies to flying projectiles).
---- * `time`: Countdown (in seconds) until the projectile is removed (applies to ground projectiles).
----
---- **Important Notes**:
---- * Projectiles are managed in two lists:
----   - "flying": Contains projectiles currently in flight.
----   - "ground": Contains idle projectiles on the ground (do not move even if their values suggest otherwise).
---- * Server projectile values might differ from client values due to internet lag and latency.
---- * There is no `projectile(0, "table")` command. Use `projectilelist` instead.
---- * Projectiles can have duplicate identifiers because each player has their own identifier space. Always specify both `projectileID` and `p` to uniquely identify a projectile.
----
---- **Examples**:
---- * Retrieve and print a projectile's type:
----   ```lua
----   local projType = projectile(1, 2, "type")
----   print("Projectile Type: " .. projType)
----   ```
----
---- @param projectileID number Identifier of the projectile.
---- @param p player_id Identifier of the player associated with the projectile.
---- @param value string The property to retrieve (e.g., "exists", "x", "type").
----
---- @return any property The requested property value or `nil` if the projectile does not exist.
---- @nodiscard
----
---- @docs https://cs2d.com/help.php?luacat=all&luacmd=projectile#cmd
 function projectile(projectileID, p, value) end
 
 --- Returns a list (*Lua table*) containing projectile key data (identifiers and parent player) of all flying or ground projectiles.
@@ -1645,10 +1611,10 @@ function projectile(projectileID, p, value) end
 ---   end
 ---   ```
 ---
---- @param list number Specify `0` for flying projectiles or `1` for ground projectiles.
---- @param p? number Player identifier to filter projectiles (optional, defaults to `0`).
+--- @param list binary_value Specify `0` for flying projectiles or `1` for ground projectiles.
+--- @param p? player_id Player identifier to filter projectiles (optional, defaults to `0`).
 ---
---- @return table list A table of projectiles, each containing `id` and `player` fields.
+--- @return {id: number, player: number} list A table of projectiles, each containing `id` and `player` fields.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=projectilelist#cmd
@@ -1675,7 +1641,7 @@ function projectilelist(list, p) end
 ---   print("Terrorist spawn at: " .. x .. ", " .. y)
 ---   ```
 ---
---- @param type number The entity type to search for.
+--- @param type entity_type_ids The entity type to search for.
 --- @param ai_state? number AI state to filter by (`-1` to ignore, optional).
 --- @param int0? number `int0` value to filter by (`-1` to ignore, optional).
 ---
@@ -1705,7 +1671,7 @@ function randomentity(type, ai_state, int0) end
 ---   print("Hostage at: " .. x .. ", " .. y)
 ---   ```
 ---
---- @param unused number Set to `0` to include used hostages or `1` to exclude them.
+--- @param unused binary_value Set to `0` to include used hostages or `1` to exclude them.
 ---
 --- @return number tileX, number tileY POSITION The tile `X` and `Y` positions of the hostage, or `-100, -100` if none is found.
 --- @nodiscard
@@ -1745,7 +1711,7 @@ function removeallbinds() end
 ---   ```
 ---
 --- **Parameters**:
---- @param key string The name of the key to remove.
+--- @param key bind_key_types The name of the key to remove.
 --- > Valid key names:
 --- > * Numeric keys: `'0'`, `'1'`, ... `'9'`
 --- > * Alphabetic keys: `'A'`, `'B'`, ... `'Z'`
@@ -1756,7 +1722,7 @@ function removeallbinds() end
 --- > * Others: `"backspace"`, `"tab"`, `"clear"`, `"enter"`, `"escape"`, `"space"`, `"pgup"`, `"pgdn"`, `"end"`, `"home"`, `"select"`, `"print"`, `"execute"`, `"screen"`, `"ins"`, `"del"`
 --- > * Numpad/keypad: Same as above with `kp_` prefix, e.g., `"kp_leftarrow"`, `"kp_home"`, `"kp_ins"`, `"kp_5"` for the centre button.
 ---
---- @return number success `1` if the bind was removed, `0` if the bind did not exist.
+--- @return binary_value success `1` if the bind was removed, `0` if the bind did not exist.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=removebind#cmd
 ---
@@ -1802,7 +1768,7 @@ function removebind(key) end
 ---   ```
 ---
 --- @param p player_id Player ID (`0` for all players).
---- @param mode number Mode specifying the data type to request.
+--- @param mode reqcld_params Mode specifying the data type to request.
 --- @param param? string Optional parameter required for some modes.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=reqcld#cmd
@@ -1834,7 +1800,7 @@ function reqcld(p, mode, param) end
 ---
 --- @param url string The domain name or IP address.
 --- @param path string The relative path of the resource.
---- @param mode number The response format (`0` for string, `1` for byte array).
+--- @param mode binary_value The response format (`0` for string, `1` for byte array).
 ---
 --- @return number req_id The unique request identifier.
 --- @nodiscard
@@ -1887,8 +1853,8 @@ function setentityaistate(tx, ty, ai) end
 ---   sethookstate("join", 1)
 ---   ```
 ---
---- @param hook string The name of the hook.
---- @param state number `1` to enable, `0` to disable.
+--- @param hook hook_types The name of the hook.
+--- @param state binary_value `1` to enable, `0` to disable.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=sethookstate#cmd
 ---
@@ -1901,15 +1867,15 @@ function sethookstate(hook, state) end
 --- Retrieves various statistics for a specific U.S.G.N. identifier, such as rank, kills, and time spent on the server.
 ---
 --- **Available Values**:
---- * `exists`: `boolean`, `true` if stats for the U.S.G.N. identifier are available, `false` otherwise.
---- * `rank`: Current rank of the player on the server (`1` for the best, `0` if unranked).
---- * `killsperdeath`: Kills per death ratio (calculated as `kills / deaths`).
---- * `score`: Total score (sum of map mission goal score and frags).
---- * `frags`: Number of kills.
---- * `deaths`: Number of deaths.
---- * `secs`: Time spent on the server in seconds (only counts time while in a team, excludes time as spectator).
---- * `mvp`: Number of rounds where the player was the most valuable player.
---- * `assists`: Number of kill assists.
+--- * `"exists"`: `boolean`, `true` if stats for the U.S.G.N. identifier are available, `false` otherwise.
+--- * `"rank"`: Current rank of the player on the server (`1` for the best, `0` if unranked).
+--- * `"killsperdeath"`: Kills per death ratio (calculated as `kills / deaths`).
+--- * `"score"`: Total score (sum of map mission goal score and frags).
+--- * `"frags"`: Number of kills.
+--- * `"deaths"`: Number of deaths.
+--- * `"secs"`: Time spent on the server in seconds (only counts time while in a team, excludes time as spectator).
+--- * `"mvp"`: Number of rounds where the player was the most valuable player.
+--- * `"assists"`: Number of kill assists.
 ---
 --- **Important Notes**:
 --- * Returns `false` if stats are not available for the specified U.S.G.N. identifier or if invalid parameters are provided.
@@ -1924,9 +1890,9 @@ function sethookstate(hook, state) end
 ---   ```
 ---
 --- @param usgn_id number The U.S.G.N. identifier.
---- @param value string The stat to retrieve (e.g., "killsperdeath", "score").
+--- @param value stats_params The stat to retrieve (e.g., "killsperdeath", "score").
 ---
---- @return any stat The requested stat value, or `false` if not available.
+--- @return boolean|number stat The requested stat value, or `false` if not available.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=stats#cmd
@@ -1962,9 +1928,9 @@ function stats(usgn_id, value) end
 ---   ```
 ---
 --- @param steam_id string The Steam identifier (as a string).
---- @param value string The stat to retrieve (e.g., "killsperdeath", "score").
+--- @param value stats_params The stat to retrieve (e.g., "killsperdeath", "score").
 ---
---- @return any stat The requested stat value, or `false` if not available.
+--- @return boolean|number stat The requested stat value, or `false` if not available.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=steamstats#cmd
@@ -2027,14 +1993,15 @@ function steamstats(steam_id, value) end
 ---
 --- @param tx number Tile `X`-position.
 --- @param ty number Tile `Y`-position.
---- @param value string The property to retrieve (e.g., `"frame"`, `"walkable"`).
+--- @param value tile_params The property to retrieve (e.g., `"frame"`, `"walkable"`).
 ---
---- @return any property The requested property value, or `false` if the tile position is invalid.
+--- @return number|boolean|table property The requested property value, or `false` if the tile position is invalid.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=tile#cmd
 ---
 --- @see tileproperty to view a tile frame property.
+--- @see map to view the map properties.
 function tile(tx, ty, value) end
 
 --- Gets the property value for the specified tile frame in the tileset of the current map.
@@ -2071,7 +2038,7 @@ function tile(tx, ty, value) end
 ---
 --- @param tileFrame number The tile frame number in the tileset.
 ---
---- @return number property The property value of the tile frame.
+--- @return tile_properties property The property value of the tile frame.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=tileproperty#cmd
@@ -2185,7 +2152,7 @@ function tween_alpha(img_id, milliseconds, alpha) end
 ---
 --- @param img_id number The identifier of the image to animate.
 --- @param milliseconds number Duration each frame is displayed, in milliseconds.
---- @param mode number The animation mode (`0`-`4`).
+--- @param mode image_animation_modes The animation mode (`0`-`4`).
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=tween_animate#cmd
 ---

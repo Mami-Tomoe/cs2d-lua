@@ -1006,3 +1006,438 @@
 --- | "visibleshots"
 --- | "volume"
 --- | "wiggle"
+
+--- List of valid entity function queries.
+--- @alias entity_value_params
+--- | "exists" # Boolean, `true` if there is an entity at this position, `false` otherwise
+--- | "typename" # Name of that entity type
+--- | "type" # Internal type identifier for that entity
+--- | "name" # Name entered in the name field of that entity
+--- | "trigger" # Value(s) entered in the trigger field of that entity
+--- | "state" # Boolean, `false` if visible/on (default), `true` otherwise
+--- | "int0" # Internal number for settings/states
+--- | "int1" # Internal number for settings/states
+--- | "int2" # Internal number for settings/states
+--- | "int3" # Internal number for settings/states
+--- | "int4" # Internal number for settings/states
+--- | "int5" # Internal number for settings/states
+--- | "int6" # Internal number for settings/states
+--- | "int7" # Internal number for settings/states
+--- | "int8" # Internal number for settings/states
+--- | "int9" # Internal number for settings/states
+--- | "str0" # Internal string for settings/states
+--- | "str1" # Internal string for settings/states
+--- | "str2" # Internal string for settings/states
+--- | "str3" # Internal string for settings/states
+--- | "str4" # Internal string for settings/states
+--- | "str5" # Internal string for settings/states
+--- | "str6" # Internal string for settings/states
+--- | "str7" # Internal string for settings/states
+--- | "str8" # Internal string for settings/states
+--- | "str9" # Internal string for settings/states
+--- | "aistate" # AI state for AI scripting, can be set with `setentityaistate`
+
+--- List of entities.
+--- @alias entity_type_ids
+--- | 0 # Info_T
+--- | 1 # Info_CT
+--- | 2 # Info_VIP
+--- | 3 # Info_Hostage
+--- | 4 # Info_RescuePoint
+--- | 5 # Info_BombSpot
+--- | 6 # Info_EscapePoint
+--- | 8 # Info_Animation
+--- | 9 # Info_Storm
+--- | 10 # Info_TileFX
+--- | 11 # Info_NoBuying
+--- | 12 # Info_NoWeapons
+--- | 13 # Info_NoFOW
+--- | 14 # Info_Quake
+--- | 15 # Info_CTF_Flag
+--- | 16 # Info_OldRender
+--- | 17 # Info_Dom_Point
+--- | 18 # Info_NoBuildings
+--- | 19 # Info_BotNode
+--- | 20 # Info_TeamGate
+--- | 21 # Env_Item
+--- | 22 # Env_Sprite
+--- | 23 # Env_Sound
+--- | 24 # Env_Decal
+--- | 25 # Env_Breakable
+--- | 26 # Env_Explode
+--- | 27 # Env_Hurt
+--- | 28 # Env_Image
+--- | 29 # Env_Object
+--- | 30 # Env_Building
+--- | 31 # Env_NPC
+--- | 32 # Env_Room
+--- | 33 # Env_Light
+--- | 34 # Env_LightStripe
+--- | 50 # Gen_Particles
+--- | 51 # Gen_Sprites
+--- | 52 # Gen_Weather
+--- | 53 # Gen_FX
+--- | 70 # Func_Teleport
+--- | 71 # Func_DynWall
+--- | 72 # Func_Message
+--- | 73 # Func_GameAction
+--- | 80 # Info_NoWeather
+--- | 90 # Trigger_Start
+--- | 91 # Trigger_Move
+--- | 92 # Trigger_Hit
+--- | 93 # Trigger_Use
+--- | 94 # Trigger_Delay
+--- | 95 # Trigger_Once
+--- | 96 # Trigger_If
+
+--- List of valid hostage function queries.
+--- @alias hostage_value_params
+--- | "exists" # Boolean, `true` if hostage with this identifier exists, `false` otherwise
+--- | "health" # Number, Hostage health (`0`-`100`)
+--- | "follow" # Number, player identifier if the hostage is following a player, `0` otherwise
+--- | "used" # Boolean, `true` if the hostage has been used by a counter-terrorist this round, `false` otherwise
+--- | "look" # Number, hostage look (skin frame)
+--- | "x" # Number, current `X` position on map (in pixels)
+--- | "y" # Number, current `Y` position on map (in pixels)
+--- | "rot" # Number, current rotation angle
+--- | "tilex" # Number, current `X` position on map (in tiles)
+--- | "tiley" # Number, current `Y` position on map (in tiles)
+
+--- List of image draw modes.
+--- @alias image_draw_modes
+--- | 0 # Floor image (covered by players)
+--- | 1 # Top image (covering players)
+--- | 2 # HUD image (covering everything, part of the interface, affected by `mp_hudscale`)
+--- | 3 # Super top image (covering everything on the map)
+--- | 4 # Background image (covering only the background)
+--- | 100 # Draw at player, covered by player (player `id+100`)
+--- | 200 # Draw at player, covering player (player `id+200`)
+--- | 132 # Draw at player, covering player and entity images (player `id+132`)
+
+--- List of image blend modes.
+--- @alias image_blend_modes
+--- | 0 # Normal (default)
+--- | 1 # Additive (brightens underlying colours)
+--- | 2 # Subtractive (darkens underlying colours)
+--- | 3 # Multiply (darkens colours)
+--- | 4 # Screen (brightens colours)
+--- | 5 # Invert (inverts the colour)
+--- | 6 # Overlay (combines multiply and screen effects)
+
+--- List of image blend modes.
+--- **Non-Blocking Modes (<= `100`, shots will pass through):**
+--- @alias image_hitzone_modes_non_blocking
+--- | 0 # Removes any existing hit zones (other parameters don't matter).
+--- | 1 # Hit zone without effects (just registers the zone).
+--- | 2 # Wall effect (hit zone causes a wall effect).
+--- | 3 # Blood effect (hit zone triggers blood effect).
+--- | 4 # Green blood effect (hit zone triggers green blood effect).
+
+--- **Blocking Modes (> `100`, shots will be stopped):**
+--- @alias image_hitzone_modes_blocking
+--- | 101 # Hit zone without effects + stop shot.
+--- | 102 # Wall effect + stop shot.
+--- | 103 # Blood effect + stop shot.
+--- | 104 # Green blood effect + stop shot.
+
+--- **Collision Blocking Modes (> `200`, shots will be stopped and players will collide):**
+--- @alias image_hitzone_modes_collision_blocking
+--- | 201 # Hit zone without effects + stop shot + collide.
+--- | 202 # Wall effect + stop shot + collide.
+--- | 203 # Blood effect + stop shot + collide.
+--- | 204 # Green blood effect + stop shot + collide.
+
+--- @alias image_hitzone_modes
+--- | image_hitzone_modes_non_blocking
+--- | image_hitzone_modes_blocking
+--- | image_hitzone_modes_collision_blocking
+
+--- @alias imageparam_params
+--- | "x" # The X-position of the image on the map (in pixels). The meaning can change depending on the image mode.
+--- | "y" # The Y-position of the image on the map (in pixels). The meaning can change depending on the image mode.
+--- | "rot" # The current rotation angle of the image (in degrees). Returns `0` if the image is not rotated.
+--- | "alpha" # The alpha transparency value of the image, ranging from `0.0` (completely transparent) to `1.0` (completely opaque).
+--- | "path" # The string path to the image (e.g., "gfx/sprites/flare.png").
+--- | "frame" # The current animation frame of the image (for images with multiple frames).
+--- | "width" # The width of the image in pixels.
+--- | "height" # The height of the image in pixels.
+--- | "framecount" # The total number of animation frames for the image.
+
+--- @alias item_params
+--- | "exists" # `boolean`, `true` if an item with that identifier exists, `false` otherwise.
+--- | "name" # The name of the item.
+--- | "type" # Internal item type identifier.
+--- | "player" # identifier of the player that carries this item, or `0` if it is dropped.
+--- | "ammo" # The ammo supply for that weapon (not loaded into it).
+--- | "ammoin" # Ammo currently loaded into the weapon.
+--- | "mode" # Weapon mode (e.g., colour of laser, silenced or not).
+--- | "x" # X position of the dropped weapon on the map (in **tiles**).
+--- | "y" # Y position of the dropped weapon on the map (in **tiles**).
+--- | "dropped" # `boolean`, `true` if the weapon has been dropped by a player, `false` otherwise.
+--- | "droptimer" # How long ago the weapon was dropped (in seconds).
+
+--- @alias item_type_params
+--- | "name" # The name of the item, returns an empty string (`""`) if no item with this type exists.
+--- | "dmg" # The damage caused by this item.
+--- | "dmg_z1" # The damage caused with zoom level 1 (secondary attack mode).
+--- | "dmg_z2" # The damage caused with zoom level 2.
+--- | "rate" # The fire rate of the weapon.
+--- | "reload" # The reload duration for the weapon.
+--- | "ammo" # The amount of ammo that can be carried with the weapon.
+--- | "ammoin" # The amount of ammo that can be loaded into the weapon.
+--- | "price" # The price of the item.
+--- | "range" # The weapon range.
+--- | "dispersion" # The weapon dispersion.
+--- | "slot" # The item HUD slot.
+--- | "recoil" # The weapon recoil.
+
+--- @alias map_params
+--- | "name" # The name of the map.
+--- | "xsize" # The x size of the map in tiles.
+--- | "ysize" # The y size of the map in tiles.
+--- | "tileset" # The tile-set file used in the map.
+--- | "tilesize" # The size of each tile in the tile-set (either 32 or 64 pixels).
+--- | "tilecount" # The number of tiles in the tile-set.
+--- | "back_img" # The background image for the map (empty if there is none).
+--- | "back_scrollx" # The x scrolling speed of the background.
+--- | "back_scrolly" # The y scrolling speed of the background.
+--- | "back_scrolltile" # Whether the background scrolls like tiles (0 or 1).
+--- | "back_r" # The red value for the background colour.
+--- | "back_g" # The green value for the background colour.
+--- | "back_b" # The blue value for the background colour.
+--- | "storm_x" # The x speed of the storm.
+--- | "storm_y" # The y speed of the storm.
+--- | "mission_vips" # The number of VIP spawns.
+--- | "mission_hostages" # The number of hostages.
+--- | "mission_bombspots" # The number of bomb spots.
+--- | "mission_ctfflags" # The number of CTF flags.
+--- | "mission_dompoints" # The number of domination points.
+--- | "nobuying" # Whether buying is allowed (0 or 1).
+--- | "noweapons" # Whether weapons are allowed (0 or 1).
+--- | "teleporters" # Whether there are teleporters (0 or 1).
+--- | "botnodes" # The number of bot nodes.
+
+--- @alias object_params
+--- | "table" # Returns a list of all dynamic objects when the object ID is set to `0`.
+--- | "exists" # Returns `true` if the object exists, `false` otherwise.
+--- | "typename" # The name of the object's type.
+--- | "type" # Internal type identifier of the object (reference image [here](https://cs2d.com/img/ref_dynamicobjects.png)).
+--- | "health" # The current health value of the object.
+--- | "mode" # The current mode of the object, which can vary depending on the object type.
+--- | "team" # The team the object belongs to (reference image [here](https://cs2d.com/img/ref_team.png)).
+--- | "player" # The player who created or owns the object, or for NPCs, the NPC type (reference [here](https://cs2d.com/img/ref_npcs.png)).
+--- | "X" # The current x-position of the object in pixels.
+--- | "Y" # The current y-position of the object in pixels.
+--- | "rot" # The current rotation angle of the object.
+--- | "alpha" # The alpha transparency value (`0.0` to `1.0`).
+--- | "tilex` and `tiley" # Tile position (`tx` and `ty`) on the map.
+--- | "countdown" # The countdown value associated with the object.
+--- | "rootrot" # The original rotation of the object.
+--- | "idle" # The idle state for the object.
+--- | "rotvar" # The rotation variation.
+--- | "target" # Identifier of the object's current target.
+--- | "upgrade" # Upgrade value of the object.
+--- | "entity" # `true` if the object is spawned by an entity, `false` otherwise.
+--- | "entityx` and `entityy" # Tile coordinates of the entity that spawned the object.
+
+--- @alias objecttype_params
+--- | "name" # The localized name of the object (may change depending on server's language setting).
+--- | "internalname" # The internal name of the object. This will be an empty string (`""`) if no object exists with this type.
+--- | "type" # The subtype/class of the object:
+---   - `1` # building
+---   - `2` # stuff (mines, portals, etc.)
+---   - `3` # NPC unit
+---   - `4` # image
+--- | "price" # The price of the object (used for buildings).
+--- | "health" # The maximum or initial health of the object.
+--- | "killmoney" # The amount of money a player receives for killing or destroying the object.
+--- | "limit" # The maximum number of buildings of this type a player can build.
+--- | "upgradepoints" # The number of hits required to upgrade this building (0 if there is no upgrade).
+--- | "upgradeprice" # The price for upgrading the building (calculated as `upgrade_points * 50`; `0` if no upgrade is available).
+--- | "upgradeto" # The object type identifier to which this building can be upgraded (`0` if no upgrade is available).
+
+--- @alias player_identify_logins_language_params
+--- | "exists" # `boolean`, `true` if player with this identifier exists, `false` otherwise.
+--- | "name" # Name of the player.
+--- | "ip" # IP address of the player or "`0.0.0.0`" for bots/server.
+--- | "port" # Port of the player.
+--- | "usgn" # Unreal Software Gaming Network / UnrealSoftware.de user identifier (`0` if not logged in).
+--- | "usgnname" # Unreal Software Gaming Network / UnrealSoftware.de username (`""` if not logged in).
+--- | "steamid" # Steam identifier as a string (`"0"` if not logged in).
+--- | "steamname" # Steam username (`""` if not logged in or if name retrieval failed).
+--- | "bot" # `boolean`, `true` if player is a bot, `false` otherwise.
+--- | "rcon" # `boolean`, `true` if logged in with correct RCon password, `false` otherwise.
+--- | "language" # Current language of the player as a string.
+--- | "language_iso" # Current language of the player as an ISO code string.
+
+--- @alias player_team_appearance_params
+--- | "team" # `0` for spectators, `1` for terrorists, `2` for counter-terrorists, `3` for VIP (CT).
+--- | "favteam" # Favourite team if preferred team joining fails (e.g., in Zombies! mode).
+--- | "look" # Player look (`0`-`3`) / selected faction skin.
+--- | "sprayname" # Name of spray logo file.
+--- | "spraycolor" # Colour of spray logo (0-based index, reference in options menu).
+
+--- @alias player_mouse_position_screen_setup_params
+--- | "mousex"# Player mouse `X` screen position (alive players only, `-1` if not available).
+--- | "mousey" # Player mouse `Y` screen position (alive players only, `-1` if not available).
+--- | "mousemapx" # Mouse `X` position on the map (alive players only, `-1` if not available).
+--- | "mousemapy" # Mouse `Y` position on the map (alive players only, `-1` if not available).
+--- | "mousedist" # Distance between player and mouse (alive players only, `-1` if not available).
+--- | "screenw" # Game screen width dimensions in pixels (excluding borders).
+--- | "screenh" # Game screen height dimensions in pixels (excluding borders).
+--- | "widescreen" # Game running mode: widescreen (`0`/`1`).
+--- | "windowed" # Game running mode: windowed (`0`/`1`).
+--- | "micsupport" # `0`/`1`, indicates microphone support.
+
+--- @alias player_position_params
+--- | "x" # Current `X` position on the map (in pixels).
+--- | "y" # Current `Y` position on the map (in pixels).
+--- | "tilex" # Current `X` position on the map (in **tiles**).
+--- | "tiley" # Current `Y` position on the map (in **tiles**).
+--- | "rot" # Current rotation angle.
+
+--- @alias player_stats_params
+--- | "health" # Current health value.
+--- | "maxhealth" # Maximum health value.
+--- | "armour" # Armour value (see extended details for specific armour types).
+---     - `0`-`200`: Regular Kevlar(+Helm) points (damage reduction, decreases on hit).
+---     - `201`-`206`: Specialized armours with unique damage reductions and effects.
+--- | "money" # Money value.
+--- | "score" # Player score.
+--- | "deaths" # Player deaths.
+--- | "teamkills" # Player team kills.
+--- | "hostagekills" # Hostages killed.
+--- | "teambuildingkills" # Teammate buildings destroyed.
+--- | "mvp" # Rounds as MVP.
+--- | "assists" # Number of kill assists.
+--- | "ping" # Current ping in milliseconds.
+--- | "idle" # Idle time in seconds (int).
+--- | "speedmod" # Speed modifier value (`0` = normal, `<0` = slower, `>0` = faster).
+--- | "spectating" # Identifier of the player currently spectated.
+--- | "ai_flash" # Flashbang duration for bots (seconds, float, `0` if not flashed).
+
+--- @alias player_equipment_params
+--- | "weapontype" # Type ID of the current weapon.
+--- | "weaponmode" # Mode of the current weapon.
+--- | "nightvision" # Possession of night vision as `boolean` value.
+--- | "defusekit" # Possession of defuse kit as `boolean` value.
+--- | "gasmask" # Possession of gas mask as `boolean` value.
+--- | "bomb" # Possession of bomb as `boolean` value.
+--- | "flag" # Possession of flag as `boolean` value.
+
+--- @alias player_action_voting_params
+--- | "reloading" # `boolean`, `true` if reloading.
+--- | "process" # Current process state (internal ID for reloading/planting/defusing).
+---     - Values from `1`-`6` represent specific states (e.g., `1` = Start bomb planting).
+--- | "votekick" # Voted kick player ID (`0` if no vote).
+--- | "votemap" # Voted map name (empty string if no vote).
+
+--- @alias player_tables_params
+--- | "table" # All player identifiers.
+--- | "tableliving" # All living player identifiers.
+--- | "team1" # Terrorist identifiers.
+--- | "team2" # Counter-Terrorist identifiers.
+--- | "team1living" # Living Terrorist identifiers.
+--- | "team2living" # Living Counter-Terrorist identifiers.
+
+--- @alias player_params
+--- | player_identify_logins_language_params
+--- | player_team_appearance_params
+--- | player_mouse_position_screen_setup_params
+--- | player_position_params
+--- | player_stats_params
+--- | player_equipment_params
+--- | player_action_voting_params
+--- | player_tables_params
+
+--- @alias projectile_params
+--- | "exists" # `boolean`, `true` if the projectile exists, `false` otherwise.
+--- | "type" # Internal type identifier (matches the weapon's corresponding identifier).
+--- | "x" # Current `X` position on the map (in pixels).
+--- | "y" # Current `Y` position on the map (in pixels).
+--- | "dir" # Current flight direction.
+--- | "rot" # Current rotation angle (used for visual effects only).
+--- | "flydist" # Distance (in pixels) the projectile will fly (applies to flying projectiles).
+--- | "time" # Countdown (in seconds) until the projectile is removed (applies to ground projectiles).
+
+--- @alias reqcld_params
+--- | 0 # Cursor position on screen (in pixels, scaled based on `mp_hudscale`).
+---   - **Deprecated**: Use `player` with "mousex"/"mousey" instead.
+--- | 1 # Map scrolling offset (in pixels).
+--- | 2 # Absolute cursor position on the map (in pixels, not influenced by `mp_hudscale`).
+---   - **Deprecated**: Use `player` with "mousemapx"/"mousemapy" instead.
+--- | 3 # Advanced light engine state (`1` if enabled, `0` otherwise; second value is always `0`).
+--- | 4 # File load status and checksum.
+---   - Returns `1` if the file (specified with `param`) is loaded, `0` otherwise.
+---   - If the file is under `gfx/` or `sfx/`, also returns the checksum as provided by `checksumfile`.
+--- | 5 # Mod information.
+--- | 6 # 3D rendering state (`1` if enabled, `0` otherwise; second value is always `0`).
+
+--- @alias stats_params
+--- | "exists" # `boolean`, `true` if stats for the U.S.G.N. identifier are available, `false` otherwise.
+--- | "rank" # Current rank of the player on the server (`1` for the best, `0` if unranked).
+--- | "killsperdeath" # Kills per death ratio (calculated as `kills / deaths`).
+--- | "score" # Total score (sum of map mission goal score and frags).
+--- | "frags" # Number of kills.
+--- | "deaths" # Number of deaths.
+--- | "secs" # Time spent on the server in seconds (only counts time while in a team, excludes time as spectator).
+--- | "mvp" # Number of rounds where the player was the most valuable player.
+--- | "assists" # Number of kill assists.
+
+--- @alias tile_params
+--- | "frame" # Tile frame number in the tileset currently applied to this tile.
+--- | "property" # Tile type, representing the material/behaviour of the tile:
+---   - `0`: Tile without sound.
+---   - `1`: Wall.
+---   - `2`: Obstacle.
+---   - `3`: Wall without shadow.
+---   - `4`: Obstacle without shadow.
+---   - `5`: Floor wall.
+---   - `10`: Dirt floor.
+---   - `11`: Snow floor.
+---   - `12`: Step floor.
+---   - `13`: Tile floor.
+---   - `14`: Wade floor.
+---   - `15`: Metal floor.
+---   - `16`: Wood floor.
+---   - `50`: Deadly.
+---   - `51`: Toxic deadly.
+---   - `52`: Explosion deadly.
+---   - `53`: Abyss deadly.
+--- | "walkable" # `boolean`, `true` if walkable, `false` otherwise.
+--- | "deadly" # `boolean`, `true` if deadly, `false` otherwise.
+--- | "wall" # `boolean`, `true` if wall, `false` otherwise.
+--- | "obstacle" # `boolean`, `true` if obstacle, `false` otherwise.
+--- | "entity" # `number`, entity type at this position (`0` if none, `>0` otherwise).
+--- | "hascustomframe" # `boolean`, `true` if the frame has been changed with `settile`, `false` otherwise.
+--- | "originalframe" # Tile frame number originally assigned (unaltered map) or currently assigned if not changed.
+--- | "rot" # Tile rotation in degrees (`0` if not rotated; `90`, `180`, or `270` otherwise).
+--- | "blend" # Tile blending frame, or `false` if not blended.
+--- | "color" # `table`, Lua table with `r`, `g`, `b` values of the tile, or `false` if no custom colour is set (default is `r=255`, `g=255`, `b=255`).
+--- | "brightness" # Custom brightness level (`0, 10, 20, ..., 100`), or `false` if not set (default is `100`).
+
+--- @alias tile_properties
+--- | 0 # Tile without sound.
+--- | 1 # Wall.
+--- | 2 # Obstacle.
+--- | 3 # Wall without shadow.
+--- | 4 # Obstacle without shadow.
+--- | 5 # Floor wall.
+--- | 10 # Dirt floor.
+--- | 11 # Snow floor.
+--- | 12 # Step floor.
+--- | 13 # Tile floor.
+--- | 14 # Wade floor.
+--- | 15 # Metal floor.
+--- | 16 # Wood floor.
+--- | 50 # Deadly.
+--- | 51 # Toxic deadly.
+--- | 52 # Explosion deadly.
+--- | 53 # Abyss deadly.
+
+--- @alias image_animation_modes
+--- | 0 # Loop Forward (play from the current frame to the last frame, then restart from the first frame).
+--- | 1 # Loop Backward (play from the current frame to the first frame, then restart from the last frame).
+--- | 2 # Ping Pong Forward (play forward to the last frame, then backward to the first frame, repeatedly).
+--- | 3 # Ping Pong Backward (play backward to the first frame, then forward to the last frame, repeatedly).
+--- | 4 # Random (display a random frame every `milliseconds`).

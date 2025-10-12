@@ -2,11 +2,45 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.5]
+
+### Added
+
+-    Finished adding parameter info for `entity` CS2D Lua function.
+-    Finished adding parameter info for `entitylist` CS2D Lua function.
+-    Finished adding parameter info for `hostage` CS2D Lua function.
+-    Finished adding parameter info for `entity` CS2D Lua function.
+-    Finished adding parameter info for `entitylist` CS2D Lua function.
+-    Finished adding parameter info for `inentityzone` CS2D Lua function.
+-    Finished adding parameter info for `randomentity` CS2D Lua function.
+-    Finished adding parameter info for `image` CS2D Lua function.
+-    Finished adding parameter info for `imageblend` CS2D Lua function.
+-    Finished adding parameter info for `imagehitzone` CS2D Lua function.
+-    Finished adding parameter info for `imageparam` CS2D Lua function.
+-    Finished adding parameter info for `item` CS2D Lua function.
+-    Finished adding parameter info for `itemtype` CS2D Lua function.
+-    Finished adding parameter info for `map` CS2D Lua function.
+-    Finished adding parameter info for `object` CS2D Lua function.
+-    Finished adding parameter info for `objecttype` CS2D Lua function.
+-    Finished adding parameter info for `player` CS2D Lua function.
+-    Finished adding parameter info for `projectile` CS2D Lua function.
+-    Finished adding parameter info for `reqcld` CS2D Lua function.
+-    Finished adding parameter info for `stats` CS2D Lua function.
+-    Finished adding parameter info for `steamstats` CS2D Lua function.
+-    Finished adding parameter info for `tile` CS2D Lua function.
+-    Finished adding parameter info for `tileproperty` CS2D Lua function.
+-    Finished adding parameter info for `tween_animate` CS2D Lua function.
+
+### Changed
+
+-    Minor undocumented adjustments for other functions were made.
+-    Fixed `inentityzone` CS2D Lua function now expects an entity type number as opposed to an entity type string.
+
 ## [0.1.4]
 
 ### Changed
 
--    Fixed a bug with `imagehitzone` where it wouldn't expect being called without offset and size parameters. Thanks Maksio!
+-    Fixed a bug with `imagehitzone` where it wouldn't expect being called without the offset and size parameters. Thanks Maksio!
 
 ## [0.1.3]
 
