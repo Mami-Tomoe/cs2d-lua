@@ -83,44 +83,43 @@
 --- | "uparrow" # ↑
 --- | "downarrow" # ↓
 
---- @todo: complete unknown keys.
 --- Miscellaneous keys like that can be used by the [addbind](lua://addbind) function.
 --- @alias bind_key_misc
 --- | "backspace" # Backspace.
 --- | "tab" # TAB.
---- | "clear" # Unknown.
+--- | "clear" # Numpad: Clear (5).
 --- | "enter" # Enter/Return.
 --- | "escape" # Escape.
 --- | "space" # Space.
---- | "pgup" # Page up.
---- | "pgdn" # Page down.
---- | "end" # End.
+--- | "pgup" # Page up or Numpad: Page up (9).
+--- | "pgdn" # Page down or Numpad: Page down (3).
+--- | "end" # End or Numpad: End (1).
 --- | "home" # Home.
---- | "select" # Unknown.
---- | "print" # Unknown, perhaps print screen?
---- | "execute" # Unknown.
---- | "screen" # Unknown, perhaps print screen?
+--- | "select" # Legacy key to select text.
+--- | "print" # Legacy key to print documents.
+--- | "execute" # Legacy key to execute programs/macro.
+--- | "screen" # Print screen (cannot be used because windows overrides it).
 --- | "ins" # Insert.
 --- | "del" # Delete.
---- | "kp_leftarrow" # Keypad: ←
---- | "kp_rightarrow" # Keypad: →
---- | "kp_uparrow" # Keypad: ↑
---- | "kp_downarrow" # Keypad: ↓
---- | "kp_home" # Keypad: Home.
---- | "kp_ins" # Keypad: Insert.
---- | "kp_0" # Keypad: 0.
---- | "kp_1" # Keypad: 1.
---- | "kp_2" # Keypad: 2.
---- | "kp_3" # Keypad: 3.
---- | "kp_4" # Keypad: 4.
---- | "kp_5" # Keypad: 5.
---- | "kp_6" # Keypad: 6.
---- | "kp_7" # Keypad: 7.
---- | "kp_8" # Keypad: 8.
---- | "kp_9" # Keypad: 9.
---- | "kp_divide" # Keypad: Divide.
---- | "kp_multiply" # Keypad: Multiply.
---- | "kp_del" # Keypad: Delete.
+--- | "kp_leftarrow" # Numpad: ← (4)
+--- | "kp_rightarrow" # Numpad: → (6)
+--- | "kp_uparrow" # Numpad: ↑ (8)
+--- | "kp_downarrow" # Numpad: ↓ (2)
+--- | "kp_home" # Numpad: Home. (7)
+--- | "kp_ins" # Numpad: Insert. (0)
+--- | "kp_0" # Numpad: 0.
+--- | "kp_1" # Numpad: 1.
+--- | "kp_2" # Numpad: 2.
+--- | "kp_3" # Numpad: 3.
+--- | "kp_4" # Numpad: 4.
+--- | "kp_5" # Numpad: 5.
+--- | "kp_6" # Numpad: 6.
+--- | "kp_7" # Numpad: 7.
+--- | "kp_8" # Numpad: 8.
+--- | "kp_9" # Numpad: 9.
+--- | "kp_divide" # Numpad: Divide.
+--- | "kp_multiply" # Numpad: Multiply.
+--- | "kp_del" # Numpad: Delete. (.)
 
 --- All keys that can be used by the [addbind](lua://addbind) function.
 --- @alias bind_key_types
@@ -529,6 +528,7 @@
 --- | "clientport"
 --- | "close"
 --- | "cmsg"
+--- | "connection"
 --- | "connections"
 --- | "console"
 --- | "copyaddress"
@@ -815,6 +815,7 @@
 --- | "sv_name"
 --- | "sv_offscreendamage"
 --- | "sv_password"
+--- | "sv_physics"
 --- | "sv_rcon"
 --- | "sv_rconusers"
 --- | "sv_restart"
@@ -826,6 +827,7 @@
 --- | "sv_spraytransfer"
 --- | "sv_stopsound"
 --- | "sv_usgnonly"
+--- | "sv_voicechat"
 --- | "team"
 --- | "tileanimations"
 --- | "tmp"
@@ -901,6 +903,7 @@
 --- | "mapsounds"
 --- | "markplayer"
 --- | "menu_lanscanport"
+--- | "mp_anticlock"
 --- | "mp_antispeeder"
 --- | "mp_autogamemode"
 --- | "mp_autoteambalance"

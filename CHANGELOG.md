@@ -2,6 +2,17 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.7]
+
+### Added
+
+-    Added missing keys info. ~ Thanks Margineanu65!
+-    Added missing console commands.
+
+### Changed
+
+-    Fixed a bug where certain functions' return value wasn't accepted by others (now returning type `any`). ~ Thanks Margineanu65!
+
 ## [0.1.6]
 
 ### Changed

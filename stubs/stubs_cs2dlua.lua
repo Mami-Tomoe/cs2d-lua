@@ -588,13 +588,13 @@ function hascloseplayers(x, y, radius, team) end
 --- > * "follow": number, player identifier if the hostage is following a player, `0` otherwise
 --- > * "used": boolean, `true` if the hostage has been used by a counter-terrorist this round, `false` otherwise
 --- > * "look": number, hostage look (skin frame)
---- > * 'x': number, current `X` position on map (in pixels)
---- > * 'y': number, current `Y` position on map (in pixels)
+--- > * "x": number, current `X` position on map (in pixels)
+--- > * "y": number, current `Y` position on map (in pixels)
 --- > * "rot": number, current rotation angle
 --- > * "tilex": number, current `X` position on map (in tiles)
 --- > * "tiley": number, current `Y` position on map (in tiles)
 ---
---- @return boolean|number property Depending on the query, returns a boolean or a number.
+--- @return any property Depending on the query, returns a boolean or a number.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=hostage#cmd
@@ -857,7 +857,7 @@ function imagehitzone(img_id, mode, xOffset, yOffset, width, height) end
 --- @param img_id number: The identifier of the image to retrieve parameters from.
 --- @param value imageparam_params: The specific value to retrieve. Can be one of the options listed above (e.g., "x", "y", "rot").
 ---
---- @return string|number property Returns the requested property value (string for path, otherwise number for others).
+--- @return any property Returns the requested property value (string for path, otherwise number for others).
 --- @nodiscard
 ---
 --- Sample usage:
@@ -1016,7 +1016,7 @@ function inentityzone(tx, ty, type) end
 --- @param itemID number: The unique identifier of the item instance on the map.
 --- @param value item_params: The value you want to retrieve (e.g., `"name"`, `"ammo"`, etc.).
 ---
---- @return string|number|boolean property Returns the requested value for the item (e.g., string for name, number for ammo, or boolean for existence).
+--- @return any property Returns the requested value for the item (e.g., string for name, number for ammo, or boolean for existence).
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=item#cmd
@@ -1056,7 +1056,7 @@ function itemsat(tx, ty) end
 --- @param type item_type_id_types: The type identifier of the item.
 --- @param value item_type_params: The value you want to retrieve (e.g., `"name"`, `"dmg"`, etc.).
 ---
---- @return string|number property Returns the requested value for the item type (e.g., string for name, number for damage, etc.).
+--- @return any property Returns the requested value for the item type (e.g., string for name, number for damage, etc.).
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=itemtype#cmd
@@ -1094,7 +1094,7 @@ function itemtype(type, value) end
 ---
 --- @param value map_params: The value you want to retrieve (e.g., `"name"`, `"xsize"`, etc.).
 ---
---- @return string|number property Returns the requested value for the map (e.g., string for name, number for size, etc.).
+--- @return any property Returns the requested value for the map (e.g., string for name, number for size, etc.).
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=map#cmd
@@ -1221,7 +1221,7 @@ function msg2(p, text) end
 --- @param obj_id number The dynamic object identifier or `0` for retrieving all dynamic object identifiers.
 --- @param value object_params The property or value you want to retrieve (e.g., "`exists`", "`health`", etc.).
 ---
---- @return boolean|string|number|table property The requested property value or a `table` if `obj` is `0`.
+--- @return any property The requested property value or a `table` if `obj` is `0`.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=object#cmd
@@ -1298,16 +1298,16 @@ function objectat(tx, ty, type) end
 --- ℹ️ **Note**: Do not confuse the identifier of an object instance on the map (which can be retrieved using the [object](lua://object) command) with the object type identifier.
 --- These are different: each object instance has a unique identifier, but multiple objects may share the same type identifier.
 ---
---- @param type dynamic_object_type_id_types The object type identifier.
+--- @param obj_type_id dynamic_object_type_id_types The object type identifier.
 ---
 --- @param value objecttype_params The specific value to retrieve for the object type.
 ---
---- @return string|number property The requested property value.
+--- @return any property The requested property value.
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=objecttype#cmd
 ---
 --- @see object to get properties on a map instanced object.
-function objecttype(type, value) end
+function objecttype(obj_type_id, value) end
 
 --- Executes ordinary non-Lua CS2D commands.
 --- Everything behind the first semicolon (`;`) will be ignored. This is a security measure in case you're using user input (like chat messages) with this command.
@@ -1446,7 +1446,7 @@ function parse(commands, stop_at_semicolon) end
 --- @param p player_id Player identifier or `0` to retrieve a table of players.
 --- @param value player_params The requested property or table type.
 ---
---- @return number|string|table|boolean property Requested property value, `false` if invalid.
+--- @return any property Requested property value, `false` if invalid.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=player#cmd
@@ -1581,7 +1581,7 @@ function print(text) end
 --- @param p player_id Identifier of the player associated with the projectile.
 --- @param value projectile_params The property to retrieve (e.g., `"exists"`, `"x"`, `"type"`).
 ---
---- @return boolean|number|nil property The requested property value or `nil` if the projectile does not exist.
+--- @return any property The requested property value or `nil` if the projectile does not exist.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=projectile#cmd
@@ -1614,7 +1614,7 @@ function projectile(projectileID, p, value) end
 --- @param list binary_value Specify `0` for flying projectiles or `1` for ground projectiles.
 --- @param p? player_id Player identifier to filter projectiles (optional, defaults to `0`).
 ---
---- @return {id: number, player: number} list A table of projectiles, each containing `id` and `player` fields.
+--- @return { id: number, player: number } list A table of projectiles, each containing `id` and `player` fields.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=projectilelist#cmd
@@ -1892,7 +1892,7 @@ function sethookstate(hook, state) end
 --- @param usgn_id number The U.S.G.N. identifier.
 --- @param value stats_params The stat to retrieve (e.g., "killsperdeath", "score").
 ---
---- @return boolean|number stat The requested stat value, or `false` if not available.
+--- @return any stat The requested stat value, or `false` if not available.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=stats#cmd
@@ -1930,7 +1930,7 @@ function stats(usgn_id, value) end
 --- @param steam_id string The Steam identifier (as a string).
 --- @param value stats_params The stat to retrieve (e.g., "killsperdeath", "score").
 ---
---- @return boolean|number stat The requested stat value, or `false` if not available.
+--- @return any stat The requested stat value, or `false` if not available.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=steamstats#cmd
@@ -1995,7 +1995,7 @@ function steamstats(steam_id, value) end
 --- @param ty number Tile `Y`-position.
 --- @param value tile_params The property to retrieve (e.g., `"frame"`, `"walkable"`).
 ---
---- @return number|boolean|table property The requested property value, or `false` if the tile position is invalid.
+--- @return any property The requested property value, or `false` if the tile position is invalid.
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=tile#cmd

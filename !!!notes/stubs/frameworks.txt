@@ -1,0 +1,1 @@
+"HC Admin Script 1.9.4","HC CS2D Administration and Game Extension Framework 2.2"

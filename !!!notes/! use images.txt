@@ -1,0 +1,16 @@
+weapon list https://cs2d.com/img/ref_items.png
+object list https://cs2d.com/img/ref_dynamicobjects.png
+npc list https://cs2d.com/img/ref_npcs.png
+gamemode list https://cs2d.com/img/ref_gamemodes.png
+team list https://cs2d.com/img/ref_team.png
+kill id list https://cs2d.com/img/ref_killids.png
+
+weapon wiki https://cs2d.com/weapons.php
+entities wiki https://cs2d.com/entities.php
+
+
+
+
+
+
+![Spritesheet Example](

@@ -1,0 +1,22 @@
+	// Retrieve the selected framework from the settings
+	const framework = vscode.workspace.getConfiguration('cs2dLua').get<string>('framework') || 'None';
+	console.log(`Selected Framework: ${framework}`);
+
+	// Example: Notify the user about the selected framework
+	vscode.window.showInformationMessage(
+		`Framework selected: ${framework}`
+	);
+
+	// Example logic based on the selected framework
+	switch (framework) {
+		case 'HC Admin Script 1.9.4':
+			console.log('Setting up for HC Admin Script 1.9.4...');
+			break;
+		case 'HC CS2D Administration and Game Extension Framework 2.2':
+			console.log('Setting up for HC CS2D Framework 2.2...');
+			break;
+		case 'None':
+		default:
+			console.log('No framework selected. Using default configuration.');
+			break;
+	}
