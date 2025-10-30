@@ -671,8 +671,8 @@ function hostage(hostageID, value) end
 --- ```
 ---
 --- @param path string The path to the image file (relative to the CS2D folder).
---- @param x number The x position (in pixels).
---- @param y number The y position (in pixels).
+--- @param x_or_rot number|player_image_rotation The x position (in pixels) or rotation behaviour for player images (see `mode`).
+--- @param y_or_fow number|player_image_fow The y position (in pixels) or fog of war behaviour for player images (see `mode`).
 --- @param mode image_draw_modes The display mode for the image.
 --- @param player? player_id Optional. The player identifier to restrict visibility to a certain player (default: visible to all).
 ---
@@ -680,7 +680,7 @@ function hostage(hostageID, value) end
 --- @nodiscard
 ---
 --- @docs https://cs2d.com/help.php?luacat=all&luacmd=image#cmd
-function image(path, x, y, mode, player) end
+function image(path, x_or_rot, y_or_fow, mode, player) end
 
 --- Changes the opacity (alpha) of an image, where `0.0` is fully transparent and `1.0` is fully opaque.
 --- This can be used to make an image semi-transparent, fully opaque, or hide it completely (alpha = `0`).
@@ -1401,7 +1401,7 @@ function parse(commands, stop_at_semicolon) end
 ---
 --- * **Stats**
 ---   * `health`, `maxhealth`: Current and maximum health values.
----   * `armour`: Armour value (see extended details for specific armour types).
+---   * `armor`: Armour value (see extended details for specific armour types).
 ---     - `0`-`200`: Regular Kevlar(+Helm) points (damage reduction, decreases on hit).
 ---     - `201`-`206`: Specialized armours with unique damage reductions and effects.
 ---   * `money`: Money value.

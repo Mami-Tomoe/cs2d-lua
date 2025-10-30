@@ -2,6 +2,17 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.8]
+
+### Added
+
+-    Added player image parameters to `image` CS2D Lua function.
+
+### Changed
+
+-    Fixed param type value "armour" (replaced with "armor") for the `player` CS2D Lua command. ~ Thanks Margineanu65!
+-    Adjusted some documentation (primarily grammar).
+
 ## [0.1.7]
 
 ### Added

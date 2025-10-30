@@ -1302,7 +1302,7 @@
 --- @alias player_stats_params
 --- | "health" # Current health value.
 --- | "maxhealth" # Maximum health value.
---- | "armour" # Armour value (see extended details for specific armour types).
+--- | "armor" # Armour value (see extended details for specific armour types).
 ---     - `0`-`200`: Regular Kevlar(+Helm) points (damage reduction, decreases on hit).
 ---     - `201`-`206`: Specialized armours with unique damage reductions and effects.
 --- | "money" # Money value.
@@ -1444,3 +1444,13 @@
 --- | 2 # Ping Pong Forward (play forward to the last frame, then backward to the first frame, repeatedly).
 --- | 3 # Ping Pong Backward (play backward to the first frame, then forward to the last frame, repeatedly).
 --- | 4 # Random (display a random frame every `milliseconds`).
+
+--- @alias player_image_rotation
+--- | 0 # (or lower) do not rotate image with player **(player images only)**
+--- | 1 # rotate image with player **(player images only)**
+--- | 2 # rotate and wiggle image with player **(player images only)**
+--- | 3 # rotate and wiggle image with player and move correctly with recoil
+
+--- @alias player_image_fow
+--- | 0 # (or lower) only draw if not covered by fog of war (always if fog of war is disabled) **(player images only)**
+--- | 1 # (or higher) draw always **(player images only)**

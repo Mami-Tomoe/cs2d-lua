@@ -22,7 +22,7 @@ function hc.cs2d.aliases() end
 function hc.cs2d.attack() end
 
 --- Alternative attack. Is not available for most weapons.
---- Switches the weapon mode (zoom, silencer, burst, color etc.) for several weapons.
+--- Switches the weapon mode (zoom, silencer, burst, colour etc.) for several weapons.
 function hc.cs2d.attack2() end
 
 --- Buy AUG
@@ -343,7 +343,7 @@ function hc.cs2d.drop() end
 function hc.cs2d.echo(message) end
 
 --- Creates particle effects on the map. The usage of the parameters depends on the type.
---- You can use r,g,b to define a color for some of the effects (use a colorpicker to get the values).
+--- You can use r,g,b to define a colour for some of the effects (use a colour picker to get the values).
 --- However this doesn't work for all effects! See list below for details.
 --- The amount is limited to a maximum of 100 in most cases!
 ---
@@ -363,19 +363,19 @@ function hc.cs2d.echo(message) end
 --- r,g,b=no influence!
 ---
 --- "flare"
---- flare particles in defined color.
+--- flare particles in defined colour.
 --- p1=amount (max 100), p2=radius
---- r,g,b=color
+--- r,g,b=colour
 ---
 --- "colorsmoke"
---- smoke particles in defined color.
+--- smoke particles in defined colour.
 --- p1=amount (max 100), p2=radius
---- r,g,b=color
+--- r,g,b=colour
 ---
 --- "sparkles"
---- sparkle effect in defined color.
+--- sparkle effect in defined colour.
 --- p1=amount (max 50), p2=no influence!
---- r,g,b=color
+--- r,g,b=colour
 function hc.cs2d.effect(effect, x, y, p1, p2, r, g, b) end
 
 --- Buy Elite
@@ -508,7 +508,7 @@ function hc.cs2d.hegren() end
 --- 0 - top alignment (normal, text will be UNDER the y coordinate)
 --- 1 - centre alignment
 --- 2 - bottom alignment (text will be OVER the y coordinate)
---- You can also use color codes (use a colorpicker to get the values) at the beginning and in-line! Colors are encoded as RGB values.
+--- You can also use colour codes (use a colour picker to get the values) at the beginning and in-line! Colours are encoded as RGB values.
 --- Format: �RRRGGGBBB (with each part RRR, GGG and BB ranging from 000 to 255)
 --- For example: "�255000000This is a red text" or "The following text is �000000255blue"
 --- (0-199): internal text id
@@ -531,7 +531,7 @@ function hc.cs2d.hudtxt(id, text, x, y, align, valign, size) end
 --- 0 - top alignment (normal, text will be UNDER the y coordinate)
 --- 1 - centre alignment
 --- 2 - bottom alignment (text will be OVER the y coordinate)
---- You can also use color codes (use a colorpicker to get the values) at the beginning and in-line! Colors are encoded as RGB values.
+--- You can also use colour codes (use a colour picker to get the values) at the beginning and in-line! Colours are encoded as RGB values.
 --- Format: �RRRGGGBBB (with each part RRR, GGG and BB ranging from 000 to 255)
 --- For example: "�255000000This is a red text" or "The following text is �000000255blue"
 --- (1-32): id of a player
@@ -555,12 +555,14 @@ function hc.cs2d.hudtxtalphafade(player, id, duration, alpha) end
 --- They will become invisible instantly and it will also remove all applied effects (hudtxtmove/hudtxtalphafade/hudtxtcolorfade).
 function hc.cs2d.hudtxtclear(player) end
 
---- Lets a HUD text (specified with id) change its color (use a colorpicker to get the values). The transition will be smooth and will take the given time (duration).
+--- Lets a HUD text (specified with id) change its colour (use a colour picker to get the values). The transition will be smooth and will take the given time (duration).
 --- You can let this effect be visible for all players (player=0) or to a certain player only (player=id of this player).
 --- The text needs to be set with hudtxt or hudtxt2 before you use this command.
 --- (0-199): internal text id
---- (ms): color fade/transition effect in milliseconds
---- (0-255): new red color value
+--- (ms): colour fade/transition effect in milliseconds
+--- (0-255): new red colour value
+--- (0-255): new green colour value
+--- (0-255): new blue colour value
 function hc.cs2d.hudtxtcolorfade(player, id, duration, red, green, blue) end
 
 --- Lets a HUD text (specified with id) change its position. The transition will be smooth and will take the given time (duration).
@@ -1430,7 +1432,7 @@ function hc.cs2d.mp_zombiespeedmod(speedmod) end
 --- Add an @C at the end of your text to display the message at the centre of the screen.
 --- For example: "centreed text@C"
 ---
---- You can also use color codes (use a colorpicker to get the values) at the beginning and in-line! Colors are encoded as RGB values.
+--- You can also use colour codes (use a colour picker to get the values) at the beginning and in-line! Colours are encoded as RGB values.
 --- Format: �RRRGGGBBB (with each part RRR, GGG and BB ranging from 000 to 255)
 --- For example: "�255000000This is a red text" or "The following text is �000000255blue"
 ---

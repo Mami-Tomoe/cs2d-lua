@@ -89,8 +89,8 @@
 --- @alias WeaponItemTypeMines 77 | 87
 --- @alias WeaponItemTypeEquipment 41 | 56 | 57 | 58 | 59 | 60 | 61 | 62
 --- @alias WeaponItemTypeStuff 55 | 63 | 64 | 65 | 66 | 67 | 68 | 70 | 71
---- @alias WeaponItemTypeArmor 79 | 80 | 81 | 82 | 83 | 84
---- @alias WeaponItemType WeaponItemTypePistol | WeaponItemTypeShotgun | WeaponItemTypeSMG | WeaponItemTypeRifle | WeaponItemTypeBigGuns | WeaponItemTypeMelee | WeaponItemTypeGrenades | WeaponItemTypeMines | WeaponItemTypeEquipment | WeaponItemTypeStuff | WeaponItemTypeArmor
+--- @alias WeaponItemTypeArmour 79 | 80 | 81 | 82 | 83 | 84
+--- @alias WeaponItemType WeaponItemTypePistol | WeaponItemTypeShotgun | WeaponItemTypeSMG | WeaponItemTypeRifle | WeaponItemTypeBigGuns | WeaponItemTypeMelee | WeaponItemTypeGrenades | WeaponItemTypeMines | WeaponItemTypeEquipment | WeaponItemTypeStuff | WeaponItemTypeArmour
 
 --- @alias ReqcldMode 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -99,7 +99,7 @@
 --- Returns 1 if adding the key bind worked, 0 otherwise (invalid key name / already bound).
 --- @param key PlayerID
 --- @return 0 | 1
-function addbind(key)end
+function addbind(key) end
 
 --- Attaches the Lua function "func" to the hook "hook". CS2D will always call that Lua function when the event related to that hook occurs.
 ---
@@ -107,32 +107,32 @@ function addbind(key)end
 --- @param hook HookValue
 --- @param func string
 --- @param priority? number
-function addhook(hook, func, priority)end
+function addhook(hook, func, priority) end
 
 --- Bot with given ID aims at the given position (x|y) on the map (in pixels).
 --- @param id PlayerID
 --- @param x number
 --- @param y number
-function ai_aim(id, x, y)end
+function ai_aim(id, x, y) end
 
 --- Bot with given ID performs an attack. Set secondary to 1 to use the secondary weapon function (=attack2) instead of the primary function.
 --- @param id PlayerID
 --- @param secondary? 0 | 1
-function ai_attack(id, secondary)end
+function ai_attack(id, secondary) end
 
 --- Bot with given ID tries to purchase a certain item
 --- @param id PlayerID
 --- @param itemtype WeaponItemType
-function ai_buy(id, itemtype)end
+function ai_buy(id, itemtype) end
 
 --- Set debug-text for bot (only displayed if "debugai" is enabled).
 --- @param id PlayerID
 --- @param text string
-function ai_debug(id, text)end
+function ai_debug(id, text) end
 
 --- Bot with given ID drops the current weapon.
 --- @param id PlayerID
-function ai_drop(id)end
+function ai_drop(id) end
 
 --- Returns the ID of the closest enemy to the player with the specified ID or 0 when no enemy was found.
 ---
@@ -141,14 +141,14 @@ function ai_drop(id)end
 --- When fog of war is enabled players behind walls won't be returned.
 --- @param id PlayerID
 --- @return number
-function ai_findtarget(id)end
+function ai_findtarget(id) end
 
 --- Checks if there is a free line between the bot with the given ID and the given position (x|y) (in pixels).
 --- @param id PlayerID
 --- @param x number
 --- @param y number
 --- @return boolean
-function ai_freeline(id, x, y)end
+function ai_freeline(id, x, y) end
 
 --- Bot with the given ID goes to tile (x|y). Set walk to 1 to let it walk (silent).
 ---
@@ -163,7 +163,7 @@ function ai_freeline(id, x, y)end
 --- @param y number
 --- @param walk? number
 --- @return 0 | 1 | 2
-function ai_goto(id, x, y, walk)end
+function ai_goto(id, x, y, walk) end
 
 --- Bot with given ID performs an intelligent attack.
 ---
@@ -173,7 +173,7 @@ function ai_goto(id, x, y, walk)end
 ---
 --- >If the current weapon is entirely empty (no spare ammo), switch to the next best weapon which can be used for attacking (in most cases pistol or melee)
 --- @param id PlayerID
-function ai_iattack(id)end
+function ai_iattack(id) end
 
 --- Bot with given ID moves into a certain direction (defined with the given angle from 0° to 360°).
 ---
@@ -184,67 +184,66 @@ function ai_iattack(id)end
 --- @param angle number
 --- @param walk? 0 | 1
 --- @return 0 | 1
-function ai_move(id, angle, walk)end
-
+function ai_move(id, angle, walk) end
 
 --- Bot with given ID sends a radio message.
 --- @param id PlayerID
 --- @param radioid number
-function ai_radio(id, radioid)end
+function ai_radio(id, radioid) end
 
 --- Bot with given ID reloads the current weapon.
 --- @param id PlayerID
-function ai_reload(id)end
+function ai_reload(id) end
 
 --- Bot with given ID respawns (only if dead and only if game mode allows it).
 --- @param id PlayerID
-function ai_respawn(id)end
+function ai_respawn(id) end
 
 --- Bot with given ID instantly turns to certain direction/angle (from 0° to 360°).
 --- @param id PlayerID
 --- @param angle number
-function ai_rotate(id, angle)end
+function ai_rotate(id, angle) end
 
 --- Bot with given ID says the given text using the chat system.
 --- @param id PlayerID
 --- @param text string
-function ai_say(id, text)end
+function ai_say(id, text) end
 
 --- Bot with given ID says the given text to the own team only (using team chat).
 --- @param id PlayerID
 --- @param text string
-function ai_sayteam(id, text)end
+function ai_sayteam(id, text) end
 
 --- Bot with given ID selects the weapon specified with itemtype.
 --- @param id PlayerID
 --- @param itemtype WeaponItemType
-function ai_selectweapon(id, itemtype)end
+function ai_selectweapon(id, itemtype) end
 
 --- Bot with given ID sprays a spraylogo at its current position.
 --- @param id PlayerID
-function ai_spray(id)end
+function ai_spray(id) end
 
 --- Bot with given ID uses the environement (like pressing use-key).
 --- @param id PlayerID
-function ai_use(id)end
+function ai_use(id) end
 
 --- Returns the SHA256 checksum of the file at this path.
 --- @param path string
 --- @return string
-function checksumfile(path)end
+function checksumfile(path) end
 
 --- Returns the SHA256 checksum of the given string.
 --- @param string string
 --- @return string
-function checksumstring(string)end
+function checksumstring(string) end
 
 --- Returns the tile x and y position (2 values!) of the closest living and unused hostage to a given player. Returns -100,-100 if no hostage has been found.
 ---
 --- Note: The returned position is in tiles, NOT in pixels!
 --- @param playerid PlayerID
 --- @return number, number
-function closehostage(playerid)end
-    
+function closehostage(playerid) end
+
 --- Returns a Lua table with all IDs of items which are close to the player specified with the id parameter.
 ---
 --- Only dropped items which are within the range will be returned.
@@ -253,7 +252,7 @@ function closehostage(playerid)end
 --- @param id PlayerID
 --- @param range number
 --- @return number[]
-function closeitems(id, range)end
+function closeitems(id, range) end
 
 --- Returns a list of objects which are within the specified radius (in pixels) around the specified position (X|Y) in pixels.
 ---
@@ -262,7 +261,7 @@ function closeitems(id, range)end
 --- @param y number
 --- @param radius number
 --- @param type? ObjectType
-function closeobjects(x, y, radius, type)end
+function closeobjects(x, y, radius, type) end
 
 --- Returns a list of all alive players (IDs) which are within the specified radius (in pixels) around the specified position (x|y) in pixels
 --- @param x number
@@ -270,7 +269,7 @@ function closeobjects(x, y, radius, type)end
 --- @param radius number
 --- @param team? 0 | 1 | 2
 --- @return PlayerID[]
-function closeplayers(x, y, radius, team)end
+function closeplayers(x, y, radius, team) end
 
 --- Returns a value of an entity at the tile position (X|Y).
 ---
@@ -279,7 +278,7 @@ function closeplayers(x, y, radius, team)end
 --- @param y number
 --- @param value EntityValue
 --- @return string | boolean | number
-function entity(x, y, value)end
+function entity(x, y, value) end
 
 --- Returns a list (Lua table) containing the positions (as X and Y tile coordinates) of all entities (except for Env_Decal).
 ---
@@ -290,15 +289,15 @@ function entity(x, y, value)end
 --- Attention: Env_Decal entities are NOT included in this list!
 --- @param type? ObjectType
 --- @return {x: number, y: number}[]
-function entitylist(type)end
-    
+function entitylist(type) end
+
 --- Removes a function from a hook.
 ---
 --- Nothing will happen if the function has not been attached to the hook with addhook before.
 --- @param hook HookValue
 --- @param func string
-function freehook(hook, func)end
-    
+function freehook(hook, func) end
+
 --- Removes an image completely.
 ---
 --- Attention: The variable(s) you used to save the image ID will NOT be changed by CS2D! Please set them to nil manually!
@@ -307,8 +306,8 @@ function freehook(hook, func)end
 --- That's why it is very important to set the variable with the ID to nil to make sure that your script never tries to access this image again.
 --- Otherwise your script might modify a completely different image!
 --- @param id number
-function freeimage(id)end
-    
+function freeimage(id) end
+
 --- Removes timers which call the specified "func" with the specified "param".
 ---
 --- If "param" is not set (or ""), all timers with the matching "func" will be removed.
@@ -324,15 +323,15 @@ function freeimage(id)end
 --- Attention: Be very careful with the parameters. If both are empty / empty strings (""), you will remove ALL timers!
 --- @param func? string
 --- @param param? string
-function freetimer(func, param)end
+function freetimer(func, param) end
 
 --- Shows Lua functions in the Lua main table in the console of CS2D. For debugging purposes only.
-function funcs()end
+function funcs() end
 
 --- Returns a game state/setting.
 --- @param value GameValue
 --- @return string | number | boolean
-function game(value)end
+function game(value) end
 
 --- Checks if any alive player is within the specified radius (in pixels) around the specified position (x|y) in pixels.
 ---
@@ -342,7 +341,7 @@ function game(value)end
 --- @param radius number
 --- @param team? 0 | 1 | 2
 --- @return boolean
-function hascloseplayers(x, y, radius,team)end
+function hascloseplayers(x, y, radius, team) end
 
 --- Returns a value of a hostage:
 ---
@@ -350,7 +349,7 @@ function hascloseplayers(x, y, radius,team)end
 --- @param id number
 --- @param value HostageValue
 --- @return boolean | number | number[]
-function hostage(id, value)end
+function hostage(id, value) end
 
 --- Creates an image (dynamic object) on the map and returns the ID for that image.
 ---
@@ -363,14 +362,15 @@ function hostage(id, value)end
 --- @param mode ImageMode
 --- @param player? number
 --- @return number
-function image( path, x, y, mode, player)end
+function image(path, x, y, mode, player) end
 
 --- Changes the opacity (also known as alpha, 0.0 transparent - 1.0 opaque) of an image.
 ---
 --- This can either be used to make an image (semi-)transparent / fully opaque or to temporarily hide an image completely (alpha 0).
 --- @param id number
 --- @param alpha number
-function imagealpha(id, alpha)end
+function imagealpha(id, alpha) end
+
 --- Changes the blendmode of an image:
 ---
 --- >0 for normal (pixels are alpha blended, default mode)
@@ -382,21 +382,21 @@ function imagealpha(id, alpha)end
 --- >3 for solid (pixels are overwritten, alpha transparency is ignored)
 --- @param id number
 --- @param mode ImageBlendMode
-function imageblend(id, mode)end
+function imageblend(id, mode) end
 
 --- Undocumented, enables/disables shadow for an image
 --- @param id number
 --- @param shadow 0 | 1
-function imageshadow(id, shadow)end
+function imageshadow(id, shadow) end
 
---- Changes the color of an image (use a colorpicker to get the values).
+--- Changes the colour of an image (use a colour picker to get the values).
 ---
---- The color is specified as red, green and blue values. Each ranging from 0 (black) to 255 (full color brightness)
+--- The colour is specified as red, green and blue values. Each ranging from 0 (black) to 255 (full colour brightness)
 --- @param id number
 --- @param red number
 --- @param green number
 --- @param blue number
-function imagecolor( id, red, green, blue)end
+function imagecolor(id, red, green, blue) end
 
 --- Changes the frame of the spritesheet image with the specified id. Has no effect if the image is not a spritesheet.
 ---
@@ -405,7 +405,7 @@ function imagecolor( id, red, green, blue)end
 --- The frames are numbered from left to right and from top to bottom. So the top left frame is frame number 1 and the bottom right frame is the last frame.
 --- @param id number
 --- @param frame number
-function imageframe(id, frame)end
+function imageframe(id, frame) end
 
 --- Adds, removes or modifies a hit zone for an image which reacts to shots/attacks
 ---
@@ -438,26 +438,26 @@ function imageframe(id, frame)end
 --- They basically behave like walls but they have no influence on player movement or vision.
 --- @param id number
 --- @param mode ImageHitzoneMode
-function imagehitzone(id, mode)end
+function imagehitzone(id, mode) end
 
 --- Returns a value of an image.
 --- @param id number
 --- @param value ImageparamValue
 --- @return string | number
-function imageparam(id, value)end
+function imageparam(id, value) end
 
 --- Changes the position (x & y, pixels) and rotation (rot, 0°-360°) of an image.
 --- @param id number
 --- @param x number
 --- @param y number
 --- @param rot number
-function imagepos(id, x, y, rot)end
+function imagepos(id, x, y, rot) end
 
 --- Changes the image scale factors (in other words: the image size).
 --- @param id number
 --- @param x number
 --- @param y number
-function imagescale(id, x, y)end
+function imagescale(id, x, y) end
 
 --- Checks if the tile position (x|y) is inside the area of a certain entity type and returns true if this is the case and false otherwise.
 ---
@@ -466,7 +466,7 @@ function imagescale(id, x, y)end
 --- @param y number
 --- @param type ObjectType
 --- @return boolean
-function inentityzone(x, y, type)end
+function inentityzone(x, y, type) end
 
 --- Returns a value of an item instance on the map.
 ---
@@ -474,7 +474,7 @@ function inentityzone(x, y, type)end
 --- @param id number
 --- @param value WeaponItemValues
 --- @return boolean | number | string | number[]
-function item(id, value)end
+function item(id, value) end
 
 --- Returns a value of an item type.
 ---
@@ -482,12 +482,12 @@ function item(id, value)end
 --- @param type WeaponItemType
 --- @param value WeaponItemTypeValue
 --- @return string | number
-function itemtype(type, value)end
+function itemtype(type, value) end
 
 -- Returns info about the current map.
 --- @param value MapValue
 --- @return string | number
-function map(value)end
+function map(value) end
 
 --- Opens a menu on the screen of a certain player (id=player id) or at the screen of every player (id=0)!
 ---
@@ -506,24 +506,24 @@ function map(value)end
 --- The menu-hook is executed when a player hits a menu button with the mouse or presses the corresponding numeric key.
 --- @param id number
 --- @param content string
-function menu(id, content)end
+function menu(id, content) end
 
 --- Sends "text" as server message to all players. It will be displayed in the chat area of the screen (bottom left).
 ---
---- You can start "text" with an RGB color code "©RRRGGGBBB" to change its color. (use a colorpicker to get the values)
+--- You can start "text" with an RGB colour code "©RRRGGGBBB" to change its colour. (use a colour picker to get the values)
 ---
 --- It's also possible to display the text at the center of the screen. Just end "text" with "@C" (read: at center) to do so!
 --- @param text string | number
-function msg(text)end
+function msg(text) end
 
 --- Sends "text" to a certain player (id) only. It will be displayed in the chat area of the screen of that player (bottom left).
 ---
---- You can start "text" with an RGB color code "©RRRGGGBBB...." to change its color. (use a colorpicker to get the values)
+--- You can start "text" with an RGB colour code "©RRRGGGBBB...." to change its colour. (use a colour picker to get the values)
 ---
 --- It's also possible to display the text at the center of the screen. Just end "text" with "@C" (read: at center) to do so!
 --- @param player PlayerID
 --- @param text string | number
-function msg2(player, text)end
+function msg2(player, text) end
 
 --- Returns a value of a dynamic object
 ---
@@ -531,7 +531,7 @@ function msg2(player, text)end
 --- @param id number
 --- @param value ObjectValues
 --- @return boolean | number | number[]
-function object(id, value)end
+function object(id, value) end
 
 --- Returns the ID of the first object which is found at the tile position (X|Y) and which has the specified type.
 ---
@@ -542,7 +542,7 @@ function object(id, value)end
 --- @param y number
 --- @param type? ObjectType
 --- @return number
-function objectat(x, y, type)end
+function objectat(x, y, type) end
 
 --- Returns a value of an object type (NOT an object instance on the map).
 ---
@@ -550,7 +550,7 @@ function objectat(x, y, type)end
 --- @param type ObjectType
 --- @param value ObjectTypeValue
 --- @return string | number
-function objecttype(type, value)end
+function objecttype(type, value) end
 
 --- Executes ordinary non-Lua CS2D commands.
 ---
@@ -561,13 +561,13 @@ function objecttype(type, value)end
 --- You can change this behavior by setting Stop-At-Semicolon to 0.
 --- @param commands string
 --- @param stopAtSemicolon? number
-function parse(commands, stopAtSemicolon)end
+function parse(commands, stopAtSemicolon) end
 
 --- Returns a value of a player or a table of players. Returns false if the specified player, value or table does not exist.
 --- @param player PlayerID
 --- @param value PlayerValue
 --- @return boolean | string | number | PlayerID[]
-function player(player, value)end
+function player(player, value) end
 
 --- Returns how much ammo the specified player has left in the specified weapon.
 ---
@@ -579,20 +579,20 @@ function player(player, value)end
 --- @param id PlayerID
 --- @param itemtype WeaponItemType
 --- @return number, number
-function playerammo(id, itemtype)end
+function playerammo(id, itemtype) end
 
 --- Returns a Lua table with all equippable weapon/item TYPES a player carries.
 --- @param id PlayerID
 --- @return WeaponItemType[]
-function playerweapons(id)end
+function playerweapons(id) end
 
 --- Shows text in console.
 ---
---- You can start "text" with an RGB color code "©RRRGGGBBB" to change its color. (use a colorpicker to get the values)
---- 
+--- You can start "text" with an RGB colour code "©RRRGGGBBB" to change its colour. (use a colour picker to get the values)
+---
 --- You can input multiple arguments to print multiple times in the same line with a space between each argument.
 ---@param ... any
-function print(...)end
+function print(...) end
 
 --- Returns a value of a projectile (projectiles are grenades and most stuff launched by weapons which is visible for multiple frames.
 --- Regular bullets are NO projectiles though)
@@ -600,7 +600,7 @@ function print(...)end
 --- @param player PlayerID
 --- @param value ProjectileValue
 --- @return string | number | boolean
-function projectile(id, player, value)end
+function projectile(id, player, value) end
 
 --- Returns a list (Lua table) containing projectile key data (IDs and parent player) of all flying or ground projectiles.
 ---
@@ -610,7 +610,7 @@ function projectile(id, player, value)end
 --- @param list? number
 --- @param player? PlayerID
 --- @return {id: number, player: number}[]
-function projectilelist(list, player)end
+function projectilelist(list, player) end
 
 --- Returns the tile x and y position (2 values!) of a random entity of a certain type or -100,-100 if no entity has been found.
 ---
@@ -621,23 +621,23 @@ function projectilelist(list, player)end
 --- @param aiState? number
 --- @param int0? number
 --- @return number, number
-function randomentity(type, aiState, int0)end
+function randomentity(type, aiState, int0) end
 
 --- Returns the tile x and y position (2 values!) of a random living and unused (not following anyone) hostage. Returns -100,-100 if no hostage has been found.
 ---
 --- Set unused to 0 if you want to get used hostages as well!
 --- @param unused? number
-function randomhostage(unused)end
+function randomhostage(unused) end
 
 --- Removes all Lua key binds. This will entirely disable all additional network traffic caused by key binds and the key-hook won't be called anymore.
-function removeallbinds()end
+function removeallbinds() end
 
 --- Removes a specific Lua key bind. They key must have been added beforehand with addbind.
 ---
 --- Returns 1 if the bind was removed, 0 if the bind did not exist.
 --- @param key BindKeyValue
 --- @return 0 | 1
-function removebind(key)end
+function removebind(key) end
 
 --- reqcld is short for "request client data". This command requests data from a single player client (id=player id) or from all clients (id=0).
 ---
@@ -669,7 +669,7 @@ function removebind(key)end
 --- @param id number
 --- @param mode ReqcldMode
 --- @param parameter? string
-function reqcld(id, mode, parameter)end
+function reqcld(id, mode, parameter) end
 
 --- reqhttp is short for "request HTTP". HTTP is used to request data from web pages / web services.
 ---
@@ -686,7 +686,7 @@ function reqcld(id, mode, parameter)end
 --- @param path string
 --- @param mode 0 | 1
 --- @return number
-function reqhttp(url, path, mode)end
+function reqhttp(url, path, mode) end
 
 --- Sets the AI state value of the entity at tile position (x|y). The AI state of each entity is automatically set to 0 on each round start.
 ---
@@ -698,24 +698,24 @@ function reqhttp(url, path, mode)end
 --- @param x number
 --- @param y number
 --- @param ai number
-function setentityaistate(x, y, ai)end
+function setentityaistate(x, y, ai) end
 
 --- Enables(1)/Disables(0) a hook completely. A disabled hook does not execute the attached Lua functions anymore.
 --- @param hook HookValue
 --- @param enable 0 | 1
-function sethookstate(hook, enable)end
+function sethookstate(hook, enable) end
 
 --- Returns stats for a U.S.G.N. account ID.
 --- @param usgnid number
 --- @param value StatsValue
 --- @return boolean | number
-function stats(usgnid, value)end
+function stats(usgnid, value) end
 
 --- Returns stats for a Steam account ID (provided as string)
 --- @param steamid string
 --- @param value StatsValue
 --- @return boolean | number
-function steamstats(steamid, value)end
+function steamstats(steamid, value) end
 
 --- Returns a value of the tile at the tile position (X|Y)
 ---
@@ -759,7 +759,7 @@ function steamstats(steamid, value)end
 --- @param y number
 --- @param value TileValue
 --- @return string | boolean | number
-function tile(x, y, value)end
+function tile(x, y, value) end
 
 --- Gets the property value for the specified tileFrame in the tileset of the current map.
 ---
@@ -768,7 +768,7 @@ function tile(x, y, value)end
 --- Note: Will return 0 if you specify a tileFrame which is not part of the tileset!
 --- @param tileframe number
 --- @return TilePropertyType
-function tileproperty(tileframe)end
+function tileproperty(tileframe) end
 
 --- Creates a timer which will call the Lua function "function" after a certain time in milliseconds (time).
 ---
@@ -783,7 +783,7 @@ function tileproperty(tileframe)end
 --- @param func string
 --- @param param? string
 --- @param count? number
-function timer(time, func, param, count)end
+function timer(time, func, param, count) end
 
 --- Creates an alpha fade tween which changes the transparency of an image (with the specified ID).
 ---
@@ -795,7 +795,7 @@ function timer(time, func, param, count)end
 --- @param id number
 --- @param time number
 --- @param alpha number
-function tween_alpha(id, time, alpha)end
+function tween_alpha(id, time, alpha) end
 
 --- Creates an animation tween which changes the frame of the spritesheet image with the specified id constantly.
 ---
@@ -819,11 +819,11 @@ function tween_alpha(id, time, alpha)end
 --- @param id number
 --- @param speed number
 --- @param mode ImageAnimationMode
-function tween_animate(id, speed, mode)end
+function tween_animate(id, speed, mode) end
 
---- Creates a color fade tween which changes the color of an image (with the specified ID).
+--- Creates a colour fade tween which changes the colour of an image (with the specified ID).
 ---
---- The image will have the given color after the given time (use a colorpicker to get the values)!
+--- The image will have the given colour after the given time (use a colour picker to get the values)!
 ---
 --- Note: Time is specified in ms (milliseconds, 1000 ms = 1 sec)
 --- @param id number
@@ -831,7 +831,7 @@ function tween_animate(id, speed, mode)end
 --- @param r number
 --- @param g number
 --- @param b number
-function tween_color(id, time, r, g, b)end
+function tween_color(id, time, r, g, b) end
 
 --- Creates a frame animation tween which changes the frame of a spritesheet image (with the specified ID).
 ---
@@ -841,7 +841,7 @@ function tween_color(id, time, r, g, b)end
 --- @param id number
 --- @param time number
 --- @param frame number
-function tween_frame(id, time, frame)end
+function tween_frame(id, time, frame) end
 
 --- Creates a movement tween which moves the image (with the specified ID) to x,y in the given time (+rotates it if rot is specified).
 ---
@@ -851,7 +851,7 @@ function tween_frame(id, time, frame)end
 --- @param x number
 --- @param y number
 --- @param rot? number
-function tween_move(id, time, x, y, rot)end
+function tween_move(id, time, x, y, rot) end
 
 --- Creates a rotation tween which rotates the image (with the specified ID) to the angle rot in the given time.
 ---
@@ -859,14 +859,14 @@ function tween_move(id, time, x, y, rot)end
 --- @param id number
 --- @param time number
 --- @param rot number
-function tween_rotate(id, time, rot)end
+function tween_rotate(id, time, rot) end
 
 --- Creates a constant rotation animation which rotates an image (with the specified ID) permanently (negative speed for counter clockwise rotation)
 ---
 --- Note: The rotation doesn't end until another tween with rotation is applied!
 --- @param id number
 --- @param speed number
-function tween_rotateconstantly(id, speed)end
+function tween_rotateconstantly(id, speed) end
 
 --- Creates a scale tween which changes the size of an image (with the specified ID). x will be the new width factor and y the new height factor after the given time.
 ---
@@ -875,7 +875,7 @@ function tween_rotateconstantly(id, speed)end
 --- @param time number
 --- @param x number
 --- @param y number
-function tween_scale(id, time, x, y)end
+function tween_scale(id, time, x, y) end
 
 --- Shows Lua variables in the Lua main table in the console of CS2D. For debugging purposes only.
-function vars()end
+function vars() end
