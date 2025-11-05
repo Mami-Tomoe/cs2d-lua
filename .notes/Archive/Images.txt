@@ -1,0 +1,6 @@
+![CS2D Items List](https://cs2d.com/img/ref_items.png)
+![CS2D Objects List](https://cs2d.com/img/ref_dynamicobjects.png)
+![CS2D NPCs List](https://cs2d.com/img/ref_npcs.png)
+![CS2D Game Modes List](https://cs2d.com/img/ref_gamemodes.png)
+![CS2D Teams List](https://cs2d.com/img/ref_team.png)
+![CS2D Kill Ids List](https://cs2d.com/img/ref_killids.png)

@@ -1167,6 +1167,7 @@
 --- | "framecount" # The total number of animation frames for the image.
 
 --- @alias item_params
+--- | "table" # Returns a list of all dynamic objects when the item ID is set to `0`.
 --- | "exists" # `boolean`, `true` if an item with that identifier exists, `false` otherwise.
 --- | "name" # The name of the item.
 --- | "type" # Internal item type identifier.

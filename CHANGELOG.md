@@ -2,6 +2,13 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.1.9]
+
+### Added
+
+-    Added missing param type value "table" for the `item` CS2D Lua command. ~ Thanks Margineanu65!
+-    Added more reference images for various functions.
+
 ## [0.1.8]
 
 ### Added

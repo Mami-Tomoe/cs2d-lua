@@ -1,0 +1,4 @@
+[](lua://)
+
+weapon wiki https://cs2d.com/weapons.php
+entities wiki https://cs2d.com/entities.php
