@@ -1223,7 +1223,8 @@ function msg2(p, text) end
 --- * `"target"`: Identifier of the object's current target.
 --- * `"upgrade"`: Upgrade value of the object.
 --- * `"entity"`: `true` if the object is spawned by an entity, `false` otherwise.
---- * `"entityx` and `entityy"`: Tile coordinates of the entity that spawned the object.
+--- * `"entityx`: Tile x-position (`tx`) of the entity that spawned the object.
+--- * `"entityy`: Tile y-position (`ty`) of the entity that spawned the object.
 ---
 --- **Special Notes:**
 --- * Dynamic objects are used for various things like NPCs, buildings, and Lua images. Depending on the object type, some values may be used differently or not be used at all.

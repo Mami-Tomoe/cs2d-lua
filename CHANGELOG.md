@@ -2,6 +2,12 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.2.2]
+
+### Changed
+
+- The `object` Lua command refused to accept `"entityx"` and `"entityy"` as parameters, that has now been fixed. ~ Thanks Margineanu65!
+
 ## [0.2.1]
 
 ### Changed

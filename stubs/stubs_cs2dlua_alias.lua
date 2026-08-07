@@ -1243,7 +1243,8 @@
 --- | "target" # Identifier of the object's current target.
 --- | "upgrade" # Upgrade value of the object.
 --- | "entity" # `true` if the object is spawned by an entity, `false` otherwise.
---- | "entityx` and `entityy" # Tile coordinates of the entity that spawned the object.
+--- | "entityx" # Tile x-position (`tx`) of the entity that spawned the object.
+--- | "entityy" # Tile y-position (`ty`) of the entity that spawned the object.
 
 --- @alias objecttype_params
 --- | "name" # The localized name of the object (may change depending on server's language setting).
