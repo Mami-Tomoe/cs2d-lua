@@ -2,6 +2,12 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.2.1]
+
+### Changed
+
+- The previous fix from patch 0.2.0 did not properly apply. ~ Thanks Margineanu65!
+
 ## [0.2.0]
 
 ### Changed

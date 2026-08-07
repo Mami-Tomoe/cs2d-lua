@@ -1234,7 +1234,8 @@
 --- | "y" # The current y-position of the object in pixels.
 --- | "rot" # The current rotation angle of the object.
 --- | "alpha" # The alpha transparency value (`0.0` to `1.0`).
---- | "tilex` and `tiley" # Tile position (`tx` and `ty`) on the map.
+--- | "tilex" # Tile x-position (`tx`) on the map.
+--- | "tiley" # Tile y-position (`ty`) on the map.
 --- | "countdown" # The countdown value associated with the object.
 --- | "rootrot" # The original rotation of the object.
 --- | "idle" # The idle state for the object.
