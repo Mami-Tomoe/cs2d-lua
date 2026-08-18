@@ -2352,3 +2352,21 @@ function tween_scale(img_id, milliseconds, x, y) end
 ---
 --- @see funcs to print all functions.
 function vars() end
+
+--- Checks if the given line between the points x1|y1 and x2|y2 in pixel coordinates is free. Returns `true` if free (depending on mode) or `false` otherwise.
+---
+--- **Modes:**
+--- * `0`: Walkable? Checks if all tiles are walkable (no wall, no obstacle, not deadly)
+--- * `1`: Line of sight / shootable? Checks if there's anything in the path which would block shooting (walls).
+--- * `2`: Shootable (like `1`)? But also check for Terrorist players and hostages.
+--- * `3`: Shootable (like `2`)? But also check for Counter-Terrorist/VIP players and hostages.
+function freeline(x1, y1, x2, y2, mode) end
+
+--- Checks if the given rectangle starting at x|y and with the given width and height (all in pixel coordinates) is free. Returns `true` if free (depending on mode) or `false` otherwise.
+---
+--- **Modes:**
+--- * `0`: Walkable? Checks if all tiles are walkable (no wall, no obstacle, not deadly)
+--- * `1`: Free sight / shootable? Checks if there's anything in the rectangle which would block shooting (walls).
+--- * `2`: Shootable (like `1`)? But also check for Terrorist players and hostages.
+--- * `3`: Shootable (like `2`)? But also check for Counter-Terrorist/VIP players and hostages.
+function freerect(x, y, width, height, mode) end

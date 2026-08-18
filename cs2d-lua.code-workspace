@@ -1,13 +1,11 @@
 {
 	"folders": [
 		{
-			"path": "."
-		}
+			"path": ".",
+		},
 	],
 	"settings": {
 		"typescript.tsc.autoDetect": "off",
-		"cSpell.words": [
-			"dcore"
-		]
-	}
+		"cSpell.words": ["dcore", "freerect"],
+	},
 }
