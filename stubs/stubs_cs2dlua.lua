@@ -2360,6 +2360,17 @@ function vars() end
 --- * `1`: Line of sight / shootable? Checks if there's anything in the path which would block shooting (walls).
 --- * `2`: Shootable (like `1`)? But also check for Terrorist players and hostages.
 --- * `3`: Shootable (like `2`)? But also check for Counter-Terrorist/VIP players and hostages.
+---@param x1 integer
+---@param y1 integer
+---@param x2 integer
+---@param y2 integer
+---@param mode raycast_modes
+---
+---@return boolean is_free `true` if the line is free, `false` otherwise.
+---
+---@see freerect to check if a rectangle is free.
+---
+---@nodiscard
 function freeline(x1, y1, x2, y2, mode) end
 
 --- Checks if the given rectangle starting at x|y and with the given width and height (all in pixel coordinates) is free. Returns `true` if free (depending on mode) or `false` otherwise.
@@ -2369,4 +2380,15 @@ function freeline(x1, y1, x2, y2, mode) end
 --- * `1`: Free sight / shootable? Checks if there's anything in the rectangle which would block shooting (walls).
 --- * `2`: Shootable (like `1`)? But also check for Terrorist players and hostages.
 --- * `3`: Shootable (like `2`)? But also check for Counter-Terrorist/VIP players and hostages.
+---@param x integer
+---@param y integer
+---@param width integer
+---@param height integer
+---@param mode raycast_modes
+---
+---@return boolean is_free `true` if the rectangle is free, `false` otherwise.
+---
+---@see freeline to check if a line is free.
+---
+---@nodiscard
 function freerect(x, y, width, height, mode) end

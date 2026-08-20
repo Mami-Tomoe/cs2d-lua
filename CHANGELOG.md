@@ -2,6 +2,13 @@
 
 All notable changes to the "cs2d-lua" extension will be documented in this file.
 
+## [0.2.4]
+
+### Added
+
+- Lua command: freeline - adjusted documentation
+- Lua command: freerect - adjusted documentation
+
 ## [0.2.3]
 
 ### Added

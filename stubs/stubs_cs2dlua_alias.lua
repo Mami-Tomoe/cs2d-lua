@@ -1457,3 +1457,9 @@
 --- @alias player_image_fow
 --- | 0 # (or lower) only draw if not covered by fog of war (always if fog of war is disabled) **(player images only)**
 --- | 1 # (or higher) draw always **(player images only)**
+
+---@alias raycast_modes integer
+---|>0 # Walkable? Checks if all tiles are walkable (no wall, no obstacle, not deadly)
+---| 1 # Free sight / shootable? Checks if there's anything in the rectangle which would block shooting (walls).
+---| 2 # Shootable (like 1)? But also check for Terrorist players and hostages.
+---| 3 # Shootable (like 2)? But also check for Counter-Terrorist/VIP players and hostages.
